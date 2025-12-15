@@ -2,7 +2,11 @@ import Image from "next/image"
 import hero from "./../../public/bg1.jpg"
 const HeroSection = () => {
   return (
-    <section className="relative w-full h-screen overflow-hidden">
+    <section
+      className="relative w-full h-screen overflow-hidden"
+      aria-labelledby="hero-heading"
+      role="banner"
+    >
       <div className="absolute inset-0">
         <Image
           src={hero}
@@ -16,7 +20,10 @@ const HeroSection = () => {
 
       <div className="relative h-full flex flex-col justify-center px-6 sm:px-12 lg:px-24">
         <div className="max-w-3xl md:mt-0 mt-[30vw]">
-          <h1 className="text-5xl font-[family-name:var(--font-stardom)] sm:text-5xl md:text-[10vw] lg:text-[5.3vw] text-white mb-6 leading-tight">
+          <h1
+            id="hero-heading"
+            className="text-5xl font-[family-name:var(--font-stardom)] sm:text-5xl md:text-[10vw] lg:text-[5.3vw] text-white mb-6 leading-tight"
+          >
             Beauty
             <br />
             That<br />Turns

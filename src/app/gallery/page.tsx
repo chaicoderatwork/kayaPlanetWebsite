@@ -1,50 +1,48 @@
-"use client";
+import type { Metadata } from "next";
+import GalleryContent from "@/components/gallery-content";
 
-import { useState, useEffect } from "react";
-import { ParallaxScroll } from "../../components/ui/parallax-scroll";
+export const generateMetadata = async (): Promise<Metadata> => ({
+  title: "Salon Portfolio Gallery in Kanpur | Kaya Planet Bridal & Hair Looks",
+  description:
+    "Browse Kaya Planet salon gallery featuring bridal makeup, hair styling, skin treatments and nail art transformations from Govind Nagar and Kakadeo, Kanpur.",
+  keywords: [
+    "bridal makeup gallery Kanpur",
+    "hair styling portfolio Govind Nagar",
+    "hair styling portfolio Kakadeo",
+    "salon before after Kanpur",
+    "nail art gallery Govind Nagar",
+    "nail art gallery Kakadeo",
+  ],
+  alternates: {
+    canonical: "/gallery",
+  },
+  openGraph: {
+    url: "/gallery",
+    title: "Salon Portfolio Gallery in Kanpur | Kaya Planet Bridal & Hair Looks",
+    description:
+      "See Kaya Planet's Kanpur salon work across bridal makeup, hairstyling, facials and nail art from Govind Nagar and Kakadeo in our gallery portfolio.",
+  },
+  twitter: {
+    title: "Salon Portfolio Gallery in Kanpur | Kaya Planet Bridal & Hair Looks",
+    description:
+      "Discover Kaya Planet's latest bridal and salon looks from Govind Nagar and Kakadeo, Kanpur in our gallery portfolio.",
+  },
+});
 
 export default function Page() {
-  const [images, setImages] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const res = await fetch("https://kpcrud-vj8f.vercel.app/api/links2");
-        if (!res.ok) throw new Error("Failed to fetch images");
-
-        const data = await res.json();
-        const imageUrls = data.map((item: { imageUrl: string }) => item.imageUrl);
-        
-        // Shuffle the images array
-        const shuffledImages = imageUrls.sort(() => Math.random() - 0.5);
-        
-        setImages(shuffledImages);
-      } catch (err) {
-        setError((err as Error).message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchImages();
-  }, []);
-
   return (
-    <div className="w-full px-4 py-8 overflow-x-auto">
-      {loading && <p className="text-center">Loading images...</p>}
-      {error && <p className="text-center text-red-500">{error}</p>}
-
-      {!loading && !error && (
-        <div className="flex md:justify-center gap-4 whitespace-nowrap">
-          {images.length > 0 ? (
-            <ParallaxScroll images={images} className="min-h-[100vh]" />
-          ) : (
-            <p className="text-center w-full">No images available.</p>
-          )}
-        </div>
-      )}
-    </div>
+    <main className="w-full px-4 py-8 overflow-x-auto" aria-labelledby="gallery-heading">
+      <div className="mx-auto max-w-6xl">
+        <header className="mb-6">
+          <h1 id="gallery-heading" className="text-3xl font-semibold text-center">
+            Kaya Planet Salon Gallery in Govind Nagar & Kakadeo, Kanpur
+          </h1>
+          <p className="mt-2 text-center text-gray-700">
+            Explore our latest bridal makeup, hair styling, skincare and nail artistry transformations.
+          </p>
+        </header>
+        <GalleryContent />
+      </div>
+    </main>
   );
 }
