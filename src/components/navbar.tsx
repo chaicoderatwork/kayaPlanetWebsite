@@ -58,23 +58,27 @@ export default function Navbar() {
     return (
         <nav
             className={`h-[16] p-4 fixed w-full z-50 transition-colors duration-300 text-white ${isScrolled
-                    ? 'bg-[#151515]/80 backdrop-blur-xl'
-                    : router === '/gallery'
-                        ? 'bg-black/70 backdrop-blur-xl'
-                        : 'bg-transparent'
+                ? 'bg-[#151515]/80 backdrop-blur-xl'
+                : router === '/gallery'
+                    ? 'bg-black/70 backdrop-blur-xl'
+                    : 'bg-transparent'
                 }`}
         >
 
             <div className="container mx-auto">
                 <div className="flex justify-between items-center">
-                    <Link href="/" className="flex items-center">
+                    <Link href="/" className="flex items-center gap-2">
                         <Image
                             src={kp}
-                            alt="Salon Academy"
+                            alt="Kaya Planet Logo"
                             width="50"
                             height="50"
                             className=""
                         />
+                        {/* Brand Name - visible on mobile */}
+                        <span className="md:hidden text-lg font-semibold tracking-wide text-white">
+                            KAYA PLANET
+                        </span>
                     </Link>
 
                     {/* Desktop menu */}
@@ -88,13 +92,6 @@ export default function Navbar() {
                                 {item.name}
                             </Link>
                         ))}
-                        {/* <a
-                            href="mailto:kayaplanetacademy@gmail.com"
-                            className="border text-[#F27708] border-[#F27708] hover:text-white px-4 py-2 rounded-full flex items-center space-x-2 hover:bg-[#F89134] transition-colors duration-300"
-                        >
-                            <Mail className="h-4 w-4" />
-                            <span className="hidden lg:inline">ENROLL NOW!</span>
-                        </a> */}
                         <a
                             href="tel:+919999424375"
                             className="border text-[#F27708] border-[#F27708] hover:text-white px-4 py-2 rounded-full flex items-center space-x-2 hover:bg-[#F89134] transition-colors duration-300"
@@ -106,13 +103,6 @@ export default function Navbar() {
 
                     {/* Mobile menu button and call button */}
                     <div className="md:hidden flex items-center space-x-4">
-                        {/* <a
-                            href="mailto:kayaplanetacademy@gmail.com"
-                            className="bg-[#F27708] text-white p-2 rounded-full flex items-center justify-center hover:bg-[#F89134] transition-colors duration-300"
-                            aria-label="Call us now"
-                        >
-                            <Mail className="h-5 w-5" />
-                        </a> */}
                         <a
                             href="tel:+919999424375"
                             className="bg-[#F27708] text-white p-2 rounded-full flex items-center justify-center hover:bg-[#F89134] transition-colors duration-300"
@@ -139,8 +129,8 @@ export default function Navbar() {
                     {/* Overlay */}
                     <div
                         className={`fixed inset-0 bg-black bg-opacity-30 transition-opacity duration-300 ease-in-out ${isMenuOpen
-                                ? 'opacity-100'
-                                : 'opacity-0 pointer-events-none'
+                            ? 'opacity-100'
+                            : 'opacity-0 pointer-events-none'
                             }`}
                         onClick={() => setIsMenuOpen(false)}
                         aria-hidden="true"

@@ -1,36 +1,48 @@
 "use client"
 
-import Hero from "../components/hero";
+import HeroSlider from "../components/HeroSlider";
 import WhatsAppChatBox from "../components/whatsapp";
-import { About } from "../components/about";
-import Services from "../components/services";
-import Testicles from "../components/testicles";
-import Component from "@/components/whyus";
-import Brands from "@/components/brands";
-import Testimonials from "@/components/testimonials";
-import InstagramC from "@/components/Instagram";
+// Code splitting below-the-fold components
+import dynamic from "next/dynamic";
+
+const AboutFounders = dynamic(() => import("@/components/AboutFounders"), {
+  loading: () => <div className="h-[400px] bg-white w-full animate-pulse" />,
+});
+const ReelSlider = dynamic(() => import("@/components/ReelSlider"), {
+  loading: () => <div className="h-[400px] bg-white w-full animate-pulse" />,
+});
+const SalonInterior = dynamic(() => import("@/components/SalonInterior"), {
+  loading: () => <div className="h-[400px] bg-[#FDFBF9] w-full animate-pulse" />,
+});
+const ServicesSlider = dynamic(() => import("@/components/ServicesSlider"), {
+  loading: () => <div className="h-[400px] bg-[#111111] w-full animate-pulse" />,
+});
+const Testimonials = dynamic(() => import("@/components/testimonials"), {
+  loading: () => <div className="h-[300px] bg-[#FDFBF9] w-full animate-pulse" />,
+});
 
 export default function Home() {
   return (
     <div className="flex flex-col overflow-x-hidden items-center justify-start font-[family-name:var(--font-geist-sans)] bg-[#FDFBF9] text-[#111111]">
       <WhatsAppChatBox />
-      <Hero />
 
+      {/* Hero Slider */}
+      <HeroSlider />
 
-      <About />
+      {/* Reel Slider */}
+      <ReelSlider />
 
+      {/* Salon Interior */}
+      <SalonInterior />
 
-      <Services />
-      <InstagramC />
-      <Component />
+      {/* About Founders */}
+      <AboutFounders />
 
+      {/* Services */}
+      <ServicesSlider />
 
-      <Brands />
-
-      {/* <Deals /> */}
-      <Testimonials/>
-      {/* <VideoPage /> */}
-      <Testicles />
+      {/* Testimonials */}
+      <Testimonials />
     </div>
   );
 }

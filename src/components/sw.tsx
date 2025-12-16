@@ -3,75 +3,57 @@
 import { useEffect, useState, useRef } from "react"
 import Image from "next/image"
 
-export default function StudentShowcase() {
-  const [images, setImages] = useState<{ src: string; alt: string }[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+// Static optimized images for instant loading
+const STUDENT_IMAGES = [
+  { src: "/hs1.webp", alt: "Student work 1" },
+  { src: "/hs2.webp", alt: "Student work 2" },
+  { src: "/poster1.webp", alt: "Student work 3" },
+  { src: "/poster2.webp", alt: "Student work 4" },
+  { src: "/poster3.webp", alt: "Student work 5" },
+  { src: "/bg1.webp", alt: "Student work 6" },
+  { src: "/bg2.webp", alt: "Student work 7" },
+  { src: "/sonam.webp", alt: "Student work 8" },
+]
 
+export default function StudentShowcase() {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [isPaused, setIsPaused] = useState(false)
   const animationRef = useRef<number | null>(null)
+  const scrollPositionRef = useRef(0);
 
-  // Fetch Images
+  // Auto-scroll logic
   useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const res = await fetch("https://kpcrud-vj8f.vercel.app/api/links3")
-        if (!res.ok) throw new Error("Failed to fetch images")
-
-        const data = await res.json()
-        setImages(
-          data.map((item: { imageUrl: string }, index: number) => ({
-            src: item.imageUrl,
-            alt: `Student work ${index + 1}`,
-          }))
-        )
-      } catch (error) {
-        console.error("Error fetching images:", error)
-        setError("Error fetching images")
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchImages()
-  }, [])
-
-  const scrollPositionRef = useRef(0); // Add this at the top with other refs
-
-// Auto-scroll logic
-useEffect(() => {
-  const scrollContainer = scrollContainerRef.current;
-  if (!scrollContainer || loading || error || images.length === 0) return;
-
-  const speed = 0.5; // pixels per frame
-
-  const animateScroll = () => {
+    const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return;
 
-    if (!isPaused) {
-      scrollPositionRef.current += speed;
+    const speed = 0.5; // pixels per frame
 
-      // If we've scrolled past the first set of images, reset to the start
-      if (scrollPositionRef.current >= scrollContainer.scrollWidth / 2) {
-        scrollPositionRef.current = 0;
+    const animateScroll = () => {
+      if (!scrollContainer) return;
+
+      if (!isPaused) {
+        scrollPositionRef.current += speed;
+
+        // If we've scrolled past the first set of images, reset to the start
+        if (scrollPositionRef.current >= scrollContainer.scrollWidth / 2) {
+          scrollPositionRef.current = 0;
+        }
+
+        scrollContainer.scrollLeft = scrollPositionRef.current;
       }
 
-      scrollContainer.scrollLeft = scrollPositionRef.current;
-    }
+      animationRef.current = requestAnimationFrame(animateScroll);
+    };
 
     animationRef.current = requestAnimationFrame(animateScroll);
-  };
 
-  animationRef.current = requestAnimationFrame(animateScroll);
-
-  return () => {
-    if (animationRef.current) cancelAnimationFrame(animationRef.current);
-  };
-}, [loading, error, images.length, isPaused]);
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
+  }, [isPaused]);
 
 
-  const displayImages = [...images, ...images] // duplicate for infinite scroll
+  const displayImages = [...STUDENT_IMAGES, ...STUDENT_IMAGES] // duplicate for infinite scroll
 
   return (
     <section className="py-16 w-full">
@@ -93,34 +75,30 @@ useEffect(() => {
           onTouchStart={() => setIsPaused(true)}
           onTouchEnd={() => setIsPaused(false)}
         >
-          {loading && <p className="text-center py-8">Loading images...</p>}
-          {error && <p className="text-center text-red-500 py-8">{error}</p>}
-
-          {!loading && !error && (
-            <div
-              ref={scrollContainerRef}
-              className="flex gap-4 py-2 md:p-0 p-3 whitespace-nowrap overflow-x-scroll scrollbar-hide"
-              style={{
-                scrollBehavior: "auto",
-                scrollbarWidth: "none",
-                msOverflowStyle: "none",
-              }}
-            >
-              {displayImages.map(({ src, alt }, index) => (
-                <div
-                  key={index}
-                  className="relative w-[70vw] sm:w-[45vw] md:w-[23vw] aspect-[4/5] shrink-0"
-                >
-                  <Image
-                    src={src || "/placeholder.svg"}
-                    alt={alt}
-                    fill
-                    className="object-cover rounded-xl"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
+          <div
+            ref={scrollContainerRef}
+            className="flex gap-4 py-2 md:p-0 p-3 whitespace-nowrap overflow-x-scroll scrollbar-hide"
+            style={{
+              scrollBehavior: "auto",
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+          >
+            {displayImages.map(({ src, alt }, index) => (
+              <div
+                key={index}
+                className="relative w-[70vw] sm:w-[45vw] md:w-[23vw] aspect-[4/5] shrink-0"
+              >
+                <Image
+                  src={src}
+                  alt={alt}
+                  fill
+                  sizes="(max-width: 768px) 70vw, (max-width: 1200px) 45vw, 23vw"
+                  className="object-cover rounded-xl"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -5,42 +5,56 @@ import kp from '../../public/kayaplanetlogo.png'
 
 export default function Footer() {
   return (
-    <footer className="bg-black text-gray-300 py-16 w-full border-t border-gray-800">
+    <footer className="bg-[#111111] text-gray-300 py-10 w-full">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <div className="flex flex-col items-start space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Logo - Left aligned */}
+          <div className="flex flex-col items-start">
             <Link href="/" className="inline-block">
               <Image
                 src={kp}
                 alt="Kaya Planet"
-                width={150}
-                height={150}
-                className=""
+                width={70}
+                height={70}
               />
             </Link>
+            <p className="text-xs text-gray-400 mt-2">
+              Kanpur&apos;s Premier Beauty Destination
+            </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-            <div className="flex flex-col space-y-4">
-              <h3 className="text-lg font-semibold text-white mb-2">Contact Us</h3>
-              <div className="flex items-center space-x-3 text-sm group">
-                <Phone size={18} className="text-gray-400 group-hover:text-white transition-colors" />
-                <span className="group-hover:text-white transition-colors">+91 99994 24375</span>
-              </div>
-              <div className="flex items-start space-x-3 text-sm group">
-                <MapPin size={18} className="text-gray-400 mt-1 flex-shrink-0 group-hover:text-white transition-colors" />
-                <span className="flex-1 group-hover:text-white transition-colors">125/53-B, opp. Viva Natraj, Lal Quarter, Govind Nagar, Kanpur, Uttar Pradesh</span>
-              </div>
-            </div>
-            <div className="flex flex-col space-y-4">
-              <h3 className="text-lg font-semibold text-white mb-2">Follow Us</h3>
-              <div className="flex space-x-4">
-                <Link href="https://www.instagram.com/kayaplanetbeautysalon/" target="_blank" className="text-gray-400 hover:text-white transition-colors">
-                  <Instagram size={24} />
-                  <span className="sr-only">Instagram</span>
-                </Link>
-              </div>
+
+          {/* Contact - Left aligned */}
+          <div className="flex flex-col items-start space-y-2">
+            <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-1">Contact</h3>
+            <a href="tel:+919999424375" className="flex items-center gap-2 text-sm hover:text-[#F27708] transition-colors">
+              <Phone size={14} />
+              +91 99994 24375
+            </a>
+            <div className="flex items-start gap-2 text-sm">
+              <MapPin size={14} className="mt-0.5 flex-shrink-0" />
+              <span>125/53-B, Govind Nagar, Kanpur</span>
             </div>
           </div>
+
+          {/* Social - Left aligned */}
+          <div className="flex flex-col items-start space-y-2">
+            <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-1">Follow Us</h3>
+            <Link
+              href="https://www.instagram.com/kayaplanetbeautysalon/"
+              target="_blank"
+              className="flex items-center gap-2 text-sm hover:text-[#F27708] transition-colors"
+            >
+              <Instagram size={16} />
+              @kayaplanetbeautysalon
+            </Link>
+          </div>
+        </div>
+
+        {/* Copyright */}
+        <div className="border-t border-gray-800 mt-6 pt-4">
+          <p className="text-[10px] text-gray-500">
+            © {new Date().getFullYear()} Kaya Planet Salon & Academy. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

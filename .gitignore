@@ -1,0 +1,10 @@
+node_modules
+.next
+.DS_Store
+
+# Large raw assets (optimized versions are used in app)
+public/gallery-assets/
+public/*.JPG
+public/*.JPEG
+public/*.MOV
+

@@ -1,150 +1,155 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Star } from "lucide-react";
+import { CheckCheck } from "lucide-react";
 import Avatar from "boring-avatars";
 
 interface Testimonial {
-  id: string;
-  username: string;
-  rating: number;
-  time: string;
-  text: string;
+    id: string;
+    username: string;
+    rating: number;
+    time: string;
+    text: string;
 }
 
-export default function ReviewsScroller() {
-  const [reviews, setReviews] = useState<Testimonial[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+const STATIC_TESTIMONIALS: Testimonial[] = [
+    {
+        id: "1",
+        username: "Priya Sharma",
+        rating: 5,
+        time: "2 weeks ago",
+        text: "Absolutely loved my bridal makeup! The team made me feel like a princess on my special day. Highly recommend Kaya Planet! 💕",
+    },
+    {
+        id: "2",
+        username: "Anjali Gupta",
+        rating: 5,
+        time: "1 month ago",
+        text: "Best salon in Kanpur! The staff is so professional and friendly. My hair has never looked better ✨",
+    },
+    {
+        id: "3",
+        username: "Sneha Verma",
+        rating: 5,
+        time: "3 weeks ago",
+        text: "Amazing experience! The ambiance is so relaxing and the services are top-notch. Will definitely come back 🙌",
+    },
+    {
+        id: "4",
+        username: "Ritika Singh",
+        rating: 5,
+        time: "1 week ago",
+        text: "Got my engagement makeup done here. Everyone couldn't stop complimenting! Thank you Kaya Planet team! 💖",
+    },
+    {
+        id: "5",
+        username: "Kavita Yadav",
+        rating: 5,
+        time: "5 days ago",
+        text: "The bridal package was worth every penny! Felt so pampered and looked stunning. 10/10 recommend! 👰",
+    },
+];
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const scrollerRef = useRef<HTMLDivElement>(null);
-  const scrollPositionRef = useRef(0);
-  const animationRef = useRef<number | null>(null);
-  const [isPaused, setIsPaused] = useState<boolean>(false);
+export default function Testimonials() {
+    const [reviews, setReviews] = useState<Testimonial[]>(STATIC_TESTIMONIALS);
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [isPaused, setIsPaused] = useState(false);
+    const scrollPositionRef = useRef(0);
+    const animationRef = useRef<number | null>(null);
 
-  // Fetch Reviews
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const res = await fetch("https://kpcrud-vj8f.vercel.app/api/links6"); // <-- Replace with your actual API endpoint
-        if (!res.ok) throw new Error("Failed to fetch reviews");
+    useEffect(() => {
+        const fetchReviews = async () => {
+            try {
+                const res = await fetch("https://kpcrud-vj8f.vercel.app/api/links6");
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.length > 0) setReviews(data);
+                }
+            } catch {
+                // Use static testimonials
+            }
+        };
+        fetchReviews();
+    }, []);
 
-        const data = await res.json();
-        setReviews(data); // Assumes API returns an array of review objects
-      } catch (err) {
-        setError((err as Error).message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    useEffect(() => {
+        const scrollContent = scrollRef.current;
+        if (!scrollContent || reviews.length === 0) return;
 
-    fetchReviews();
-  }, []);
+        const speed = 0.3;
 
-  // Infinite scroll logic
-  useEffect(() => {
-    const scrollContent = scrollerRef.current;
-    if (!scrollContent || loading || error || reviews.length === 0) return;
+        const animate = () => {
+            if (!scrollContent) return;
+            if (!isPaused) {
+                scrollPositionRef.current += speed;
+                const scrollWidth = scrollContent.scrollWidth / 2;
+                if (scrollPositionRef.current >= scrollWidth) {
+                    scrollPositionRef.current = 0;
+                }
+                scrollContent.style.transform = `translateX(-${scrollPositionRef.current}px)`;
+            }
+            animationRef.current = requestAnimationFrame(animate);
+        };
 
-    const speed = 0.5; // pixels per frame
+        animationRef.current = requestAnimationFrame(animate);
+        return () => {
+            if (animationRef.current) cancelAnimationFrame(animationRef.current);
+        };
+    }, [reviews.length, isPaused]);
 
-    const animateScroll = () => {
-      if (!scrollContent) return;
+    const displayReviews = [...reviews, ...reviews];
 
-      if (!isPaused) {
-        scrollPositionRef.current += speed;
+    return (
+        <section className="py-12 bg-[#FDFBF9]">
+            <div className="container mx-auto px-4 mb-8">
+                <div className="text-center">
+                    <span className="text-xs font-semibold text-[#F27708] uppercase tracking-wider">
+                        Reviews
+                    </span>
+                    <h2 className="text-2xl md:text-4xl font-[family-name:var(--font-stardom)] mt-1 text-[#111111]">
+                        Happy Clients
+                    </h2>
+                </div>
+            </div>
 
-        const scrollWidth = scrollContent.scrollWidth / 2;
-        if (scrollPositionRef.current >= scrollWidth) {
-          scrollPositionRef.current = 0;
-        }
-
-        scrollContent.style.transform = `translateX(-${scrollPositionRef.current}px)`;
-      }
-
-      animationRef.current = requestAnimationFrame(animateScroll);
-    };
-
-    animationRef.current = requestAnimationFrame(animateScroll);
-
-    return () => {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-    };
-  }, [loading, error, reviews.length, isPaused]);
-
-  // Duplicate reviews for infinite scroll
-  const displayReviews = [...reviews, ...reviews];
-
-  return (
-    <div className="w-full bg-gray-50 py-16 min-h-fit">
-      <h2 className="text-3xl font-medium text-center mb-10 text-gray-800">
-        Customer Testimonials
-      </h2>
-
-      {loading && <p className="text-center">Loading reviews...</p>}
-      {error && <p className="text-center text-red-500">{error}</p>}
-
-      {!loading && !error && (
-        <div
-          ref={containerRef}
-          className="w-full overflow-hidden p-4"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onTouchStart={() => setIsPaused(true)}
-          onTouchEnd={() => setIsPaused(false)}
-        >
-          <div
-            ref={scrollerRef}
-            className="flex p-3"
-            style={{ willChange: "transform" }}
-          >
-            {displayReviews.map((review: Testimonial, index: number) => (
-              <Card
-                key={`${review.id}-${index}`}
-                className="flex-shrink-0 w-[320px] mx-3 transition-all duration-300 hover:shadow-md bg-white border-none"
-              >
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4 mb-4">
-                    <Avatar
-                      size={40}
-                      name={review.username}
-                      variant="beam"
-                    />
-                    <div className="flex-1">
-                      <h3 className="font-medium text-base text-gray-800">
-                        {review.username}
-                      </h3>
-                      <div className="flex items-center gap-2">
-                        <div className="flex">
-                          {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              size={14}
-                              className={`${
-                                i < review.rating
-                                  ? "text-gray-800 fill-gray-800"
-                                  : "text-gray-300 fill-gray-300"
-                              }`}
-                            />
-                          ))}
+            <div
+                className="overflow-hidden"
+                onMouseEnter={() => setIsPaused(true)}
+                onMouseLeave={() => setIsPaused(false)}
+                onTouchStart={() => setIsPaused(true)}
+                onTouchEnd={() => setIsPaused(false)}
+            >
+                <div
+                    ref={scrollRef}
+                    className="flex gap-4 px-4"
+                    style={{ willChange: "transform" }}
+                >
+                    {displayReviews.map((review, index) => (
+                        <div
+                            key={`${review.id}-${index}`}
+                            className="flex-shrink-0 w-[280px] md:w-[320px]"
+                        >
+                            {/* WhatsApp-style Chat Bubble */}
+                            <div className="bg-[#DCF8C6] rounded-2xl rounded-tl-sm p-4 shadow-sm relative">
+                                <div className="absolute -left-2 top-0 w-4 h-4 bg-[#DCF8C6]" style={{
+                                    clipPath: "polygon(100% 0, 100% 100%, 0 0)"
+                                }} />
+                                <p className="text-gray-800 text-sm leading-relaxed">
+                                    {review.text}
+                                </p>
+                                <div className="flex items-center justify-end gap-1 mt-2">
+                                    <span className="text-[10px] text-gray-500">{review.time}</span>
+                                    <CheckCheck className="w-4 h-4 text-blue-500" />
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2 mt-3 ml-2">
+                                <Avatar size={28} name={review.username} variant="beam" />
+                                <span className="text-sm font-medium text-gray-700">{review.username}</span>
+                            </div>
                         </div>
-                        <span className="text-xs text-gray-500">
-                          {review.time}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <p className="text-gray-600 text-sm mb-4 leading-relaxed mt-5">
-                    {review.text}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
 }

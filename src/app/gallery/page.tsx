@@ -1,50 +1,31 @@
-"use client";
+import React from "react";
+import GalleryGrid from "@/components/GalleryGrid";
+import galleryItems from "@/data/gallery.json";
+import { Metadata } from "next";
 
-import { useState, useEffect } from "react";
-import { ParallaxScroll } from "../../components/ui/parallax-scroll";
+export const metadata: Metadata = {
+  title: "Gallery | Kaya Planet Salon & Academy",
+  description: "Explore our portfolio of bridal makeups, hair transformations, and academy highlights.",
+};
 
-export default function Page() {
-  const [images, setImages] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const res = await fetch("https://kpcrud-vj8f.vercel.app/api/links2");
-        if (!res.ok) throw new Error("Failed to fetch images");
-
-        const data = await res.json();
-        const imageUrls = data.map((item: { imageUrl: string }) => item.imageUrl);
-        
-        // Shuffle the images array
-        const shuffledImages = imageUrls.sort(() => Math.random() - 0.5);
-        
-        setImages(shuffledImages);
-      } catch (err) {
-        setError((err as Error).message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchImages();
-  }, []);
-
+export default function GalleryPage() {
   return (
-    <div className="w-full px-4 py-8 overflow-x-auto">
-      {loading && <p className="text-center">Loading images...</p>}
-      {error && <p className="text-center text-red-500">{error}</p>}
-
-      {!loading && !error && (
-        <div className="flex md:justify-center gap-4 whitespace-nowrap">
-          {images.length > 0 ? (
-            <ParallaxScroll images={images} className="min-h-[100vh]" />
-          ) : (
-            <p className="text-center w-full">No images available.</p>
-          )}
+    <main className="min-h-screen bg-[#FDFBF9] pt-24 pb-12">
+      <div className="container mx-auto px-4 max-w-7xl">
+        <div className="text-center mb-12">
+          <span className="text-xs font-semibold text-[#F27708] uppercase tracking-wider">
+            Portfolio
+          </span>
+          <h1 className="text-4xl md:text-5xl font-[family-name:var(--font-stardom)] mt-2 text-[#111111]">
+            Our Gallery
+          </h1>
+          <p className="text-gray-500 mt-4 max-w-2xl mx-auto">
+            A curated collection of our finest work. From stunning bridal transformations to detailed nail art and academy sessions.
+          </p>
         </div>
-      )}
-    </div>
+
+        <GalleryGrid items={galleryItems as any} />
+      </div>
+    </main>
   );
 }
