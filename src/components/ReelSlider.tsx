@@ -19,7 +19,7 @@ const REELS: Reel[] = [
     { id: "3", videoUrl: "/videos/reel3.mp4", posterUrl: "/videos/reel3-poster.webp", title: "Engagement Makeup" },
     { id: "4", videoUrl: "/videos/reel4.mp4", posterUrl: "/videos/reel4-poster.webp", title: "HD Makeup Look" },
     { id: "5", videoUrl: "/videos/reel5.mp4", posterUrl: "/videos/reel5-poster.webp", title: "Celebrity Makeup" },
-    { id: "6", videoUrl: "/videos/reel6.mp4", posterUrl: "/videos/reel6-poster.webp", title: "Academy Class" },
+    { id: "6", videoUrl: "/videos/reel6.mp4", posterUrl: "/videos/reel6-poster.webp", title: "Makeup Artist Academy" },
 ];
 
 const WHATSAPP_NUMBER = "919999424375";

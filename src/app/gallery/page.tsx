@@ -1,11 +1,11 @@
 import React from "react";
 import GalleryGrid from "@/components/GalleryGrid";
-import galleryItems from "@/data/gallery.json";
+import galleryItems from "@/data/gallery-processed.json";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Gallery | Kaya Planet Salon & Academy",
-  description: "Explore our portfolio of bridal makeups, hair transformations, and academy highlights.",
+  description: "Explore our portfolio of best bridal makeup in Kanpur, engagement looks, and professional academy courses.",
 };
 
 export default function GalleryPage() {
@@ -24,7 +24,7 @@ export default function GalleryPage() {
           </p>
         </div>
 
-        <GalleryGrid items={galleryItems as any} />
+        <GalleryGrid groups={galleryItems as any} />
       </div>
     </main>
   );

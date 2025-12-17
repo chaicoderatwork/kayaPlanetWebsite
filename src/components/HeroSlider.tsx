@@ -16,20 +16,20 @@ const HERO_SLIDES = [
     {
         id: 2,
         image: "/hero2.webp",
-        title: "",
-        subtitle: "Learn Pro Makeup from Industry Experts",
+        title: "Bridal Makeup",
+        subtitle: "Customized bridal makeup for every bride",
     },
     {
         id: 3,
         image: "/hero4.webp",
-        title: "Luxury Salon in Kanpur",
-        subtitle: "Experience Premium Beauty Services",
+        title: "Engagement Makeup",
+        subtitle: "Flawless HD Looks for Every Occasion",
     },
     {
         id: 4,
         image: "/hero3.webp",
-        title: "Engagement Makeup",
-        subtitle: "Flawless HD Looks for Every Occasion",
+        title: "KP Royal Bride",
+        subtitle: "Signature Glam Makeup that elevate your looks",
     },
 ];
 
@@ -64,7 +64,7 @@ export default function HeroSlider() {
                                 alt={slide.title}
                                 fill
                                 priority={index === 0}
-                                className="object-cover"
+                                className="object-cover object-top"
                                 sizes="100vw"
                             />
                             {/* Overlay */}
@@ -72,7 +72,7 @@ export default function HeroSlider() {
 
                             {/* Content */}
                             <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 text-white">
-                                <h1 className="text-4xl md:text-6xl font-[family-name:var(--font-stardom)] mb-3">
+                                <h1 className={`text-3xl sm:text-4xl md:text-6xl font-[family-name:var(--font-stardom)] mb-3 ${slide.title.length > 25 ? "" : "whitespace-nowrap"}`}>
                                     {slide.title}
                                 </h1>
                                 <p className="text-lg md:text-xl text-gray-200 mb-6">
