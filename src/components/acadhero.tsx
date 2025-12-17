@@ -16,7 +16,7 @@ const HeroSection = () => {
 
       <div className="relative h-full flex flex-col justify-center px-6 sm:px-12 lg:px-24">
         <div className="max-w-3xl md:mt-0 mt-[30vw]">
-          <h1 className="text-5xl font-[family-name:var(--font-stardom)] sm:text-5xl md:text-[10vw] lg:text-[5.3vw] text-white mb-6 leading-tight">
+          <h1 className="text-5xl font-[family-name:var(--font-gelasio)] sm:text-5xl md:text-[10vw] lg:text-[5.3vw] text-white mb-6 leading-tight">
             Master
             <br />Skills,
             <br />Build

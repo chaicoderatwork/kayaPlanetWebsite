@@ -16,7 +16,7 @@ export default function GalleryPage() {
           <span className="text-xs font-semibold text-[#F27708] uppercase tracking-wider">
             Portfolio
           </span>
-          <h1 className="text-4xl md:text-5xl font-[family-name:var(--font-stardom)] mt-2 text-[#111111]">
+          <h1 className="text-4xl md:text-5xl font-[family-name:var(--font-gelasio)] mt-2 text-[#111111]">
             Our Gallery
           </h1>
           <p className="text-gray-500 mt-4 max-w-2xl mx-auto">

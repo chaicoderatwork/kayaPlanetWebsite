@@ -1,0 +1,42 @@
+[
+    {
+        "handle": "iam_neetubisht_",
+        "name": "Neetu Bisht",
+        "followers": "5.1M",
+        "image": "/influencers/neetu.jpg",
+        "profileUrl": "https://www.instagram.com/iam_neetubisht_",
+        "reelUrl": "https://www.instagram.com/reel/DSASe-bk8Tz/",
+        "testimonial": "Amazing experience with Kaya Planet! The best makeup artist in Kanpur for sure.",
+        "isFeatured": true
+    },
+    {
+        "handle": "abhiksha1209_official",
+        "name": "Abhiksha",
+        "followers": "1.5M",
+        "image": "/influencers/abhiksha.jpg",
+        "profileUrl": "https://www.instagram.com/abhiksha1209_official/",
+        "reelUrl": "https://www.instagram.com/reel/DClfAAsypqk/",
+        "testimonial": null,
+        "isFeatured": false
+    },
+    {
+        "handle": "_sherlen_",
+        "name": "Sherlen",
+        "followers": "250K",
+        "image": null,
+        "profileUrl": "https://www.instagram.com/_sherlen_",
+        "reelUrl": null,
+        "testimonial": null,
+        "isFeatured": false
+    },
+    {
+        "handle": "varnita05",
+        "name": "Varnita",
+        "followers": "130K",
+        "image": null,
+        "profileUrl": "https://www.instagram.com/varnita05",
+        "reelUrl": "https://www.instagram.com/reel/DSSYgUkE-N5/",
+        "testimonial": null,
+        "isFeatured": false
+    }
+]

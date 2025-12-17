@@ -47,7 +47,7 @@ export default function BlogPage() {
                             <Sparkles className="w-3.5 h-3.5" />
                             Beauty Insights
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-[family-name:var(--font-stardom)] text-[#111111] mb-4">
+                        <h1 className="text-4xl md:text-6xl font-[family-name:var(--font-gelasio)] text-[#111111] mb-4">
                             Makeup Tips & Guides
                         </h1>
                         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -116,7 +116,7 @@ export default function BlogPage() {
             <section className="pb-16 md:pb-24">
                 <div className="container mx-auto px-4">
                     <div className="flex items-center justify-between mb-10">
-                        <h2 className="text-2xl md:text-3xl font-[family-name:var(--font-stardom)] text-[#111111]">
+                        <h2 className="text-2xl md:text-3xl font-[family-name:var(--font-gelasio)] text-[#111111]">
                             Latest Articles
                         </h2>
                     </div>
@@ -158,7 +158,7 @@ export default function BlogPage() {
                                 <MessageCircle className="w-3.5 h-3.5" />
                                 Ask a Question
                             </div>
-                            <h2 className="text-3xl md:text-4xl font-[family-name:var(--font-stardom)] text-white mb-4">
+                            <h2 className="text-3xl md:text-4xl font-[family-name:var(--font-gelasio)] text-white mb-4">
                                 Got Makeup Questions?
                             </h2>
                             <p className="text-gray-400 mb-8">
@@ -213,7 +213,7 @@ export default function BlogPage() {
                     <div className="bg-gradient-to-r from-[#F27708] to-[#F89134] rounded-3xl p-8 md:p-12 text-center relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
                         <div className="relative z-10">
-                            <h2 className="text-2xl md:text-4xl font-[family-name:var(--font-stardom)] text-white mb-4">
+                            <h2 className="text-2xl md:text-4xl font-[family-name:var(--font-gelasio)] text-white mb-4">
                                 Ready to Glow?
                             </h2>
                             <p className="text-white/90 mb-8 max-w-xl mx-auto">

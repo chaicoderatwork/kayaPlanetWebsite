@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "image": "/hero1.webp",
+        "title": "Best Bridal Makeup Artist in Kanpur",
+        "subtitle": "Book Your Dream Wedding Look Today"
+    },
+    {
+        "id": 2,
+        "image": "/hero2.webp",
+        "title": "Bridal Makeup",
+        "subtitle": "Customized bridal makeup for every bride"
+    },
+    {
+        "id": 3,
+        "image": "/hero4.webp",
+        "title": "Engagement Makeup",
+        "subtitle": "Flawless HD Looks for Every Occasion"
+    },
+    {
+        "id": 4,
+        "image": "/hero3.webp",
+        "title": "KP Royal Bride",
+        "subtitle": "Signature Glam Makeup that elevate your looks"
+    }
+]

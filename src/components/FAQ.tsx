@@ -45,7 +45,7 @@ export default function FAQ() {
                     <span className="text-xs font-semibold text-[#F27708] uppercase tracking-wider">
                         Common Questions
                     </span>
-                    <h2 className="text-3xl md:text-4xl font-[family-name:var(--font-stardom)] mt-2 text-[#111111]">
+                    <h2 className="text-3xl md:text-4xl font-[family-name:var(--font-gelasio)] mt-2 text-[#111111]">
                         Everything You Need to Know
                     </h2>
                 </div>

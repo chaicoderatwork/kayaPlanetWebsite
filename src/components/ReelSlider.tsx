@@ -5,6 +5,7 @@ import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import reelsData from "@/data/reels.json";
 
 interface Reel {
     id: string;
@@ -13,14 +14,7 @@ interface Reel {
     title: string;
 }
 
-const REELS: Reel[] = [
-    { id: "1", videoUrl: "/videos/reel1.mp4", posterUrl: "/videos/reel1-poster.webp", title: "Royal Signature Bridal" },
-    { id: "2", videoUrl: "/videos/reel2.mp4", posterUrl: "/videos/reel2-poster.webp", title: "Cocktail Glam" },
-    { id: "3", videoUrl: "/videos/reel3.mp4", posterUrl: "/videos/reel3-poster.webp", title: "Engagement Makeup" },
-    { id: "4", videoUrl: "/videos/reel4.mp4", posterUrl: "/videos/reel4-poster.webp", title: "HD Makeup Look" },
-    { id: "5", videoUrl: "/videos/reel5.mp4", posterUrl: "/videos/reel5-poster.webp", title: "Celebrity Makeup" },
-    { id: "6", videoUrl: "/videos/reel6.mp4", posterUrl: "/videos/reel6-poster.webp", title: "Makeup Artist Academy" },
-];
+const REELS: Reel[] = reelsData;
 
 const WHATSAPP_NUMBER = "919999424375";
 
@@ -114,7 +108,7 @@ export default function ReelSlider() {
                         <span className="text-xs font-semibold text-[#F27708] uppercase tracking-wider">
                             Portfolio
                         </span>
-                        <h2 className="text-2xl md:text-4xl font-[family-name:var(--font-stardom)] mt-1 text-[#111111]">
+                        <h2 className="text-2xl md:text-4xl font-[family-name:var(--font-gelasio)] mt-1 text-[#111111]">
                             Our Work
                         </h2>
                     </div>

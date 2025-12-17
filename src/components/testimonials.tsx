@@ -124,7 +124,7 @@ export default function Testimonials() {
                     <span className="text-xs font-semibold text-[#F27708] uppercase tracking-wider">
                         Reviews
                     </span>
-                    <h2 className="text-2xl md:text-4xl font-[family-name:var(--font-stardom)] mt-1 text-[#111111]">
+                    <h2 className="text-2xl md:text-4xl font-[family-name:var(--font-gelasio)] mt-1 text-[#111111]">
                         Happy Clients
                     </h2>
                 </div>

@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import servicesData from "@/data/services.json";
 
 interface ServiceVideo {
     id: string;
@@ -12,15 +13,7 @@ interface ServiceVideo {
     title: string;
 }
 
-const SERVICE_VIDEOS: ServiceVideo[] = [
-    { id: "1", videoUrl: "/service-videos/service5.mp4", posterUrl: "/service-videos/service5-poster.webp", title: "Hair Highlights" },
-    { id: "2", videoUrl: "/service-videos/service2.mp4", posterUrl: "/service-videos/service2-poster.webp", title: "Bridal Hair Styling" },
-    { id: "3", videoUrl: "/service-videos/service3.mp4", posterUrl: "/service-videos/service3-poster.webp", title: "Nail Art" },
-    { id: "4", videoUrl: "/service-videos/service4.mp4", posterUrl: "/service-videos/service4-poster.webp", title: "Hair Extension" },
-    { id: "5", videoUrl: "/service-videos/service1.mp4", posterUrl: "/service-videos/service1-poster.webp", title: "Skin Treatment" },
-    { id: "6", videoUrl: "/service-videos/service6.mp4", posterUrl: "/service-videos/service6-poster.webp", title: "Festive Nails" },
-    { id: "7", videoUrl: "/service-videos/service7.mp4", posterUrl: "/service-videos/service7-poster.webp", title: "Ombre Hair Color" },
-];
+const SERVICE_VIDEOS: ServiceVideo[] = servicesData;
 
 const WHATSAPP_NUMBER = "919999424375";
 
@@ -113,7 +106,7 @@ export default function ServicesSlider() {
                     <span className="text-xs font-semibold text-[#F27708] uppercase tracking-wider">
                         What We Offer
                     </span>
-                    <h2 className="text-2xl md:text-4xl font-[family-name:var(--font-stardom)] mt-1 text-white">
+                    <h2 className="text-2xl md:text-4xl font-[family-name:var(--font-gelasio)] mt-1 text-white">
                         Our Services
                     </h2>
                 </div>

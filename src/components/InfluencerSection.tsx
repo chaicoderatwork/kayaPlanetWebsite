@@ -3,42 +3,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Instagram, Verified, Users } from "lucide-react";
+import influencersData from "@/data/influencers.json";
 
-// Influencer data
-const INFLUENCERS = [
-    {
-        handle: "iam_neetubisht_",
-        name: "Neetu Bisht",
-        followers: "5.1M",
-        image: "/influencers/neetu.jpg",
-        profileUrl: "https://www.instagram.com/iam_neetubisht_",
-        reelUrl: "https://www.instagram.com/reel/DSASe-bk8Tz/",
-    },
-    {
-        handle: "abhiksha1209_official",
-        name: "Abhiksha",
-        followers: "1.5M",
-        image: "/influencers/abhiksha.jpg",
-        profileUrl: "https://www.instagram.com/abhiksha1209_official/",
-        reelUrl: "https://www.instagram.com/reel/DClfAAsypqk/",
-    },
-    {
-        handle: "_sherlen_",
-        name: "Sherlen",
-        followers: "250K",
-        image: null,
-        profileUrl: "https://www.instagram.com/_sherlen_",
-        reelUrl: null,
-    },
-    {
-        handle: "varnita05",
-        name: "Varnita",
-        followers: "130K",
-        image: null,
-        profileUrl: "https://www.instagram.com/varnita05",
-        reelUrl: "https://www.instagram.com/reel/DSSYgUkE-N5/",
-    },
-];
+interface Influencer {
+    handle: string;
+    name: string;
+    followers: string;
+    image: string | null;
+    profileUrl: string;
+    reelUrl: string | null;
+    testimonial?: string | null;
+    isFeatured?: boolean;
+}
+
+const INFLUENCERS: Influencer[] = influencersData;
 
 export default function InfluencerSection() {
     return (
@@ -49,7 +27,7 @@ export default function InfluencerSection() {
                     <span className="text-xs font-semibold text-[#F27708] uppercase tracking-wider">
                         Social Proof
                     </span>
-                    <h2 className="text-2xl md:text-3xl font-[family-name:var(--font-stardom)] mt-1 text-[#111111]">
+                    <h2 className="text-2xl md:text-3xl font-[family-name:var(--font-gelasio)] mt-1 text-[#111111]">
                         Trusted by Creators
                     </h2>
                     <p className="text-gray-500 text-sm mt-3 px-4 md:px-0 md:max-w-lg mx-auto leading-relaxed">

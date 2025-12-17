@@ -5,33 +5,16 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import heroSlidesData from "@/data/hero-slides.json";
 
-const HERO_SLIDES = [
-    {
-        id: 1,
-        image: "/hero1.webp",
-        title: "Best Bridal Makeup Artist in Kanpur",
-        subtitle: "Book Your Dream Wedding Look Today",
-    },
-    {
-        id: 2,
-        image: "/hero2.webp",
-        title: "Bridal Makeup",
-        subtitle: "Customized bridal makeup for every bride",
-    },
-    {
-        id: 3,
-        image: "/hero4.webp",
-        title: "Engagement Makeup",
-        subtitle: "Flawless HD Looks for Every Occasion",
-    },
-    {
-        id: 4,
-        image: "/hero3.webp",
-        title: "KP Royal Bride",
-        subtitle: "Signature Glam Makeup that elevate your looks",
-    },
-];
+interface HeroSlide {
+    id: number;
+    image: string;
+    title: string;
+    subtitle: string;
+}
+
+const HERO_SLIDES: HeroSlide[] = heroSlidesData;
 
 export default function HeroSlider() {
     const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -72,7 +55,7 @@ export default function HeroSlider() {
 
                             {/* Content */}
                             <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 text-white">
-                                <h1 className={`text-3xl sm:text-4xl md:text-6xl font-[family-name:var(--font-stardom)] mb-3 ${slide.title.length > 25 ? "" : "whitespace-nowrap"}`}>
+                                <h1 className={`text-3xl sm:text-4xl md:text-6xl font-[family-name:var(--font-gelasio)] mb-3 ${slide.title.length > 25 ? "" : "whitespace-nowrap"}`}>
                                     {slide.title}
                                 </h1>
                                 <p className="text-lg md:text-xl text-gray-200 mb-6">

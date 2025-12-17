@@ -55,7 +55,7 @@ export default function SalonInterior() {
                     <span className="text-sm font-semibold text-[#F27708] uppercase tracking-wider">
                         Visit Us
                     </span>
-                    <h2 className="text-3xl md:text-4xl font-[family-name:var(--font-stardom)] mt-2 text-[#111111]">
+                    <h2 className="text-3xl md:text-4xl font-[family-name:var(--font-gelasio)] mt-2 text-[#111111]">
                         Our Salon Space
                     </h2>
                     <p className="text-gray-500 mt-3 max-w-xl mx-auto">
