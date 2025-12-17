@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -24,50 +24,92 @@ const SERVICE_VIDEOS: ServiceVideo[] = [
 
 const WHATSAPP_NUMBER = "919999424375";
 
+// Lazy Video component that only loads when visible
+function LazyVideo({
+    videoUrl,
+    posterUrl,
+    className
+}: {
+    videoUrl: string;
+    posterUrl: string;
+    className: string;
+}) {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const [isVisible, setIsVisible] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    // Intersection Observer - detect when video is in viewport
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setIsVisible(true);
+                    }
+                });
+            },
+            {
+                rootMargin: "100px", // Start loading slightly before visible
+                threshold: 0.1
+            }
+        );
+
+        observer.observe(container);
+        return () => observer.disconnect();
+    }, []);
+
+    // Play video when loaded and visible
+    useEffect(() => {
+        const video = videoRef.current;
+        if (video && isVisible && isLoaded) {
+            video.play().catch(() => { /* Ignore play errors */ });
+        }
+    }, [isVisible, isLoaded]);
+
+    const handleLoadedData = () => {
+        setIsLoaded(true);
+    };
+
+    return (
+        <div ref={containerRef} className={className}>
+            {/* Always show poster as background */}
+            <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${posterUrl})` }}
+            />
+
+            {/* Only render video element when visible */}
+            {isVisible && (
+                <video
+                    ref={videoRef}
+                    src={videoUrl}
+                    poster={posterUrl}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    webkit-playsinline="true"
+                    preload="metadata"
+                    onLoadedData={handleLoadedData}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                />
+            )}
+        </div>
+    );
+}
+
 export default function ServicesSlider() {
     const [emblaRef, emblaApi] = useEmblaCarousel(
         { align: "start", loop: true },
         [Autoplay({ delay: 4000, stopOnInteraction: false }) as any]
     );
-    const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
     const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
     const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-
-    // Auto-play each video when it's ready (canplaythrough)
-    const handleCanPlayThrough = useCallback((index: number) => {
-        const video = videoRefs.current[index];
-        if (video) {
-            video.play().catch(() => { });
-        }
-    }, []);
-
-    // Set up event listeners for all videos
-    useEffect(() => {
-        const videos = videoRefs.current;
-        const handlers: (() => void)[] = [];
-
-        videos.forEach((video, index) => {
-            if (video) {
-                const handler = () => handleCanPlayThrough(index);
-                video.addEventListener("canplaythrough", handler);
-                handlers[index] = handler;
-
-                // If video is already ready (cached), play immediately
-                if (video.readyState >= 4) {
-                    video.play().catch(() => { });
-                }
-            }
-        });
-
-        return () => {
-            videos.forEach((video, index) => {
-                if (video && handlers[index]) {
-                    video.removeEventListener("canplaythrough", handlers[index]);
-                }
-            });
-        };
-    }, [handleCanPlayThrough]);
 
     const getWhatsAppLink = (service: ServiceVideo) => {
         const message = `Hi! I want to enquire about ${service.title}. Ref: KP-${service.id}`;
@@ -90,7 +132,7 @@ export default function ServicesSlider() {
             <div className="relative container mx-auto px-4 md:px-8">
                 <div className="overflow-hidden" ref={emblaRef}>
                     <div className="flex gap-3">
-                        {SERVICE_VIDEOS.map((service, index) => (
+                        {SERVICE_VIDEOS.map((service) => (
                             <div
                                 key={service.id}
                                 className="flex-shrink-0 w-[45%] sm:w-[30%] md:w-[23%] lg:w-[18%]"
@@ -101,17 +143,10 @@ export default function ServicesSlider() {
                                     rel="noopener noreferrer"
                                     className="relative block w-full h-[280px] md:h-[350px] rounded-xl overflow-hidden bg-gray-900 shadow-lg group"
                                 >
-                                    <video
-                                        ref={(el) => { videoRefs.current[index] = el; }}
-                                        src={service.videoUrl}
-                                        poster={service.posterUrl}
-                                        autoPlay
-                                        muted
-                                        loop
-                                        playsInline
-                                        webkit-playsinline="true"
-                                        preload="metadata"
-                                        className="w-full h-full object-cover pointer-events-none"
+                                    <LazyVideo
+                                        videoUrl={service.videoUrl}
+                                        posterUrl={service.posterUrl}
+                                        className="w-full h-full pointer-events-none"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                                     <div className="absolute bottom-0 left-0 right-0 p-3">
