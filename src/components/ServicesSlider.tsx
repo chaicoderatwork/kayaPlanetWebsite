@@ -28,18 +28,14 @@ const WHATSAPP_NUMBER = "919999424375";
 function LazyVideo({
     videoUrl,
     posterUrl,
-    className
 }: {
     videoUrl: string;
     posterUrl: string;
-    className: string;
 }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
-    const [isVisible, setIsVisible] = useState(false);
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [shouldLoad, setShouldLoad] = useState(false);
 
-    // Intersection Observer - detect when video is in viewport
     useEffect(() => {
         const container = containerRef.current;
         if (!container) return;
@@ -48,12 +44,13 @@ function LazyVideo({
             (entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
-                        setIsVisible(true);
+                        setShouldLoad(true);
+                        observer.disconnect();
                     }
                 });
             },
             {
-                rootMargin: "100px", // Start loading slightly before visible
+                rootMargin: "100px",
                 threshold: 0.1
             }
         );
@@ -62,28 +59,17 @@ function LazyVideo({
         return () => observer.disconnect();
     }, []);
 
-    // Play video when loaded and visible
+    // Play video when it loads
     useEffect(() => {
         const video = videoRef.current;
-        if (video && isVisible && isLoaded) {
+        if (video && shouldLoad) {
             video.play().catch(() => { /* Ignore play errors */ });
         }
-    }, [isVisible, isLoaded]);
-
-    const handleLoadedData = () => {
-        setIsLoaded(true);
-    };
+    }, [shouldLoad]);
 
     return (
-        <div ref={containerRef} className={`relative ${className}`}>
-            {/* Always show poster as background */}
-            <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url(${posterUrl})` }}
-            />
-
-            {/* Only render video element when visible */}
-            {isVisible && (
+        <div ref={containerRef} className="w-full h-full relative bg-gray-900">
+            {shouldLoad ? (
                 <video
                     ref={videoRef}
                     src={videoUrl}
@@ -94,8 +80,12 @@ function LazyVideo({
                     playsInline
                     webkit-playsinline="true"
                     preload="metadata"
-                    onLoadedData={handleLoadedData}
-                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                    className="w-full h-full object-cover"
+                />
+            ) : (
+                <div
+                    className="w-full h-full bg-cover bg-center"
+                    style={{ backgroundImage: `url(${posterUrl})` }}
                 />
             )}
         </div>
@@ -146,10 +136,9 @@ export default function ServicesSlider() {
                                     <LazyVideo
                                         videoUrl={service.videoUrl}
                                         posterUrl={service.posterUrl}
-                                        className="w-full h-full pointer-events-none"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                                    <div className="absolute bottom-0 left-0 right-0 p-3">
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+                                    <div className="absolute bottom-0 left-0 right-0 p-3 pointer-events-none">
                                         <h3 className="text-white text-xs md:text-sm font-medium">
                                             {service.title}
                                         </h3>
