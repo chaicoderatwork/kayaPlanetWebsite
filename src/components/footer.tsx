@@ -18,8 +18,11 @@ export default function Footer() {
                 height={70}
               />
             </Link>
-            <p className="text-xs text-gray-400 mt-2">
-              Kanpur&apos;s Premier Beauty Destination
+            <h3 className="font-[family-name:var(--font-stardom)] text-xl mb-4 text-[#F27708]">
+              Kaya Planet
+            </h3>
+            <p className="text-gray-400 text-sm leading-relaxed mb-4">
+              Rating as the <strong>Best Makeup Artist in Kanpur</strong>. We specialize in luxury bridal makeovers, engagement looks, and professional academy courses.
             </p>
           </div>
 

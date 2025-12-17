@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { CheckCheck } from "lucide-react";
-import Avatar from "boring-avatars";
 
 interface Testimonial {
     id: string;
@@ -18,37 +17,52 @@ const STATIC_TESTIMONIALS: Testimonial[] = [
         username: "Priya Sharma",
         rating: 5,
         time: "2 weeks ago",
-        text: "Absolutely loved my bridal makeup! The team made me feel like a princess on my special day. Highly recommend Kaya Planet! 💕",
+        text: "Hands down the best bridal makeup artist in Kanpur! My HD makeup was flawless and lasted the entire wedding. Highly recommend! 💕",
     },
     {
         id: "2",
         username: "Anjali Gupta",
         rating: 5,
         time: "1 month ago",
-        text: "Best salon in Kanpur! The staff is so professional and friendly. My hair has never looked better ✨",
+        text: "Visited for party makeup in Govind Nagar. Staff is so professional and my hairstyle got so many compliments! ✨",
     },
     {
         id: "3",
         username: "Sneha Verma",
         rating: 5,
         time: "3 weeks ago",
-        text: "Amazing experience! The ambiance is so relaxing and the services are top-notch. Will definitely come back 🙌",
+        text: "If you're searching for the best makeup artist in Kanpur, look no further! Their Academy course was amazing. Use of MAC & Huda Beauty really helped me learn. 🙌",
     },
     {
         id: "4",
         username: "Ritika Singh",
         rating: 5,
         time: "1 week ago",
-        text: "Got my engagement makeup done here. Everyone couldn't stop complimenting! Thank you Kaya Planet team! 💖",
+        text: "Got my engagement makeup done here. The Airbrush finish was stunning. Best bridal makeup in Kanpur for sure! 💖",
     },
     {
         id: "5",
         username: "Kavita Yadav",
         rating: 5,
         time: "5 days ago",
-        text: "The bridal package was worth every penny! Felt so pampered and looked stunning. 10/10 recommend! 👰",
+        text: "The pre-bridal package was amazing! They truly are the best makeup artist Kanpur has. 10/10 recommend for any bride! 👰",
     },
 ];
+
+// Lightweight avatar - just initials with gradient background
+function SimpleAvatar({ name }: { name: string }) {
+    const initials = name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase();
+    // Generate consistent color from name
+    const hue = name.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0) % 360;
+    return (
+        <div
+            className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-semibold"
+            style={{ background: `linear-gradient(135deg, hsl(${hue}, 70%, 50%), hsl(${hue + 30}, 70%, 40%))` }}
+        >
+            {initials}
+        </div>
+    );
+}
 
 export default function Testimonials() {
     const [reviews, setReviews] = useState<Testimonial[]>(STATIC_TESTIMONIALS);
@@ -58,9 +72,12 @@ export default function Testimonials() {
     const animationRef = useRef<number | null>(null);
 
     useEffect(() => {
+        const controller = new AbortController();
         const fetchReviews = async () => {
             try {
-                const res = await fetch("https://kpcrud-vj8f.vercel.app/api/links6");
+                const res = await fetch("https://kpcrud-vj8f.vercel.app/api/links6", {
+                    signal: controller.signal,
+                });
                 if (res.ok) {
                     const data = await res.json();
                     if (data.length > 0) setReviews(data);
@@ -70,6 +87,7 @@ export default function Testimonials() {
             }
         };
         fetchReviews();
+        return () => controller.abort();
     }, []);
 
     useEffect(() => {
@@ -143,7 +161,7 @@ export default function Testimonials() {
                                 </div>
                             </div>
                             <div className="flex items-center gap-2 mt-3 ml-2">
-                                <Avatar size={28} name={review.username} variant="beam" />
+                                <SimpleAvatar name={review.username} />
                                 <span className="text-sm font-medium text-gray-700">{review.username}</span>
                             </div>
                         </div>
@@ -153,3 +171,4 @@ export default function Testimonials() {
         </section>
     );
 }
+

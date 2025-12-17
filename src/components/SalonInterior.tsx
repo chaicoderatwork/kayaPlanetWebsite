@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { useInView } from "framer-motion";
-import { Eye, MapPin } from "lucide-react";
+import { Eye, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const INTERIOR_IMAGES = [
     { src: "/interior1.webp", alt: "Kaya Planet Salon Interior - Styling Area" },
@@ -19,6 +19,32 @@ const GOOGLE_MAPS_360_LINK = "https://maps.google.com/?q=Kaya+Planet+Salon+Kanpu
 export default function SalonInterior() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true });
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+    const openLightbox = (index: number) => setSelectedIndex(index);
+    const closeLightbox = () => setSelectedIndex(null);
+
+    const goToPrev = useCallback(() => {
+        if (selectedIndex === null) return;
+        setSelectedIndex((selectedIndex - 1 + INTERIOR_IMAGES.length) % INTERIOR_IMAGES.length);
+    }, [selectedIndex]);
+
+    const goToNext = useCallback(() => {
+        if (selectedIndex === null) return;
+        setSelectedIndex((selectedIndex + 1) % INTERIOR_IMAGES.length);
+    }, [selectedIndex]);
+
+    // Keyboard navigation
+    useEffect(() => {
+        if (selectedIndex === null) return;
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") closeLightbox();
+            if (e.key === "ArrowLeft") goToPrev();
+            if (e.key === "ArrowRight") goToNext();
+        };
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [selectedIndex, goToPrev, goToNext]);
 
     return (
         <section className="py-10 bg-[#FDFBF9]">
@@ -32,7 +58,7 @@ export default function SalonInterior() {
                         Our Salon Space
                     </h2>
                     <p className="text-gray-500 mt-3 max-w-xl mx-auto">
-                        Step into a world of luxury and relaxation at our Kanpur salon
+                        Step into a world of luxury and relaxation at our Kanpur salon.
                     </p>
                 </div>
 
@@ -47,9 +73,11 @@ export default function SalonInterior() {
                     }}
                 >
                     {INTERIOR_IMAGES.map((image, idx) => (
-                        <div
+                        <button
                             key={idx}
-                            className="relative aspect-square rounded-xl overflow-hidden group"
+                            onClick={() => openLightbox(idx)}
+                            className="relative aspect-square rounded-xl overflow-hidden group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#F27708] focus:ring-offset-2"
+                            aria-label={`View ${image.alt}`}
                         >
                             <Image
                                 src={image.src}
@@ -58,8 +86,10 @@ export default function SalonInterior() {
                                 className="object-cover transition-transform duration-500 group-hover:scale-110"
                                 sizes="(max-width: 768px) 50vw, 25vw"
                             />
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-                        </div>
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                                <Eye className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </div>
+                        </button>
                     ))}
                 </div>
 
@@ -85,6 +115,61 @@ export default function SalonInterior() {
                     </Link>
                 </div>
             </div>
+
+            {/* Lightbox Modal */}
+            {selectedIndex !== null && (
+                <div
+                    className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+                    onClick={closeLightbox}
+                >
+                    {/* Close Button */}
+                    <button
+                        onClick={closeLightbox}
+                        className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+                        aria-label="Close lightbox"
+                    >
+                        <X className="w-6 h-6 text-white" />
+                    </button>
+
+                    {/* Previous Button */}
+                    <button
+                        onClick={(e) => { e.stopPropagation(); goToPrev(); }}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+                        aria-label="Previous image"
+                    >
+                        <ChevronLeft className="w-7 h-7 text-white" />
+                    </button>
+
+                    {/* Next Button */}
+                    <button
+                        onClick={(e) => { e.stopPropagation(); goToNext(); }}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+                        aria-label="Next image"
+                    >
+                        <ChevronRight className="w-7 h-7 text-white" />
+                    </button>
+
+                    {/* Image */}
+                    <div
+                        className="relative max-w-4xl max-h-[85vh] w-full h-full"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <Image
+                            src={INTERIOR_IMAGES[selectedIndex].src}
+                            alt={INTERIOR_IMAGES[selectedIndex].alt}
+                            fill
+                            className="object-contain rounded-lg"
+                            sizes="(max-width: 1024px) 100vw, 80vw"
+                            priority
+                        />
+                    </div>
+
+                    {/* Image Counter */}
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/70 text-sm">
+                        {selectedIndex + 1} / {INTERIOR_IMAGES.length}
+                    </div>
+                </div>
+            )}
         </section>
     );
 }

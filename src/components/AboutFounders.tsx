@@ -48,7 +48,7 @@ export default function AboutFounders() {
                     {/* Text Content */}
                     <div className="w-full lg:w-3/5 text-center lg:text-left">
                         <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-4">
-                            Welcome to <strong>Kaya Planet Beauty Salon</strong>, where luxury meets expertise. For nine years, we have provided exceptional beauty services, ensuring every visit is a transformative experience.
+                            Welcome to <strong>Kaya Planet</strong>, widely recognized as the <strong>Best Bridal Makeup Artist in Kanpur</strong>. For over nine years, we have set the standard for luxury beauty services and professional makeup education.
                         </p>
                         <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-5">
                             Our skilled artists blend creativity with professionalism, delivering the highest standards of service.

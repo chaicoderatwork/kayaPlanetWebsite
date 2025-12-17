@@ -35,11 +35,21 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: {
-    default: "Kaya Planet | Best Bridal Makeup Artist in Kanpur & Luxury Salon",
-    template: "%s | Kaya Planet Salon & Academy"
+    default: "Best Bridal Makeup Artist in Kanpur | Kaya Planet Salon & Academy",
+    template: "%s | Kaya Planet"
   },
-  description: "Transform your look with Kaya Planet, Kanpur's premier beauty salon and makeup academy. Specializing in bridal makeup, engagement looks, and professional beauty courses. Book your appointment today!",
-  keywords: ["Best Makeup Artist in Kanpur", "Bridal Makeup Artist Kanpur", "Engagement Makeup Kanpur", "Salon in Kanpur", "Makeup Academy Kanpur", "Kaya Planet", "Beauty Salon Govind Nagar", "Party Makeup Kanpur", "Hair Styling Kanpur"],
+  description: "Looking for the Best Makeup Artist in Kanpur? Kaya Planet offers expert Bridal Makeup, Engagement Looks, and Party Makeup. Top-rated Luxury Salon & Makeup Academy in Govind Nagar.",
+  keywords: [
+    "Best Bridal Makeup Artist in Kanpur",
+    "Top Makeup Academy in Kanpur",
+    "Engagement Makeup Kanpur",
+    "Best Salon in Kanpur",
+    "Luxury Salon Govind Nagar",
+    "Best Makeup Artist Kanpur",
+    "Airbrush Bridal Makeup Kanpur",
+    "HD Makeup Artist Kanpur",
+    "Professional Makeup Courses Kanpur"
+  ],
   alternates: {
     canonical: "https://kayaplanet.com",
   },
@@ -48,21 +58,21 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: "https://kayaplanet.com",
     siteName: "Kaya Planet Salon & Academy",
-    title: "Kaya Planet | Best Bridal Makeup Artist & Luxury Salon in Kanpur",
-    description: "Expert bridal makeup, hair styling, and beauty academy in Kanpur. Visit Kaya Planet for a transformative beauty experience.",
+    title: "Best Bridal Makeup Artist in Kanpur | Kaya Planet Salon",
+    description: "Book the Best Bridal Makeup Artist in Kanpur. We offer HD/Airbrush Makeup, Engagement Looks & Pro Makeup Courses at Kaya Planet Beauty Salon.",
     images: [
       {
         url: "/hs1.jpg",
         width: 1200,
         height: 630,
-        alt: "Kaya Planet Salon Interior and Makeup",
+        alt: "Best Bridal Makeup Artist in Kanpur - Kaya Planet",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kaya Planet | Top Makeup Artist in Kanpur",
-    description: "Book the best bridal makeup artist in Kanpur. Luxury salon services and professional academy.",
+    title: "Best Bridal Makeup Artist in Kanpur | Kaya Planet",
+    description: "Top-rated Bridal Makeup & Beauty Salon in Kanpur. Book your appointment today!",
     images: ["/hs1.jpg"],
   },
   robots: {
@@ -105,15 +115,7 @@ export default function RootLayout({
     },
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday"
-      ],
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
       "opens": "10:00",
       "closes": "21:00"
     },
@@ -121,13 +123,71 @@ export default function RootLayout({
     "sameAs": [
       "https://www.instagram.com/kayaplanetbeautysalon/",
       "https://www.facebook.com/kayaplanet/"
-    ]
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Salon Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Bridal Makeup",
+            "description": "Professional HD and Airbrush Bridal Makeup by expert artists in Kanpur."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Makeup Academy Courses",
+            "description": "Professional makeup and hair styling certification courses."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Party Makeup",
+            "description": "Glamorous party makeup for engagements, receptions, and special occasions."
+          }
+        }
+      ]
+    },
+    "mainEntity": {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Who is the best bridal makeup artist in Kanpur?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Kaya Planet is rated as the best bridal makeup artist in Kanpur, known for flawless HD and Airbrush makeup for weddings and engagements."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which is the best makeup academy in Kanpur?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Kaya Planet Academy offers the best professional makeup and hair styling courses in Kanpur with hands-on training and certification."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where can I get the best engagement makeup in Govind Nagar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Kaya Planet Salon in Govind Nagar provides premium engagement and party makeup services using luxury international brands."
+          }
+        }
+      ]
+    }
   };
 
   return (
     <html lang="en">
       <head>
-
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
       </head>
       <body

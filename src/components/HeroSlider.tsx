@@ -10,26 +10,26 @@ const HERO_SLIDES = [
     {
         id: 1,
         image: "/hero1.webp",
-        title: "Bridal Makeup",
-        subtitle: "Book Your Dream Look",
+        title: "Best Bridal Makeup Artist in Kanpur",
+        subtitle: "Book Your Dream Wedding Look Today",
     },
     {
         id: 2,
         image: "/hero2.webp",
-        title: "Academy Courses",
-        subtitle: "Learn From The Best",
+        title: "Top Makeup Academy",
+        subtitle: "Learn Pro Makeup from Industry Experts",
     },
     {
         id: 3,
         image: "/hero4.webp",
-        title: "Bridal Makeup",
-        subtitle: "Book Your Dream Look",
+        title: "Luxury Salon in Govind Nagar",
+        subtitle: "Experience Premium Beauty Services",
     },
     {
         id: 4,
         image: "/hero3.webp",
-        title: "Academy Courses",
-        subtitle: "Learn From The Best",
+        title: "Engagement & Party Makeup",
+        subtitle: "Flawless HD Looks for Every Occasion",
     },
 ];
 
@@ -111,7 +111,7 @@ export default function HeroSlider() {
                 {HERO_SLIDES.map((_, idx) => (
                     <button
                         key={idx}
-                        className="w-2 h-2 rounded-full bg-white/50 hover:bg-white transition-colors"
+                        className="w-2.5 h-2.5 rounded-full bg-white/60 hover:bg-white transition-colors"
                         aria-label={`Go to slide ${idx + 1}`}
                     />
                 ))}

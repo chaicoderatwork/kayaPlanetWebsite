@@ -29,31 +29,23 @@ export default function StickyMobileCTA() {
                 isVisible ? "translate-y-0" : "translate-y-full"
             )}
         >
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 gap-3">
                 <a
                     href="tel:+919999424375"
-                    className="flex flex-col items-center justify-center text-gray-700 hover:text-[#F27708]"
+                    className="flex flex-col items-center justify-center text-gray-700 hover:text-[#F27708] py-1"
                 >
                     <Phone className="h-5 w-5 mb-1" />
-                    <span className="text-[10px] font-medium uppercase tracking-wide">Call</span>
+                    <span className="text-[10px] font-medium uppercase tracking-wide">Call Now</span>
                 </a>
 
                 <a
                     href="https://wa.me/919999424375"
                     target="_blank"
-                    className="flex flex-col items-center justify-center text-green-600 hover:text-green-700"
+                    className="flex flex-col items-center justify-center bg-[#25D366] text-white rounded-lg py-2 shadow-sm"
                 >
                     <MessageCircle className="h-5 w-5 mb-1" />
                     <span className="text-[10px] font-medium uppercase tracking-wide">WhatsApp</span>
                 </a>
-
-                <Link
-                    href="/#contact" // Assuming there's a contact section
-                    className="flex flex-col items-center justify-center bg-[#F27708] text-white rounded-lg py-1 shadow-sm"
-                >
-                    <Calendar className="h-5 w-5 mb-1" />
-                    <span className="text-[10px] font-medium uppercase tracking-wide">Book Now</span>
-                </Link>
             </div>
         </div>
     );
