@@ -116,13 +116,13 @@ export default function GalleryGrid({ items: initialItems }: GalleryGridProps) {
                     {/* Profile Picture with Story Ring */}
                     <div className="flex-shrink-0 relative group cursor-pointer">
                         <div className="w-[84px] h-[84px] md:w-[150px] md:h-[150px] rounded-full p-[2px] bg-gradient-to-tr from-[#FFC107] via-[#F44336] to-[#9C27B0]">
-                            <div className="w-full h-full rounded-full bg-white p-[2px]">
+                            <div className="w-full h-full rounded-full bg-[#1a1a1a] p-3 md:p-5 flex items-center justify-center">
                                 <Image
                                     src="/kayaplanetlogo.png"
                                     alt="Kaya Planet"
-                                    width={150}
-                                    height={150}
-                                    className="w-full h-full object-contain rounded-full border border-gray-100"
+                                    width={100}
+                                    height={100}
+                                    className="w-full h-full object-contain"
                                 />
                             </div>
                         </div>
@@ -186,9 +186,9 @@ export default function GalleryGrid({ items: initialItems }: GalleryGridProps) {
                             <h1 className="font-semibold text-[14px]">Kaya Planet Salon & Academy</h1>
                             <p className="whitespace-pre-wrap leading-relaxed">
                                 ✨ Kanpur&apos;s Premier Beauty Destination<br />
-                                💄 Bridal | Party | HD Makeup<br />
-                                🎓 Professional Academy Courses<br />
-                                📍 Govind Nagar, Kanpur
+                                💄 Bridal | Engagement | HD Makeup<br />
+                                🎓 Professional Makeup Artist Academy Courses<br />
+                                📍 Kanpur
                             </p>
                             <a href="https://kayaplanet.com" className="text-[#00376B] font-semibold hover:underline">
                                 kayaplanet.com
@@ -228,11 +228,11 @@ export default function GalleryGrid({ items: initialItems }: GalleryGridProps) {
                         <span className="text-gray-500">posts</span>
                     </li>
                     <li className="flex flex-col items-center">
-                        <span className="font-semibold text-[#262626]">12.4K</span>
+                        <span className="font-semibold text-[#262626]">10.4K</span>
                         <span className="text-gray-500">followers</span>
                     </li>
                     <li className="flex flex-col items-center">
-                        <span className="font-semibold text-[#262626]">342</span>
+                        <span className="font-semibold text-[#262626]">347</span>
                         <span className="text-gray-500">following</span>
                     </li>
                 </ul>
@@ -303,7 +303,7 @@ export default function GalleryGrid({ items: initialItems }: GalleryGridProps) {
                             {item.isPremium && (
                                 <div className="absolute top-2 left-2 z-10">
                                     <div className="flex items-center gap-1.5 bg-black/70 backdrop-blur-md text-white px-2.5 py-1 rounded-full border border-white/10 shadow-lg">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-[#F27708] shadow-[0_0_6px_#F27708]" />
+                                        <Image src="/kayaplanetlogo.png" width={12} height={12} alt="" className="w-3 h-3 object-contain" />
                                         <span className="text-[9px] md:text-[10px] font-medium tracking-wide">
                                             Signature
                                         </span>
@@ -381,7 +381,7 @@ export default function GalleryGrid({ items: initialItems }: GalleryGridProps) {
                                 {item.isPremium && (
                                     <div className="absolute top-2 left-2 z-10">
                                         <div className="flex items-center gap-1.5 bg-black/70 backdrop-blur-md text-white px-2.5 py-1 rounded-full border border-white/10 shadow-lg">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-[#F27708] shadow-[0_0_6px_#F27708]" />
+                                            <Image src="/kayaplanetlogo.png" width={12} height={12} alt="" className="w-3 h-3 object-contain" />
                                             <span className="text-[9px] md:text-[10px] font-medium tracking-wide">
                                                 Signature
                                             </span>
@@ -471,9 +471,9 @@ export default function GalleryGrid({ items: initialItems }: GalleryGridProps) {
                             {selectedItem.isPremium && (
                                 <div className="absolute top-4 left-4 z-10">
                                     <div className="flex items-center gap-2 bg-black/70 backdrop-blur-md text-white px-3 py-1.5 rounded-full border border-white/10 shadow-lg">
-                                        <div className="w-2 h-2 rounded-full bg-[#F27708] shadow-[0_0_8px_#F27708]" />
+                                        <Image src="/kayaplanetlogo.png" width={16} height={16} alt="" className="w-4 h-4 object-contain" />
                                         <span className="text-xs font-medium tracking-wide">
-                                            Signature Collection
+                                            KP Royal Signature
                                         </span>
                                     </div>
                                 </div>

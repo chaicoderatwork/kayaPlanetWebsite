@@ -14,11 +14,11 @@ interface Reel {
 }
 
 const REELS: Reel[] = [
-    { id: "1", videoUrl: "/videos/reel1.mp4", posterUrl: "/videos/reel1-poster.webp", title: "Bridal Transformation" },
-    { id: "2", videoUrl: "/videos/reel2.mp4", posterUrl: "/videos/reel2-poster.webp", title: "Engagement Glam" },
-    { id: "3", videoUrl: "/videos/reel3.mp4", posterUrl: "/videos/reel3-poster.webp", title: "Party Makeup" },
+    { id: "1", videoUrl: "/videos/reel1.mp4", posterUrl: "/videos/reel1-poster.webp", title: "Royal Signature Bridal" },
+    { id: "2", videoUrl: "/videos/reel2.mp4", posterUrl: "/videos/reel2-poster.webp", title: "Cocktail Glam" },
+    { id: "3", videoUrl: "/videos/reel3.mp4", posterUrl: "/videos/reel3-poster.webp", title: "Engagement Makeup" },
     { id: "4", videoUrl: "/videos/reel4.mp4", posterUrl: "/videos/reel4-poster.webp", title: "HD Makeup Look" },
-    { id: "5", videoUrl: "/videos/reel5.mp4", posterUrl: "/videos/reel5-poster.webp", title: "Celebrity Style" },
+    { id: "5", videoUrl: "/videos/reel5.mp4", posterUrl: "/videos/reel5-poster.webp", title: "Celebrity Makeup" },
     { id: "6", videoUrl: "/videos/reel6.mp4", posterUrl: "/videos/reel6-poster.webp", title: "Academy Class" },
 ];
 
@@ -122,7 +122,7 @@ export default function ReelSlider() {
                         href="/gallery"
                         className="inline-flex items-center gap-2 border border-[#F27708] text-[#F27708] px-4 py-1.5 md:px-5 md:py-2 rounded-full text-xs md:text-sm font-medium hover:bg-[#F27708] hover:text-white transition-all whitespace-nowrap"
                     >
-                        See More
+                        View Full Portfolio
                     </Link>
                 </div>
             </div>

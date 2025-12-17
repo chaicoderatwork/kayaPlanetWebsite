@@ -13,13 +13,13 @@ interface ServiceVideo {
 }
 
 const SERVICE_VIDEOS: ServiceVideo[] = [
-    { id: "1", videoUrl: "/service-videos/service1.mp4", posterUrl: "/service-videos/service1-poster.webp", title: "Bridal Makeup" },
-    { id: "2", videoUrl: "/service-videos/service2.mp4", posterUrl: "/service-videos/service2-poster.webp", title: "Hair Styling" },
-    { id: "3", videoUrl: "/service-videos/service3.mp4", posterUrl: "/service-videos/service3-poster.webp", title: "Facial Treatments" },
-    { id: "4", videoUrl: "/service-videos/service4.mp4", posterUrl: "/service-videos/service4-poster.webp", title: "Party Makeup" },
-    { id: "5", videoUrl: "/service-videos/service5.mp4", posterUrl: "/service-videos/service5-poster.webp", title: "HD Makeup" },
-    { id: "6", videoUrl: "/service-videos/service6.mp4", posterUrl: "/service-videos/service6-poster.webp", title: "Engagement Look" },
-    { id: "7", videoUrl: "/service-videos/service7.mp4", posterUrl: "/service-videos/service7-poster.webp", title: "Nail Art" },
+    { id: "1", videoUrl: "/service-videos/service1.mp4", posterUrl: "/service-videos/service1-poster.webp", title: "Skin Treatment" },
+    { id: "2", videoUrl: "/service-videos/service2.mp4", posterUrl: "/service-videos/service2-poster.webp", title: "Bridal Hair Styling" },
+    { id: "3", videoUrl: "/service-videos/service3.mp4", posterUrl: "/service-videos/service3-poster.webp", title: "Nail Art" },
+    { id: "4", videoUrl: "/service-videos/service4.mp4", posterUrl: "/service-videos/service4-poster.webp", title: "Hair Extension" },
+    { id: "5", videoUrl: "/service-videos/service5.mp4", posterUrl: "/service-videos/service5-poster.webp", title: "Hair Highlights" },
+    { id: "6", videoUrl: "/service-videos/service6.mp4", posterUrl: "/service-videos/service6-poster.webp", title: "Festive Nails" },
+    { id: "7", videoUrl: "/service-videos/service7.mp4", posterUrl: "/service-videos/service7-poster.webp", title: "Ombre Hair Color" },
 ];
 
 const WHATSAPP_NUMBER = "919999424375";

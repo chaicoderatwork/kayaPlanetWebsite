@@ -16,19 +16,19 @@ const HERO_SLIDES = [
     {
         id: 2,
         image: "/hero2.webp",
-        title: "Top Makeup Academy",
+        title: "",
         subtitle: "Learn Pro Makeup from Industry Experts",
     },
     {
         id: 3,
         image: "/hero4.webp",
-        title: "Luxury Salon in Govind Nagar",
+        title: "Luxury Salon in Kanpur",
         subtitle: "Experience Premium Beauty Services",
     },
     {
         id: 4,
         image: "/hero3.webp",
-        title: "Engagement & Party Makeup",
+        title: "Engagement Makeup",
         subtitle: "Flawless HD Looks for Every Occasion",
     },
 ];

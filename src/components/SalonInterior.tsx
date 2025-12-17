@@ -8,13 +8,14 @@ import { Eye, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const INTERIOR_IMAGES = [
     { src: "/interior1.webp", alt: "Kaya Planet Salon Interior - Styling Area" },
-    { src: "/interior3.webp", alt: "Kaya Planet Salon Interior - Relaxation Zone" },
+    { src: "/interior3.webp", alt: "Kaya Planet Salon Interior - Photo Shoot Zone" },
     { src: "/interior4.webp", alt: "Kaya Planet Salon Interior - Main Area" },
     { src: "/interior2.webp", alt: "Kaya Planet Salon Interior - Premium Section" },
 ];
 
 // Replace with your actual Google Maps/Business Profile 360 link
-const GOOGLE_MAPS_360_LINK = "https://maps.google.com/?q=Kaya+Planet+Salon+Kanpur";
+const GOOGLE_MAPS_360_LINK = "https://www.google.com/maps/place/Kaya+Planet+Beauty+Salon+-+Make+Up+Artist+In+Kanpur,+Bridal+Make+Up+Artist+In+Kanpur,+Make+Up+Academy+In+Kanpur/@26.4496116,80.2988153,3a,75y,220h,90t/data=!3m8!1e1!3m6!1sCIABIhAGbzzgWS23EmfKlasAB18u!2e10!3e11!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FAPRy3c_sKBj7YxgQccxIEVireS4tz5jTVY7_hERhHmL8S9MeMMrAvNpgY2WbeiuOrZ84nBNGGvMgQIjUpTVvKDSc_GvgfrMfivOvRivCblNnIlFNecgqD9YgpzMCT9VVJjAAxra8X4mPX8xQZfE%3Dw900-h600-k-no-pi0-ya5.674942016601591-ro0-fo100!7i7680!8i3840!4m18!1m8!3m7!1s0x399c479344ff543f:0x18ea6eb778191466!2sKaya+Planet+Beauty+Salon+-+Make+Up+Artist+In+Kanpur,+Bridal+Make+Up+Artist+In+Kanpur,+Make+Up+Academy+In+Kanpur!8m2!3d26.4496295!4d80.2988175!10e1!16s%2Fg%2F11cls7bnj0!3m8!1s0x399c479344ff543f:0x18ea6eb778191466!8m2!3d26.4496295!4d80.2988175!10e5!14m1!1BCgIgARICCAI!16s%2Fg%2F11cls7bnj0?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D";
+
 
 export default function SalonInterior() {
     const ref = useRef(null);

@@ -76,9 +76,13 @@ export default function Navbar() {
                             className=""
                         />
                         {/* Brand Name - visible on mobile */}
-                        <span className="md:hidden text-lg font-semibold tracking-wide text-white">
-                            KAYA PLANET
-                        </span>
+                        <Image
+                            src="/kp-logo-white.png"
+                            alt="Kaya Planet"
+                            width={100}
+                            height={24}
+                            className="md:hidden h-6 w-auto object-contain"
+                        />
                     </Link>
 
                     {/* Desktop menu */}
