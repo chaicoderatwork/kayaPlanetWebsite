@@ -105,10 +105,12 @@ export default function ServicesSlider() {
                                         ref={(el) => { videoRefs.current[index] = el; }}
                                         src={service.videoUrl}
                                         poster={service.posterUrl}
+                                        autoPlay
                                         muted
                                         loop
                                         playsInline
-                                        preload="auto"
+                                        webkit-playsinline="true"
+                                        preload="metadata"
                                         className="w-full h-full object-cover pointer-events-none"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />

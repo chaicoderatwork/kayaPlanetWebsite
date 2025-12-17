@@ -113,10 +113,12 @@ export default function ReelSlider() {
                                         ref={(el) => { videoRefs.current[index] = el; }}
                                         src={reel.videoUrl}
                                         poster={reel.posterUrl}
+                                        autoPlay
                                         muted
                                         loop
                                         playsInline
-                                        preload="auto"
+                                        webkit-playsinline="true"
+                                        preload="metadata"
                                         className="w-full h-full object-cover pointer-events-none"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-transparent to-black/70 pointer-events-none" />
