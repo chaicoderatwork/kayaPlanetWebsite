@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "../components/navbar";
 import Footer from "@/components/footer";
 import Script from "next/script";
-import StickyMobileCTA from "@/components/StickyMobileCTA";
+import WhatsAppChatBox from "@/components/whatsapp";
 import MysteryBox from "@/components/MysteryBox";
 
 const geistSans = localFont({
@@ -201,7 +201,7 @@ export default function RootLayout({
         <Navbar />
         <MysteryBox />
         {children}
-        <StickyMobileCTA />
+        <WhatsAppChatBox />
         <footer>
           <Footer />
         </footer>

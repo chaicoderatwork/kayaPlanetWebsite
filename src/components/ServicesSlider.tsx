@@ -75,7 +75,7 @@ function LazyVideo({
     };
 
     return (
-        <div ref={containerRef} className={className}>
+        <div ref={containerRef} className={`relative ${className}`}>
             {/* Always show poster as background */}
             <div
                 className="absolute inset-0 bg-cover bg-center"

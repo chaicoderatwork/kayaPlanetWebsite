@@ -37,11 +37,11 @@ export default function WhatsAppChatBox() {
   const currentTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }).toLowerCase()
 
   return (
-    <div className={`fixed bottom-4 right-4 z-50 transition-transform duration-500 ease-in-out hidden md:block ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}>
+    <div className={`fixed bottom-4 right-4 z-50 transition-transform duration-500 ease-in-out ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}>
       <div
-        className={`relative transition-all duration-300 ease-in-out ${isExpanded
-            ? 'w-72 h-96 pointer-events-auto'
-            : 'w-16 h-16 pointer-events-none'
+        className={`relative transition-all duration-300 ease-in-out hidden md:block ${isExpanded
+          ? 'w-72 h-96 pointer-events-auto'
+          : 'w-16 h-16 pointer-events-none'
           }`}
       >
         <div
@@ -51,8 +51,8 @@ export default function WhatsAppChatBox() {
             backgroundPosition: 'center',
           }}
           className={`rounded-lg shadow-lg p-4 absolute bottom-0 right-0 transition-all duration-300 ease-in-out ${isExpanded
-              ? 'opacity-100 scale-100 w-full h-full'
-              : 'opacity-0 scale-95 w-16 h-16'
+            ? 'opacity-100 scale-100 w-full h-full'
+            : 'opacity-0 scale-95 w-16 h-16'
             }`}
         >
           <div className="message-bubble bg-white p-3 shadow-sm relative mt-6 mb-4">
@@ -80,9 +80,10 @@ export default function WhatsAppChatBox() {
           </button>
         </div>
       </div>
+      {/* Desktop: expandable button */}
       <button
         onClick={handleExpand}
-        className={`absolute bottom-0 right-0 bg-[#25D366] text-white p-3 rounded-full shadow-lg hover:bg-[#128C7E] transition-all duration-300 transform hover:scale-110 ${isExpanded ? 'scale-0 opacity-0 pointer-events-none' : 'scale-100 opacity-100 pointer-events-auto'
+        className={`absolute bottom-0 right-0 bg-[#25D366] text-white p-3 rounded-full shadow-lg hover:bg-[#128C7E] transition-all duration-300 transform hover:scale-110 hidden md:flex ${isExpanded ? 'scale-0 opacity-0 pointer-events-none' : 'scale-100 opacity-100 pointer-events-auto'
           }`}
       >
         <Image
@@ -92,6 +93,20 @@ export default function WhatsAppChatBox() {
           height={24}
         />
       </button>
+      {/* Mobile: direct link to WhatsApp */}
+      <a
+        href="https://wa.me/919999424375"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="md:hidden bg-[#25D366] text-white p-3 rounded-full shadow-lg hover:bg-[#128C7E] transition-all duration-300 transform hover:scale-110 flex items-center justify-center"
+      >
+        <Image
+          src={whatsappIcon}
+          alt="WhatsApp"
+          width={24}
+          height={24}
+        />
+      </a>
       <style jsx>{`
         .message-bubble {
           position: relative;
