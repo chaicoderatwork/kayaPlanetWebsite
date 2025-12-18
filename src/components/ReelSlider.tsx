@@ -96,7 +96,7 @@ export default function ReelSlider() {
     const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
     const getWhatsAppLink = (reel: Reel) => {
-        const message = `Hi! I loved this look: "${reel.title}". I want to book a similar makeover! Ref: KP-R${reel.id}`;
+        const message = `Hi! I loved this look: "${reel.title}". I want to enquire more about it`;
         return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
     };
 

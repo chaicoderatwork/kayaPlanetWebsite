@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
 
@@ -46,20 +45,31 @@ export default function AboutFounders() {
                     </div>
 
                     {/* Text Content */}
-                    <div className="w-full lg:w-3/5 text-center lg:text-left">
+                    <div className="w-full lg:w-3/5 text-justify lg:text-left">
                         <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-4">
-                            Welcome to <strong>Kaya Planet</strong>, widely recognized as the <strong>Best Bridal Makeup Artist in Kanpur</strong>. For over nine years, we have set the standard for luxury beauty services and professional makeup education.
+                            Welcome to <strong>Kaya Planet</strong>, home to some of the most loved bridal transformations in the city and widely recognized as the <strong>Best Bridal Makeup Artist in Kanpur</strong>. For over a decade, we have poured our heart into creating gorgeous, camera-ready looks that still feel like <em>you</em>, just more confident, more radiant, and ready for your biggest moments.
                         </p>
+
+                        <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-4">
+                            What keeps us going is the trust. Hundreds of brides and clients have chosen us for their engagement, wedding, and celebration looks, and we are truly grateful for every single one. That trust is our biggest responsibility, and we treat it that way, every time.
+                        </p>
+
                         <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-5">
-                            Our skilled artists blend creativity with professionalism, delivering the highest standards of service.
+                            <strong>Bhawna Ma&apos;am</strong> brings years of experience and perfection in finishing, while <strong>Rashika Ma&apos;am</strong> brings fresh creativity, energy, and modern aesthetics. Together, our team blends artistry with professionalism to deliver the highest standards of service, tailored to your skin, your features, and your event.
                         </p>
-                        <Link
-                            href="/about"
-                            className="inline-block border-2 border-[#F27708] text-[#F27708] hover:bg-[#F27708] hover:text-white text-sm font-medium px-6 py-2 rounded-full transition-colors"
-                        >
-                            Know More
-                        </Link>
+
+                        <div className="text-center lg:text-left">
+                            <a
+                                href="https://wa.me/919999424375"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-block border-2 border-[#F27708] text-[#F27708] hover:bg-[#F27708] hover:text-white text-sm font-medium px-6 py-2 rounded-full transition-colors"
+                            >
+                                Know More
+                            </a>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </section>

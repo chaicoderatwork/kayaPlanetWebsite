@@ -95,7 +95,7 @@ export default function ServicesSlider() {
     const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
     const getWhatsAppLink = (service: ServiceVideo) => {
-        const message = `Hi! I want to enquire about ${service.title}. Ref: KP-${service.id}`;
+        const message = `Hi! I want to enquire about ${service.title}.`;
         return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
     };
 

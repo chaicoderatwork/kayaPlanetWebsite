@@ -79,31 +79,35 @@ async function processImage(file, brideName, index) {
     console.log(`Processing Image: ${file} -> ${newName}`);
 
     try {
-        if (ext === '.heic') {
-            try {
-                // Try direct heic
+        if (inputPath === outputPath) {
+            console.log("Source is already processed file. Skipping conversion.");
+        } else {
+            if (ext === '.heic') {
+                try {
+                    // Try direct heic
+                    await sharp(inputPath)
+                        .rotate()
+                        .resize(1200, 1800, { fit: 'inside', withoutEnlargement: true })
+                        .webp({ quality: 80 })
+                        .toFile(outputPath);
+                } catch (e) {
+                    console.log("Sharp failed on HEIC/Conversion, trying ffmpeg intermediate...");
+                    const tempJpg = path.join(GALLERY_DIR, `temp_${brideName}_${index}.jpg`);
+                    execSync(`ffmpeg -i "${inputPath}" -y "${tempJpg}"`, { stdio: 'inherit' });
+                    await sharp(tempJpg)
+                        .rotate()
+                        .resize(1200, 1800, { fit: 'inside', withoutEnlargement: true })
+                        .webp({ quality: 80 })
+                        .toFile(outputPath);
+                    if (fs.existsSync(tempJpg)) fs.unlinkSync(tempJpg);
+                }
+            } else {
                 await sharp(inputPath)
                     .rotate()
                     .resize(1200, 1800, { fit: 'inside', withoutEnlargement: true })
                     .webp({ quality: 80 })
                     .toFile(outputPath);
-            } catch (e) {
-                console.log("Sharp failed on HEIC/Conversion, trying ffmpeg intermediate...");
-                const tempJpg = path.join(GALLERY_DIR, `temp_${brideName}_${index}.jpg`);
-                execSync(`ffmpeg -i "${inputPath}" -y "${tempJpg}"`, { stdio: 'inherit' });
-                await sharp(tempJpg)
-                    .rotate()
-                    .resize(1200, 1800, { fit: 'inside', withoutEnlargement: true })
-                    .webp({ quality: 80 })
-                    .toFile(outputPath);
-                if (fs.existsSync(tempJpg)) fs.unlinkSync(tempJpg);
             }
-        } else {
-            await sharp(inputPath)
-                .rotate()
-                .resize(1200, 1800, { fit: 'inside', withoutEnlargement: true })
-                .webp({ quality: 80 })
-                .toFile(outputPath);
         }
 
         const metadata = await sharp(outputPath).metadata();
@@ -190,17 +194,21 @@ async function main() {
     // 1. Group files
     const groups = {};
     const others = [];
+    const collectionMap = new Map(); // index -> file
 
     // Prioritize explicit "Bride_" names
     for (const file of files) {
         if (file.startsWith('.')) continue; // skip hidden
         if (file.includes('compressed')) continue; // skip old
         if (path.extname(file) === '.json') continue;
-        if (file.startsWith('bride_') && !file.includes('poster')) continue; // Skip ALREADY processed new files to avoid re-processing loops if we didn't clean up
+
+        if (file.includes('poster')) continue; // Skip poster files entirely from being primary sources
 
         // Regex for standard pattern: Bride_Name_1.ext (case insensitive)
-        if (file.startsWith('IMG_')) {
-            others.push(file);
+        if (file.startsWith('IMG_') || file.toLowerCase().startsWith('img_')) {
+            if (!file.toLowerCase().startsWith('bride_')) {
+                others.push(file);
+            }
             continue;
         }
 
@@ -210,8 +218,40 @@ async function main() {
         if (match) {
             const name = match[1].trim().toLowerCase();
             const index = parseInt(match[2]);
+
+            if (name === 'collection') {
+                // Check if we already have a better candidate for this index
+                // Priority: Source > Processed
+                const existing = collectionMap.get(index);
+                const isCurrentProcessed = file.toLowerCase().startsWith('bride_');
+                if (existing) {
+                    const isExistingProcessed = existing.toLowerCase().startsWith('bride_');
+                    if (isExistingProcessed && !isCurrentProcessed) {
+                        collectionMap.set(index, file);
+                    }
+                } else {
+                    collectionMap.set(index, file);
+                }
+                continue; // Don't add to standard groups
+            }
+
             if (!groups[name]) groups[name] = [];
-            groups[name][index - 1] = file;
+
+            const existingFile = groups[name][index - 1];
+            const isCurrentProcessed = file.toLowerCase().startsWith('bride_');
+
+            if (existingFile) {
+                const isExistingProcessed = existingFile.toLowerCase().startsWith('bride_');
+                // Priority: Source (not processed) > Processed
+                if (isExistingProcessed && !isCurrentProcessed) {
+                    // Upgrade to source file
+                    groups[name][index - 1] = file;
+                }
+                // Else: keep existing (either both processed, both source, or existing is source)
+            } else {
+                groups[name][index - 1] = file;
+            }
+
         } else if (file.toLowerCase().startsWith('bride_') === false) {
             // Only add things that are NOT our output files
             others.push(file);
@@ -228,10 +268,6 @@ async function main() {
         for (let i = 0; i < 3; i++) {
             const file = files[i];
             if (!file) continue;
-
-            // Only process if it's the source file (starts with capital B Bride usually in this user's case)
-            // or confirm it's not the output file
-            if (file.startsWith('bride_')) continue;
 
             const isVideo = file.toLowerCase().endsWith('.mp4') || file.toLowerCase().endsWith('.mov');
             let item;
@@ -251,38 +287,51 @@ async function main() {
         }
     }
 
-    // Process Others
-    if (others.length > 0) {
-        console.log("Processing Other files...");
-        const otherItems = [];
-        let counter = 1;
+    // Process Collection (Merged others + existing collection files)
+    console.log("Processing Collection files...");
+    const collectionItems = [];
 
-        for (const file of others) {
-            // Skip our own output files
-            if (file.startsWith('bride_')) continue;
+    // Determine the full list of files to process for Collection
+    // others take slots 1, 2, ... N
+    // collectionMap takes slots based on index. If covered by others, we overwrite (fresh source). 
+    // If not covered, we use what we have.
 
-            const isVideo = file.toLowerCase().endsWith('.mp4') || file.toLowerCase().endsWith('.mov');
-            const name = 'collection';
+    let maxIdx = 0;
+    if (collectionMap.size > 0) maxIdx = Math.max(...collectionMap.keys());
+    maxIdx = Math.max(maxIdx, others.length);
 
-            let item;
-            if (isVideo) {
-                item = await processVideo(file, name, counter);
-            } else {
-                item = await processImage(file, name, counter);
-            }
-            if (item) {
-                otherItems.push(item);
-                counter++;
-            }
+    let finalCollectionFiles = [];
+    for (let i = 1; i <= maxIdx; i++) {
+        // others is 0-indexed array, so slot i corresponds to others[i-1]
+        if (i <= others.length) {
+            finalCollectionFiles.push({ file: others[i - 1], index: i });
+        } else if (collectionMap.has(i)) {
+            finalCollectionFiles.push({ file: collectionMap.get(i), index: i });
         }
+    }
 
-        // Chunk into groups of 3
-        for (let i = 0; i < otherItems.length; i += 3) {
-            galleryData.push({
-                group: `Collection ${Math.floor(i / 3) + 1}`,
-                items: otherItems.slice(i, i + 3)
-            });
+    // Now process them
+    for (const { file, index } of finalCollectionFiles) {
+        const isVideo = file.toLowerCase().endsWith('.mp4') || file.toLowerCase().endsWith('.mov');
+        const name = 'collection'; // Enforce name
+
+        let item;
+        if (isVideo) {
+            item = await processVideo(file, name, index);
+        } else {
+            item = await processImage(file, name, index);
         }
+        if (item) {
+            collectionItems.push(item);
+        }
+    }
+
+    // Chunk into groups of 3
+    for (let i = 0; i < collectionItems.length; i += 3) {
+        galleryData.push({
+            group: `Collection ${Math.floor(i / 3) + 1}`,
+            items: collectionItems.slice(i, i + 3)
+        });
     }
 
     fs.writeFileSync(OUTPUT_JSON, JSON.stringify(galleryData, null, 2));
