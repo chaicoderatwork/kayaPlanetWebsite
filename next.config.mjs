@@ -8,6 +8,8 @@ const nextConfig = {
       { protocol: "https", hostname: "cdn.iconscout.com" },
     ],
   },
+  // Exclude heavy packages from serverless functions
+  serverExternalPackages: ["sharp"],
 };
 
 export default nextConfig;

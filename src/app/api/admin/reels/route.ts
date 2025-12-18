@@ -16,6 +16,12 @@ export async function GET() {
 
 // POST - Add new reel
 export async function POST(request: NextRequest) {
+    if (process.env.VERCEL) {
+        return NextResponse.json(
+            { error: "Uploads disabled in production. Use locally and push via Git." },
+            { status: 403 }
+        );
+    }
     try {
         const formData = await request.formData();
         const file = formData.get("file") as File;
@@ -96,6 +102,9 @@ export async function POST(request: NextRequest) {
 
 // DELETE - Remove reel
 export async function DELETE(request: NextRequest) {
+    if (process.env.VERCEL) {
+        return NextResponse.json({ error: "Deletes disabled in production." }, { status: 403 });
+    }
     try {
         const { searchParams } = new URL(request.url);
         const id = searchParams.get("id");

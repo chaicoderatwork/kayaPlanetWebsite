@@ -17,6 +17,14 @@ export async function GET() {
 
 // POST - Add new gallery item
 export async function POST(request: NextRequest) {
+    // Disable uploads on Vercel - use locally only
+    if (process.env.VERCEL) {
+        return NextResponse.json(
+            { error: "Uploads disabled in production. Use the admin panel locally and push changes via Git." },
+            { status: 403 }
+        );
+    }
+
     try {
         const formData = await request.formData();
         const file = formData.get("file") as File;
@@ -28,6 +36,8 @@ export async function POST(request: NextRequest) {
 
         const isVideo = file.type.startsWith("video/");
         const id = Date.now();
+
+        // Dynamic import to avoid bundling in production
         const sharp = (await import("sharp")).default;
 
         // Ensure directory exists
@@ -157,6 +167,14 @@ export async function POST(request: NextRequest) {
 
 // DELETE - Remove gallery item
 export async function DELETE(request: NextRequest) {
+    // Disable deletes on Vercel
+    if (process.env.VERCEL) {
+        return NextResponse.json(
+            { error: "Deletes disabled in production. Use the admin panel locally." },
+            { status: 403 }
+        );
+    }
+
     try {
         const { searchParams } = new URL(request.url);
         const src = searchParams.get("id"); // src is passed as id

@@ -12,7 +12,7 @@ const OFFERS = [
     },
     {
         title: "₹300 OFF! 🎉",
-        description: "Flat ₹300 off on your first visit to Kaya Planet",
+        description: "Flat ₹300 off on your first visit to Kaya Planet on services above ₹1000",
         code: "KPFIRST",
         color: "from-orange-500 to-red-500",
     },
