@@ -60,6 +60,7 @@ export default function InfluencerSection() {
                                                 src={influencer.image}
                                                 alt={influencer.name}
                                                 fill
+                                                sizes="40px"
                                                 className="object-cover"
                                             />
                                         ) : (
@@ -96,6 +97,7 @@ export default function InfluencerSection() {
                                         src="/influencers/neetu.jpg"
                                         alt="Neetu Bisht"
                                         fill
+                                        sizes="64px"
                                         className="object-cover"
                                     />
                                 </div>
@@ -106,7 +108,7 @@ export default function InfluencerSection() {
                                         <span className="text-xs text-gray-500 whitespace-nowrap">• 5.1M</span>
                                     </div>
                                     <p className="text-gray-600 text-xs md:text-sm leading-relaxed mb-3 break-words">
-                                        "Amazing experience with Kaya Planet! The best makeup artist in Kanpur for sure." ✨
+                                        &quot;Amazing experience with Kaya Planet! The best makeup artist in Kanpur for sure.&quot; ✨
                                     </p>
                                     <Link
                                         href="https://www.instagram.com/reel/DSASe-bk8Tz/"

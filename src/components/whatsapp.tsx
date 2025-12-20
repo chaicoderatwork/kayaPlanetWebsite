@@ -7,7 +7,6 @@ import whatsappIcon from '../../public/whatsapp-icon.jpg'
 export default function WhatsAppChatBox() {
   const [isVisible, setIsVisible] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
-  const [bgImage, setBgImage] = useState('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')
 
   useEffect(() => {
     const visibilityTimer = setTimeout(() => {
@@ -16,7 +15,6 @@ export default function WhatsAppChatBox() {
 
     const expansionTimer = setTimeout(() => {
       setIsExpanded(true)
-      setBgImage('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')
     }, 7000)
 
     return () => {
@@ -27,7 +25,6 @@ export default function WhatsAppChatBox() {
 
   const handleExpand = () => {
     setIsExpanded(true)
-    setBgImage('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')
   }
 
   const handleCollapse = () => {
@@ -45,12 +42,7 @@ export default function WhatsAppChatBox() {
           }`}
       >
         <div
-          style={{
-            backgroundImage: `url(${bgImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-          className={`rounded-lg shadow-lg p-4 absolute bottom-0 right-0 transition-all duration-300 ease-in-out ${isExpanded
+          className={`whatsapp-bg rounded-lg shadow-lg p-4 absolute bottom-0 right-0 transition-all duration-300 ease-in-out ${isExpanded
             ? 'opacity-100 scale-100 w-full h-full'
             : 'opacity-0 scale-95 w-16 h-16'
             }`}
@@ -108,21 +100,25 @@ export default function WhatsAppChatBox() {
         />
       </a>
       <style jsx>{`
+        .whatsapp-bg {
+          background-color: #e5ddd5;
+          background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4ccc4' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
         .message-bubble {
           position: relative;
           border-radius: 0.75rem;
-          margin-left: 10px; /* Add some space for the protrusion */
+          margin-left: 10px;
         }
         .message-bubble::after {
           content: '';
           position: absolute;
-          left: -10px; /* Position it outside the bubble */
-          top: 20%; /* Center vertically */
-          transform: translateY(-50%); /* Adjust for perfect centering */
+          left: -10px;
+          top: 20%;
+          transform: translateY(-50%);
           width: 20px;
           height: 20px;
           background-color: white;
-          clip-path: polygon(100% 0, 0 0, 100% 100%); /* Create left-pointing triangle */
+          clip-path: polygon(100% 0, 0 0, 100% 100%);
         }
       `}</style>
     </div>

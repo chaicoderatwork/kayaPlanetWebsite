@@ -6,6 +6,7 @@ import Footer from "@/components/footer";
 import Script from "next/script";
 import WhatsAppChatBox from "@/components/whatsapp";
 import MysteryBox from "@/components/MysteryBox";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -228,6 +229,7 @@ export default function RootLayout({
         <footer>
           <Footer />
         </footer>
+        <Analytics />
       </body>
     </html>
   );
