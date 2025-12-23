@@ -2,15 +2,17 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Menu, X, PhoneCall } from 'lucide-react'
+import { Menu, X, Calendar } from 'lucide-react'
 import Image from 'next/image'
 import kp from '../../public/kayaplanetlogo.png'
 import { usePathname } from 'next/navigation'
+import { useEnquiryPopup } from './EnquiryPopupContext'
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
     const router = usePathname()
+    const { openEnquiryPopup } = useEnquiryPopup()
 
     const navItems = [
         { name: 'HOME', href: '/' },
@@ -65,27 +67,28 @@ export default function Navbar() {
         >
 
             <div className="container mx-auto">
-                <div className="flex justify-between items-center">
-                    <Link href="/" className="flex items-center gap-2">
+                <div className="flex justify-between items-center gap-2">
+                    <Link href="/" className="flex items-center gap-2 min-w-0 flex-1">
                         <Image
                             src={kp}
                             alt="Kaya Planet Logo"
                             width="50"
                             height="50"
-                            className=""
+                            className="flex-shrink-0"
                         />
                         {/* Brand Name - visible on mobile */}
-                        <Image
-                            src="/kp-logo-white.png"
-                            alt="Kaya Planet"
-                            width={100}
-                            height={24}
-                            className="md:hidden h-6 w-auto object-contain"
-                        />
+                        <div className="relative h-6 w-full max-w-[180px] md:hidden">
+                            <Image
+                                src="/kp-logo-white.png"
+                                alt="Kaya Planet"
+                                fill
+                                className="object-contain object-left"
+                            />
+                        </div>
                     </Link>
 
                     {/* Desktop menu */}
-                    <div className="hidden md:flex space-x-6 items-center">
+                    <div className="hidden md:flex space-x-6 items-center flex-shrink-0">
                         {navItems.map((item) => (
                             <Link
                                 key={item.name}
@@ -95,27 +98,27 @@ export default function Navbar() {
                                 {item.name}
                             </Link>
                         ))}
-                        <a
-                            href="tel:+919999424375"
-                            className="border text-[#F27708] border-[#F27708] hover:text-white px-4 py-2 rounded-full flex items-center space-x-2 hover:bg-[#F89134] transition-colors duration-300"
+                        <button
+                            onClick={openEnquiryPopup}
+                            className="bg-gradient-to-r from-[#F27708] to-[#F89134] text-white px-5 py-2 rounded-full flex items-center space-x-2 hover:shadow-lg hover:shadow-orange-500/25 transition-all duration-300"
                         >
-                            <PhoneCall className="h-4 w-4" />
-                            <span className="hidden lg:inline">CALL US</span>
-                        </a>
+                            <Calendar className="h-4 w-4" />
+                            <span>BOOK NOW</span>
+                        </button>
                     </div>
 
-                    {/* Mobile menu button and call button */}
-                    <div className="md:hidden flex items-center space-x-4">
-                        <a
-                            href="tel:+919999424375"
-                            className="bg-[#F27708] text-white p-2 rounded-full flex items-center justify-center hover:bg-[#F89134] transition-colors duration-300"
-                            aria-label="Call us now"
+                    {/* Mobile menu button and book button */}
+                    <div className="md:hidden flex items-center gap-2 flex-shrink-0">
+                        <button
+                            onClick={openEnquiryPopup}
+                            className="bg-gradient-to-r from-[#F27708] to-[#F89134] text-white px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1 hover:shadow-lg transition-all duration-300 whitespace-nowrap"
                         >
-                            <PhoneCall className="h-5 w-5" />
-                        </a>
+                            <Calendar className="h-3.5 w-3.5" />
+                            <span>BOOK</span>
+                        </button>
                         <button
                             onClick={toggleMenu}
-                            className="text-[#F27708] hover:text-[#F89134] focus:outline-none"
+                            className="text-[#F27708] hover:text-[#F89134] focus:outline-none ml-1"
                             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                         >
                             {isMenuOpen ? (

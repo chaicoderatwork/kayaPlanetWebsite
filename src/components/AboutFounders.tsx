@@ -1,8 +1,60 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useInView } from "framer-motion";
+
+// Simple count-up animation hook
+function useCountUp(end: number, duration: number = 2000, startWhenInView: boolean = false, inView: boolean = false): number {
+    const [count, setCount] = useState(0);
+    const hasAnimated = useRef(false);
+
+    useEffect(() => {
+        // Only start when in view if requested
+        if (startWhenInView && !inView) return;
+        // Don't re-animate
+        if (hasAnimated.current) return;
+        hasAnimated.current = true;
+
+        let startTime: number;
+        let animationFrame: number;
+
+        const animate = (timestamp: number) => {
+            if (!startTime) startTime = timestamp;
+            const progress = Math.min((timestamp - startTime) / duration, 1);
+
+            // Ease-out effect
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+            setCount(Math.floor(easeOut * end));
+
+            if (progress < 1) {
+                animationFrame = requestAnimationFrame(animate);
+            }
+        };
+
+        animationFrame = requestAnimationFrame(animate);
+
+        return () => {
+            if (animationFrame) cancelAnimationFrame(animationFrame);
+        };
+    }, [end, duration, startWhenInView, inView]);
+
+    return count;
+}
+
+// Milestone component with animation
+function Milestone({ value, suffix, label, inView }: { value: number; suffix: string; label: string; inView: boolean }) {
+    const count = useCountUp(value, 2000, true, inView);
+
+    return (
+        <div className="text-center">
+            <p className="text-2xl md:text-3xl font-bold text-[#F27708]">
+                {count}{suffix}
+            </p>
+            <p className="text-xs text-gray-500 mt-1">{label}</p>
+        </div>
+    );
+}
 
 export default function AboutFounders() {
     const ref = useRef(null);
@@ -58,15 +110,10 @@ export default function AboutFounders() {
                             <strong>Bhawna Ma&apos;am</strong> brings years of experience and perfection in finishing, while <strong>Rashika Ma&apos;am</strong> brings fresh creativity, energy, and modern aesthetics. Together, our team blends artistry with professionalism to deliver the highest standards of service, tailored to your skin, your features, and your event.
                         </p>
 
-                        <div className="text-center lg:text-left">
-                            <a
-                                href="https://wa.me/919999424375"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-block border-2 border-[#F27708] text-[#F27708] hover:bg-[#F27708] hover:text-white text-sm font-medium px-6 py-2 rounded-full transition-colors"
-                            >
-                                Know More
-                            </a>
+                        <div className="flex flex-wrap justify-center lg:justify-start gap-6 mt-2">
+                            <Milestone value={1000} suffix="+" label="Happy Brides" inView={isInView} />
+                            <Milestone value={10} suffix="+" label="Years Experience" inView={isInView} />
+                            <Milestone value={500} suffix="+" label="Academy Students" inView={isInView} />
                         </div>
                     </div>
 

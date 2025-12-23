@@ -5,7 +5,8 @@ import Navbar from "../components/navbar";
 import Footer from "@/components/footer";
 import Script from "next/script";
 import WhatsAppChatBox from "@/components/whatsapp";
-import MysteryBox from "@/components/MysteryBox";
+import EnquiryPopup from "@/components/EnquiryPopup";
+import { EnquiryPopupProvider } from "@/components/EnquiryPopupContext";
 import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = localFont({
@@ -222,13 +223,15 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <Navbar />
-        <MysteryBox />
-        {children}
-        <WhatsAppChatBox />
-        <footer>
-          <Footer />
-        </footer>
+        <EnquiryPopupProvider>
+          <Navbar />
+          <EnquiryPopup />
+          {children}
+          <WhatsAppChatBox />
+          <footer>
+            <Footer />
+          </footer>
+        </EnquiryPopupProvider>
         <Analytics />
       </body>
     </html>

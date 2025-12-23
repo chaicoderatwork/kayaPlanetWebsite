@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 
 const FAQS = [
     {
@@ -69,22 +68,16 @@ export default function FAQ() {
                                     <ChevronDown className="w-5 h-5 text-gray-400" />
                                 )}
                             </button>
-                            <AnimatePresence>
-                                {openIndex === index && (
-                                    <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: "auto", opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{ duration: 0.3 }}
-                                    >
-                                        <div className="px-5 pb-5 pt-0 text-gray-600 border-t border-gray-50 mt-1">
-                                            <div className="pt-3 leading-relaxed">
-                                                {faq.answer}
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                            <div
+                                className={`transition-all duration-300 ease-in-out ${openIndex === index ? "max-h-48 opacity-100" : "max-h-0 opacity-0"
+                                    }`}
+                            >
+                                <div className="px-5 pb-5 pt-0 text-gray-600 border-t border-gray-50 mt-1">
+                                    <div className="pt-3 leading-relaxed">
+                                        {faq.answer}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     ))}
                 </div>

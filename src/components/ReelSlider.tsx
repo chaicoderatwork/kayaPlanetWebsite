@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import Link from "next/link";
 import reelsData from "@/data/reels.json";
@@ -62,7 +63,7 @@ function LazyVideo({
     }, [shouldLoad]);
 
     return (
-        <div ref={containerRef} className="w-full h-full relative bg-gray-900">
+        <div ref={containerRef} className="w-full h-full relative bg-gray-900 icon-wrapper">
             {shouldLoad ? (
                 <video
                     ref={videoRef}
@@ -77,9 +78,12 @@ function LazyVideo({
                     className="w-full h-full object-cover"
                 />
             ) : (
-                <div
-                    className="w-full h-full bg-cover bg-center"
-                    style={{ backgroundImage: `url(${posterUrl})` }}
+                <Image
+                    src={posterUrl}
+                    alt="Reel Preview"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 20vw"
                 />
             )}
         </div>
@@ -164,7 +168,7 @@ function FullScreenModal({
 
             {/* Content */}
             <div
-                className="relative w-full max-w-sm md:max-w-md mx-4"
+                className="relative w-full max-w-sm md:max-w-md mx-4 pb-safe mb-6"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Video */}
@@ -181,8 +185,8 @@ function FullScreenModal({
                     />
                 </div>
 
-                {/* Title and CTA */}
-                <div className="mt-4 text-center">
+                {/* Title and CTA - fixed at bottom of content with safe spacing */}
+                <div className="mt-4 text-center pb-4">
                     <h3 className="text-white text-lg font-medium mb-3">{reel.title}</h3>
                     <a
                         href={getWhatsAppLink()}
@@ -203,7 +207,7 @@ function FullScreenModal({
 
 export default function ReelSlider() {
     const [emblaRef, emblaApi] = useEmblaCarousel(
-        { align: "start", loop: true, containScroll: "trimSnaps" },
+        { align: "start", loop: true, containScroll: false },
         [Autoplay({ delay: 4000, stopOnInteraction: false }) as any]
     );
 
@@ -262,11 +266,11 @@ export default function ReelSlider() {
 
             <div className="relative container mx-auto px-4 md:px-8">
                 <div className="overflow-hidden" ref={emblaRef}>
-                    <div className="flex gap-3">
+                    <div className="flex">
                         {REELS.map((reel, index) => (
                             <div
                                 key={reel.id}
-                                className="flex-shrink-0 w-[45%] sm:w-[30%] md:w-[23%] lg:w-[18%]"
+                                className="flex-shrink-0 w-[45%] sm:w-[30%] md:w-[23%] lg:w-[18%] pl-3 first:pl-0"
                             >
                                 <button
                                     onClick={() => openModal(reel, index)}

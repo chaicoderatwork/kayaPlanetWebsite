@@ -13,6 +13,10 @@ const ReelSlider = dynamic(() => import("@/components/ReelSlider"), {
   ssr: false,
   loading: () => <div className="h-[400px] bg-white w-full animate-pulse" />,
 });
+const GalleryShowcase = dynamic(() => import("@/components/GalleryShowcase"), {
+  ssr: false,
+  loading: () => <div className="h-[400px] bg-[#FDFBF9] w-full animate-pulse" />,
+});
 const SalonInterior = dynamic(() => import("@/components/SalonInterior"), {
   ssr: false,
   loading: () => <div className="h-[400px] bg-[#FDFBF9] w-full animate-pulse" />,
@@ -47,6 +51,9 @@ export default function Home() {
 
       {/* Influencer Trust Section */}
       <InfluencerSection />
+
+      {/* Gallery Showcase */}
+      <GalleryShowcase />
 
       {/* Services */}
       <ServicesSlider />
