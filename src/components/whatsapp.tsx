@@ -34,7 +34,7 @@ export default function WhatsAppChatBox() {
   const currentTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }).toLowerCase()
 
   return (
-    <div className={`fixed bottom-4 right-4 z-50 transition-transform duration-500 ease-in-out ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}>
+    <div className={`fixed bottom-4 right-4 z-[100] transition-opacity duration-500 ease-in-out ${isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
       <div
         className={`relative transition-all duration-300 ease-in-out hidden md:block ${isExpanded
           ? 'w-72 h-96 pointer-events-auto'
