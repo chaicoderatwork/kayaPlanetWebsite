@@ -38,6 +38,14 @@ export async function POST(req: NextRequest) {
             : "Not specified";
 
         // Create nodemailer transporter
+        if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+            console.error("Missing email credentials in environment variables");
+            return new Response(
+                JSON.stringify({ message: "Server configuration error (Missing Email Credentials)" }),
+                { status: 500 }
+            );
+        }
+
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
@@ -57,29 +65,29 @@ export async function POST(req: NextRequest) {
                         <h1 style="color: white; margin: 0; font-size: 24px;">New Enquiry Received! 🎉</h1>
                     </div>
                     
-                    <div style="background: #f9f9f9; padding: 20px; border-radius: 0 0 10px 10px;">
+                    <div style="background: #f9f9f9; padding: 20px; border-radius: 0 0 10px 10px; color: #333333;">
                         <table style="width: 100%; border-collapse: collapse;">
                             <tr>
-                                <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold; width: 40%;">Name:</td>
-                                <td style="padding: 10px; border-bottom: 1px solid #eee;">${name}</td>
+                                <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold; width: 40%; color: #333333;">Name:</td>
+                                <td style="padding: 10px; border-bottom: 1px solid #eee; color: #333333;">${name}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Mobile:</td>
+                                <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold; color: #333333;">Mobile:</td>
                                 <td style="padding: 10px; border-bottom: 1px solid #eee;">
                                     <a href="tel:+91${mobile}" style="color: #F27708; text-decoration: none;">+91 ${mobile}</a>
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Service:</td>
-                                <td style="padding: 10px; border-bottom: 1px solid #eee;">${serviceLabel}</td>
+                                <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold; color: #333333;">Service:</td>
+                                <td style="padding: 10px; border-bottom: 1px solid #eee; color: #333333;">${serviceLabel}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Event Date:</td>
-                                <td style="padding: 10px; border-bottom: 1px solid #eee;">${formattedDate}</td>
+                                <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold; color: #333333;">Event Date:</td>
+                                <td style="padding: 10px; border-bottom: 1px solid #eee; color: #333333;">${formattedDate}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 10px; font-weight: bold;">Submitted At:</td>
-                                <td style="padding: 10px;">${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}</td>
+                                <td style="padding: 10px; font-weight: bold; color: #333333;">Submitted At:</td>
+                                <td style="padding: 10px; color: #333333;">${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}</td>
                             </tr>
                         </table>
                         

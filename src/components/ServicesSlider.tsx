@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import servicesData from "@/data/services.json";
 
@@ -61,7 +62,7 @@ function LazyVideo({
     }, [shouldLoad]);
 
     return (
-        <div ref={containerRef} className="w-full h-full relative bg-gray-900">
+        <div ref={containerRef} className="w-full h-full relative bg-gray-900 icon-wrapper">
             {shouldLoad ? (
                 <video
                     ref={videoRef}
@@ -76,9 +77,12 @@ function LazyVideo({
                     className="w-full h-full object-cover"
                 />
             ) : (
-                <div
-                    className="w-full h-full bg-cover bg-center"
-                    style={{ backgroundImage: `url(${posterUrl})` }}
+                <Image
+                    src={posterUrl}
+                    alt="Service Preview"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 20vw"
                 />
             )}
         </div>
@@ -253,11 +257,11 @@ export default function ServicesSlider() {
 
             <div className="relative container mx-auto px-4 md:px-8">
                 <div className="overflow-hidden" ref={emblaRef}>
-                    <div className="flex gap-3">
+                    <div className="flex">
                         {SERVICE_VIDEOS.map((service, index) => (
                             <div
                                 key={service.id}
-                                className="flex-shrink-0 w-[45%] sm:w-[30%] md:w-[23%] lg:w-[18%]"
+                                className="flex-shrink-0 w-[45%] sm:w-[30%] md:w-[23%] lg:w-[18%] pl-3 first:pl-0"
                             >
                                 <button
                                     onClick={() => openModal(service, index)}
