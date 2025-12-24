@@ -81,7 +81,7 @@ export default function InfluencerSection() {
 
     // TODO: Replace this with the actual Neetu Bisht video file path
     // Example: /videos/neetu-reel.mp4
-    const NEETU_VIDEO_URL = "/videos/reel1.mp4";
+    const NEETU_VIDEO_URL = "/videos/reel5.mp4";
 
     return (
         <section className="py-12 md:py-16 bg-gradient-to-b from-white to-[#FDFBF9] overflow-hidden">
