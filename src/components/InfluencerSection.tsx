@@ -1,8 +1,7 @@
-"use client";
-
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Instagram, Verified, Users } from "lucide-react";
+import { Instagram, Verified, Users, X, Play } from "lucide-react";
 import influencersData from "@/data/influencers.json";
 
 interface Influencer {
@@ -18,7 +17,72 @@ interface Influencer {
 
 const INFLUENCERS: Influencer[] = influencersData;
 
+// Video Modal Component
+function VideoModal({
+    videoUrl,
+    onClose,
+}: {
+    videoUrl: string;
+    onClose: () => void;
+}) {
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    // Prevent body scroll when modal is open
+    useEffect(() => {
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, []);
+
+    // Close on Escape key
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") onClose();
+        };
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [onClose]);
+
+    return (
+        <div
+            className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4"
+            onClick={onClose}
+        >
+            <button
+                onClick={onClose}
+                className="absolute top-4 right-4 z-10 p-2 text-white/70 hover:text-white transition-colors"
+                aria-label="Close"
+            >
+                <X className="w-8 h-8" />
+            </button>
+
+            <div
+                className="relative w-full max-w-sm"
+                onClick={(e) => e.stopPropagation()}
+            >
+                <div className="relative aspect-[9/16] rounded-xl overflow-hidden bg-gray-900 shadow-2xl border border-white/10">
+                    <video
+                        ref={videoRef}
+                        src={videoUrl}
+                        autoPlay
+                        controls
+                        playsInline
+                        className="w-full h-full object-cover"
+                    />
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export default function InfluencerSection() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // TODO: Replace this with the actual Neetu Bisht video file path
+    // Example: /videos/neetu-reel.mp4
+    const NEETU_VIDEO_URL = "/videos/reel1.mp4";
+
     return (
         <section className="py-12 md:py-16 bg-gradient-to-b from-white to-[#FDFBF9] overflow-hidden">
             <div className="container mx-auto px-4 overflow-hidden">
@@ -110,19 +174,27 @@ export default function InfluencerSection() {
                                     <p className="text-gray-600 text-xs md:text-sm leading-relaxed mb-3 break-words">
                                         &quot;Amazing experience with Kaya Planet! The best makeup artist in Kanpur for sure.&quot; ✨
                                     </p>
-                                    <Link
-                                        href="https://www.instagram.com/reel/DSASe-bk8Tz/"
-                                        target="_blank"
-                                        className="inline-flex items-center gap-1.5 text-xs md:text-sm font-medium text-[#F27708] hover:text-[#F89134] transition-colors"
+                                    <button
+                                        onClick={() => setIsModalOpen(true)}
+                                        className="inline-flex items-center gap-1.5 text-xs md:text-sm font-medium text-[#F27708] hover:text-[#F89134] transition-colors group"
                                     >
-                                        <Instagram className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                                        <div className="w-6 h-6 rounded-full bg-[#fae8e0] flex items-center justify-center group-hover:bg-[#F27708] transition-colors">
+                                            <Play className="w-3 h-3 text-[#F27708] fill-[#F27708] group-hover:text-white group-hover:fill-white ml-0.5" />
+                                        </div>
                                         Watch Reel
-                                    </Link>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {isModalOpen && (
+                    <VideoModal
+                        videoUrl={NEETU_VIDEO_URL}
+                        onClose={() => setIsModalOpen(false)}
+                    />
+                )}
             </div>
 
             {/* CSS for Marquee Animation */}

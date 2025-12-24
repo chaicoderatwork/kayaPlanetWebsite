@@ -5,6 +5,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useEnquiryPopup } from "./EnquiryPopupContext";
 import heroSlidesData from "@/data/hero-slides.json";
 
 interface HeroSlide {
@@ -17,6 +18,7 @@ interface HeroSlide {
 const HERO_SLIDES: HeroSlide[] = heroSlidesData;
 
 export default function HeroSlider() {
+    const { openEnquiryPopup } = useEnquiryPopup();
     const [emblaRef, emblaApi] = useEmblaCarousel(
         {
             loop: true,
@@ -61,12 +63,12 @@ export default function HeroSlider() {
                                 <p className="text-lg md:text-xl text-gray-200 mb-6">
                                     {slide.subtitle}
                                 </p>
-                                <a
-                                    href="tel:+919999424375"
+                                <button
+                                    onClick={openEnquiryPopup}
                                     className="inline-block bg-[#F27708] hover:bg-[#F89134] text-white font-medium px-8 py-3 rounded-full transition-colors"
                                 >
-                                    Book Now
-                                </a>
+                                    Book Appointment
+                                </button>
                             </div>
                         </div>
                     ))}
