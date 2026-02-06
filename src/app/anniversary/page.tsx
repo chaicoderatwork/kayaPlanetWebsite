@@ -41,6 +41,7 @@ export default function AnniversaryPage() {
     const [isLookingUp, setIsLookingUp] = useState(false);
     const [countdown, setCountdown] = useState<CountdownTime>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
     const [offerStatus, setOfferStatus] = useState<"upcoming" | "active" | "ended">("active");
+    const [hasCard, setHasCard] = useState(false);
 
     // Countdown timer
     useEffect(() => {
@@ -119,7 +120,9 @@ export default function AnniversaryPage() {
                     anniversary: data.registration.anniversary || "",
                 });
                 setRegistrationId(data.registration.id);
+                setHasCard(data.registration.hasCard || false);
                 setStep("already-verified");
+                window.scrollTo({ top: 0, behavior: "smooth" });
                 return;
             }
 
@@ -134,6 +137,7 @@ export default function AnniversaryPage() {
             });
             setRegistrationId(data.registration.id);
             setStep("payment");
+            window.scrollTo({ top: 0, behavior: "smooth" });
         } catch (err) {
             setError(err instanceof Error ? err.message : "Something went wrong");
         } finally {
@@ -141,11 +145,33 @@ export default function AnniversaryPage() {
         }
     };
 
+    // Validate mobile number (10 digits, Indian format)
+    const isValidMobile = (mobile: string) => {
+        return /^[6-9]\d{9}$/.test(mobile);
+    };
+
+    // Validate email format
+    const isValidEmail = (email: string) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError("");
+
+        // Validate mobile
+        if (!isValidMobile(formData.mobile)) {
+            setError("Please enter a valid 10-digit mobile number");
+            return;
+        }
+
+        // Validate email
+        if (!isValidEmail(formData.email)) {
+            setError("Please enter a valid email address");
+            return;
+        }
 
         setIsSubmitting(true);
-        setError("");
 
         try {
             const response = await fetch("/api/anniversary/register", {
@@ -162,6 +188,7 @@ export default function AnniversaryPage() {
 
             setRegistrationId(data.registrationId);
             setStep("payment");
+            window.scrollTo({ top: 0, behavior: "smooth" });
         } catch (err) {
             setError(err instanceof Error ? err.message : "Something went wrong");
         } finally {
@@ -215,17 +242,27 @@ export default function AnniversaryPage() {
                     <p className="text-sm text-gray-500 mb-6">
                         Registration ID: <strong>{registrationId}</strong>
                     </p>
-                    <p className="text-gray-600 mb-6">
-                        You should have received your membership card details. If not, please contact us on WhatsApp.
-                    </p>
+
+                    {hasCard ? (
+                        <p className="text-gray-600 mb-6">
+                            ✅ Your membership card has been assigned. Please collect it from our salon or contact us for details.
+                        </p>
+                    ) : (
+                        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+                            <p className="text-amber-800">
+                                ⏳ Your card number is being assigned. Please contact us on WhatsApp or visit our salon to collect your membership card.
+                            </p>
+                        </div>
+                    )}
+
                     <div className="flex flex-col gap-3">
                         <a
-                            href={`https://wa.me/91${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hi, I need help with my membership. Mobile: ${formData.mobile}`)}`}
+                            href="https://wa.me/+919795133335"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="bg-[#25D366] text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg transition-all"
                         >
-                            Contact on WhatsApp
+                            {hasCard ? "Contact on WhatsApp" : "📞 Contact for Card Pickup"}
                         </a>
                         <Link
                             href="/"
@@ -366,15 +403,41 @@ export default function AnniversaryPage() {
                                     </div>
                                 ) : (
                                     <>
-                                        {/* Pay Now Button (UPI Deep Link) */}
+                                        {/* UPI App Buttons */}
+                                        <p className="text-sm text-gray-600 mb-3 text-center">Choose your payment app:</p>
+                                        <div className="grid grid-cols-3 gap-3 mb-4">
+                                            <a
+                                                href={`gpay://upi/pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${AMOUNT}&cu=INR&tn=${encodeURIComponent(`Membership-${formData.mobile}`)}`}
+                                                className="flex flex-col items-center gap-1 p-3 bg-white border-2 border-gray-100 rounded-xl hover:border-blue-400 hover:shadow-md transition-all"
+                                            >
+                                                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-green-500 rounded-xl flex items-center justify-center text-white font-bold text-sm">G</div>
+                                                <span className="text-xs font-medium text-gray-700">GPay</span>
+                                            </a>
+                                            <a
+                                                href={`phonepe://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${AMOUNT}&cu=INR&tn=${encodeURIComponent(`Membership-${formData.mobile}`)}`}
+                                                className="flex flex-col items-center gap-1 p-3 bg-white border-2 border-gray-100 rounded-xl hover:border-purple-400 hover:shadow-md transition-all"
+                                            >
+                                                <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-purple-400 rounded-xl flex items-center justify-center text-white font-bold text-sm">Pe</div>
+                                                <span className="text-xs font-medium text-gray-700">PhonePe</span>
+                                            </a>
+                                            <a
+                                                href={`paytmmp://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${AMOUNT}&cu=INR&tn=${encodeURIComponent(`Membership-${formData.mobile}`)}`}
+                                                className="flex flex-col items-center gap-1 p-3 bg-white border-2 border-gray-100 rounded-xl hover:border-blue-400 hover:shadow-md transition-all"
+                                            >
+                                                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-400 rounded-xl flex items-center justify-center text-white font-bold text-sm">₹</div>
+                                                <span className="text-xs font-medium text-gray-700">Paytm</span>
+                                            </a>
+                                        </div>
+
+                                        {/* Generic UPI fallback */}
                                         <a
                                             href={upiLink}
-                                            className="block w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white py-4 rounded-xl font-semibold text-lg text-center hover:shadow-lg transition-all mb-4"
+                                            className="block w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 rounded-xl font-semibold text-center hover:shadow-lg transition-all mb-2"
                                         >
-                                            📱 Pay Now (Open UPI App)
+                                            📱 Other UPI App
                                         </a>
-                                        <p className="text-xs text-center text-gray-500 mb-6">
-                                            Works on mobile with GPay, PhonePe, Paytm, etc.
+                                        <p className="text-xs text-center text-gray-400 mb-4">
+                                            (Opens default UPI app on your phone)
                                         </p>
 
                                         {/* Divider */}
@@ -627,10 +690,15 @@ export default function AnniversaryPage() {
                                     </label>
                                     <input
                                         type="tel"
+                                        inputMode="numeric"
                                         required
                                         pattern="[6-9][0-9]{9}"
                                         value={formData.mobile}
-                                        onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                                        onChange={(e) => {
+                                            // Only allow digits
+                                            const value = e.target.value.replace(/\D/g, "");
+                                            setFormData({ ...formData, mobile: value });
+                                        }}
                                         className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                                         placeholder="10-digit mobile number"
                                         maxLength={10}
@@ -672,6 +740,7 @@ export default function AnniversaryPage() {
                                         <input
                                             type="date"
                                             required
+                                            max={new Date().toISOString().split('T')[0]}
                                             value={formData.birthday}
                                             onChange={(e) => setFormData({ ...formData, birthday: e.target.value })}
                                             className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all appearance-none bg-white"
@@ -684,6 +753,7 @@ export default function AnniversaryPage() {
                                         </label>
                                         <input
                                             type="date"
+                                            max={new Date().toISOString().split('T')[0]}
                                             value={formData.anniversary}
                                             onChange={(e) => setFormData({ ...formData, anniversary: e.target.value })}
                                             className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all appearance-none bg-white"

@@ -93,7 +93,9 @@ export async function POST(req: NextRequest) {
                 birthday: registration.birthday,
                 anniversary: registration.anniversary,
                 verified: registration.verified,
-                // Don't expose: address, cardNumber, timestamps
+                // Whether card has been assigned (for verified users to know if they need to collect)
+                hasCard: !!registration.cardNumber,
+                // Don't expose: address, actual cardNumber, timestamps
             },
         });
     } catch (error) {
