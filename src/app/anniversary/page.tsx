@@ -6,7 +6,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
 // UPI Configuration
-const UPI_ID = "9935295614@pthdfc";
+const UPI_ID = "paytmqr6ezi7g@ptys";
 const UPI_NAME = "Kaya Planet";
 const AMOUNT = 1000;
 const WHATSAPP_NUMBER = "9795133335";
@@ -355,7 +355,7 @@ export default function AnniversaryPage() {
                             className="bg-white rounded-3xl shadow-2xl overflow-hidden"
                         >
                             {/* Header */}
-                            <div className="bg-gradient-to-r from-orange-500 to-amber-500 p-6 text-white text-center">
+                            <div className=" bg-gradient-to-r from-orange-500 to-amber-500 p-6 text-white text-center">
                                 <h1 className="text-2xl font-bold mb-1">Complete Payment</h1>
                                 <p className="text-white/90">Step 2 of 2</p>
                             </div>
@@ -404,27 +404,44 @@ export default function AnniversaryPage() {
                                 ) : (
                                     <>
                                         {/* UPI App Buttons */}
-                                        <p className="text-sm text-gray-600 mb-3 text-center">Choose your payment app:</p>
+                                        <p className="text-sm text-gray-600 mb-3 text-center">Tap to Pay via:</p>
                                         <div className="grid grid-cols-3 gap-3 mb-4">
                                             <a
                                                 href={`gpay://upi/pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${AMOUNT}&cu=INR&tn=${encodeURIComponent(`Membership-${formData.mobile}`)}`}
                                                 className="flex flex-col items-center gap-1 p-3 bg-white border-2 border-gray-100 rounded-xl hover:border-blue-400 hover:shadow-md transition-all"
                                             >
-                                                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-green-500 rounded-xl flex items-center justify-center text-white font-bold text-sm">G</div>
+                                                {/* GPay Logo SVG */}
+                                                <div className="w-10 h-10 flex items-center justify-center">
+                                                    <svg viewBox="0 0 24 24" className="w-8 h-8">
+                                                        <path fill="#4285F4" d="M23.49 12.275c0-.85-.07-1.68-.21-2.48H12v4.71h6.44c-.28 1.48-1.11 2.73-2.41 3.6l3.9 3.02c2.28-2.1 3.56-5.2 3.56-8.85z" />
+                                                        <path fill="#34A853" d="M12 24c3.23 0 5.94-1.07 7.92-2.9l-3.9-3.02c-1.07.72-2.44 1.14-4.02 1.14-3.11 0-5.75-2.1-6.69-4.93H1.27v3.1C3.25 21.32 7.37 24 12 24z" />
+                                                        <path fill="#FBBC05" d="M5.31 14.29c-.24-.72-.37-1.49-.37-2.29s.13-1.57.37-2.29V6.61H1.27C.46 8.22 0 10.05 0 12s.46 3.78 1.27 5.39l4.04-3.1z" />
+                                                        <path fill="#EA4335" d="M12 4.75c1.76 0 3.33.6 4.58 1.8l3.43-3.43C17.93 1.18 15.22 0 12 0 7.37 0 3.25 2.68 1.27 6.61l4.04 3.1c.94-2.83 3.58-4.93 6.69-4.93z" />
+                                                    </svg>
+                                                </div>
                                                 <span className="text-xs font-medium text-gray-700">GPay</span>
                                             </a>
                                             <a
                                                 href={`phonepe://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${AMOUNT}&cu=INR&tn=${encodeURIComponent(`Membership-${formData.mobile}`)}`}
                                                 className="flex flex-col items-center gap-1 p-3 bg-white border-2 border-gray-100 rounded-xl hover:border-purple-400 hover:shadow-md transition-all"
                                             >
-                                                <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-purple-400 rounded-xl flex items-center justify-center text-white font-bold text-sm">Pe</div>
+                                                {/* PhonePe Logo SVG */}
+                                                <div className="w-10 h-10 flex items-center justify-center bg-[#5f259f] rounded-lg text-white font-bold text-xs p-1">
+                                                    PhonePe
+                                                </div>
                                                 <span className="text-xs font-medium text-gray-700">PhonePe</span>
                                             </a>
                                             <a
                                                 href={`paytmmp://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${AMOUNT}&cu=INR&tn=${encodeURIComponent(`Membership-${formData.mobile}`)}`}
                                                 className="flex flex-col items-center gap-1 p-3 bg-white border-2 border-gray-100 rounded-xl hover:border-blue-400 hover:shadow-md transition-all"
                                             >
-                                                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-400 rounded-xl flex items-center justify-center text-white font-bold text-sm">₹</div>
+                                                {/* Paytm Logo SVG */}
+                                                <div className="w-10 h-10 flex items-center justify-center">
+                                                    <svg viewBox="0 0 100 32" className="w-full h-full"> {/* Simplified Text Logo */}
+                                                        <path fill="#002E6E" d="M14.07 27.6h4.51V4.8h-4.51v22.8zm11.23 0h4.5V16.38c0-2.58 1.93-3.1 3.22-3.1 1.77 0 2.9.86 2.9 3.22v11.1h4.51V15.58c0-5.16-3.06-6.6-5.8-6.6-2.58 0-4.35 1.29-4.83 2.74h-.16V9.48H25.3v18.12zm25.93.32c5.64 0 9.18-3.54 9.18-9.18v-9.18h-4.51v8.86c0 3.38-1.93 5.32-4.83 5.32-2.74 0-4.51-1.77-4.51-5.15V9.48h-4.51v9.66c0 5.48 3.54 8.7 9.18 8.78zm16.75-.32h4.51V13.83h3.54V9.63h-3.54V4.8h-4.51v4.83h-2.58v4.2h2.58v13.77zm19.33.32c3.54 0 5.96-1.77 6.92-4.67h-4.67c-.48 1.13-1.13 1.29-2.09 1.29-1.93 0-3.38-1.29-3.38-4.03h10.47c.16-5.8-3.06-9.82-7.57-9.82-5.15 0-7.9 3.86-7.9 9.02 0 4.83 3.06 8.21 8.22 8.21zm3.22-10.47h-5.96c.32-2.09 1.61-3.06 3.06-3.06 1.61 0 2.74.97 2.9 3.06z" />
+                                                        <path fill="#00B9F1" d="M6.2 16.54C2.5 16.2.22 14.61.22 10.95c0-3.58 2.66-6.13 6.6-6.13 4.84 0 6.61 2.74 6.77 5.64H9.08c-.16-1.29-.8-2.1-2.42-2.1-1.45 0-2.25.8-2.25 2.1 0 1.29.8 1.93 2.58 2.1l2.42.32c4.03.48 6.44 2.25 6.44 5.96 0 3.86-2.9 6.44-7.09 6.44-5.16 0-7.25-2.74-7.41-6.12h4.51c.16 1.45 1.13 2.42 2.9 2.42 1.45 0 2.58-.97 2.58-2.42 0-1.29-.97-2.1-2.9-2.25l-2.25-.33z" />
+                                                    </svg>
+                                                </div>
                                                 <span className="text-xs font-medium text-gray-700">Paytm</span>
                                             </a>
                                         </div>
@@ -432,24 +449,20 @@ export default function AnniversaryPage() {
                                         {/* Generic UPI fallback */}
                                         <a
                                             href={upiLink}
-                                            className="block w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 rounded-xl font-semibold text-center hover:shadow-lg transition-all mb-2"
+                                            className="block w-full bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 py-3 rounded-xl font-semibold text-center hover:shadow-lg transition-all mb-2"
                                         >
                                             📱 Other UPI App
                                         </a>
-                                        <p className="text-xs text-center text-gray-400 mb-4">
-                                            (Opens default UPI app on your phone)
-                                        </p>
 
                                         {/* Divider */}
                                         <div className="flex items-center gap-4 mb-6">
                                             <div className="flex-1 h-px bg-gray-200" />
-                                            <span className="text-gray-400 text-sm">OR</span>
+                                            <span className="text-gray-400 text-sm">Or scan QR</span>
                                             <div className="flex-1 h-px bg-gray-200" />
                                         </div>
 
                                         {/* QR Code */}
                                         <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-2xl mb-6">
-                                            <p className="text-center text-gray-700 font-medium mb-4">Scan QR Code</p>
                                             <div className="flex justify-center mb-4">
                                                 <div className="bg-white p-3 rounded-xl shadow-md">
                                                     <Image
@@ -477,11 +490,11 @@ export default function AnniversaryPage() {
 
                                         {/* Instructions */}
                                         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
-                                            <h3 className="font-semibold text-amber-800 mb-2">📋 After Payment:</h3>
+                                            <h3 className="font-semibold text-amber-800 mb-2">📋 Important Steps:</h3>
                                             <ol className="text-sm text-amber-700 space-y-2">
-                                                <li>1. Take a screenshot of your payment confirmation</li>
-                                                <li>2. Click the WhatsApp button below</li>
-                                                <li>3. Send the screenshot along with your mobile number</li>
+                                                <li>1. Complete the payment of <strong>₹{AMOUNT}</strong>.</li>
+                                                <li>2. <strong>Take a screenshot</strong> of the success screen.</li>
+                                                <li>3. Click the WhatsApp button below to attach screenshot.</li>
                                             </ol>
                                         </div>
 
@@ -495,10 +508,10 @@ export default function AnniversaryPage() {
                                             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                                             </svg>
-                                            Send Screenshot on WhatsApp
+                                            Attach Payment Screenshot
                                         </a>
                                         <p className="text-xs text-center text-gray-500 mb-6">
-                                            WhatsApp: {WHATSAPP_NUMBER}
+                                            (Tap to open WhatsApp with your details pre-filled)
                                         </p>
 
                                         {/* Done Button */}
@@ -506,19 +519,12 @@ export default function AnniversaryPage() {
                                             onClick={() => setStep("success")}
                                             className="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-4 rounded-xl font-semibold text-lg hover:shadow-lg transition-all"
                                         >
-                                            I&apos;ve Completed Payment ✓
+                                            I&apos;ve Sent the Screenshot ✓
                                         </button>
                                     </>
                                 )}
                             </div>
                         </motion.div>
-
-                        {/* Registration Info */}
-                        <div className="mt-6 text-center text-sm text-gray-500">
-                            <p>Registered as: <strong className="text-gray-700">{formData.name}</strong></p>
-                            <p>Mobile: <strong className="text-gray-700">{formData.mobile}</strong></p>
-                            <p className="text-xs mt-2">Registration ID: {registrationId}</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -657,7 +663,7 @@ export default function AnniversaryPage() {
                             <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
                                 <div className="bg-gradient-to-r from-orange-500 to-amber-500 p-6 text-white text-center">
                                     <h3 className="text-xl font-bold">Why Join?</h3>
-                                    <p className="opacity-90">Unlock exclusive perks worth ₹5,000+</p>
+                                    <p className="opacity-90">Flat 10% off on all services</p>
                                 </div>
                                 <div className="p-6 space-y-4">
                                     <div className="flex items-start gap-4">
@@ -700,7 +706,7 @@ export default function AnniversaryPage() {
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center font-bold text-gray-500 text-sm">3</div>
-                                        <p className="text-sm text-gray-600">Get your digital card via WhatsApp</p>
+                                        <p className="text-sm text-gray-600">Get your physical card</p>
                                     </div>
                                 </div>
                             </div>
@@ -722,8 +728,12 @@ export default function AnniversaryPage() {
 
                             {/* Already Registered Link */}
                             <button
-                                onClick={() => { setStep("lookup"); setError(""); }}
-                                className="w-full mb-6 py-3 border-2 border-dashed border-orange-200 rounded-xl text-orange-600 font-medium hover:bg-orange-50 transition-all"
+                                onClick={() => {
+                                    setStep("lookup");
+                                    setError("");
+                                    window.scrollTo({ top: 0, behavior: "smooth" });
+                                }}
+                                className="w-full mb-6 py-3 border-2 border-dashed border-orange-200 rounded-xl text-orange-600 font-medium hover:bg-orange-50 transition-all focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
                             >
                                 Already registered? Click here to complete payment →
                             </button>
