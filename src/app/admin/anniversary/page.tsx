@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Registration {
     id: string;
@@ -30,8 +31,9 @@ export default function AnniversaryAdminPage() {
     const [filter, setFilter] = useState<"all" | "pending" | "verified">("all");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [editingCard, setEditingCard] = useState<string | null>(null);
+    const [selectedUser, setSelectedUser] = useState<Registration | null>(null);
     const [cardInput, setCardInput] = useState("");
+    const [updating, setUpdating] = useState(false);
 
     const fetchRegistrations = useCallback(async () => {
         setLoading(true);
@@ -93,7 +95,9 @@ export default function AnniversaryAdminPage() {
         }
     };
 
-    const toggleVerification = async (registrationId: string, currentStatus: boolean) => {
+    const toggleVerification = async (verified: boolean) => {
+        if (!selectedUser) return;
+        setUpdating(true);
         try {
             const response = await fetch("/api/anniversary/verify", {
                 method: "PATCH",
@@ -102,20 +106,34 @@ export default function AnniversaryAdminPage() {
                     "x-admin-password": password,
                 },
                 body: JSON.stringify({
-                    registrationId,
-                    verified: !currentStatus,
+                    registrationId: selectedUser.id,
+                    verified,
                 }),
             });
 
             if (response.ok) {
+                const data = await response.json();
+                setSelectedUser(data.registration);
                 fetchRegistrations();
             }
         } catch {
             setError("Failed to update verification status");
+        } finally {
+            setUpdating(false);
         }
     };
 
-    const updateCardNumber = async (registrationId: string) => {
+    const updateCardNumber = async () => {
+        if (!selectedUser) return;
+
+        // Validate 16 digits
+        if (cardInput && !/^\d{16}$/.test(cardInput)) {
+            setError("Card number must be exactly 16 digits");
+            return;
+        }
+
+        setUpdating(true);
+        setError("");
         try {
             const response = await fetch("/api/anniversary/verify", {
                 method: "PATCH",
@@ -124,18 +142,20 @@ export default function AnniversaryAdminPage() {
                     "x-admin-password": password,
                 },
                 body: JSON.stringify({
-                    registrationId,
-                    cardNumber: cardInput,
+                    registrationId: selectedUser.id,
+                    cardNumber: cardInput || null,
                 }),
             });
 
             if (response.ok) {
-                setEditingCard(null);
-                setCardInput("");
+                const data = await response.json();
+                setSelectedUser(data.registration);
                 fetchRegistrations();
             }
         } catch {
             setError("Failed to update card number");
+        } finally {
+            setUpdating(false);
         }
     };
 
@@ -155,6 +175,65 @@ export default function AnniversaryAdminPage() {
             hour: "2-digit",
             minute: "2-digit",
         });
+    };
+
+    const openUserModal = (reg: Registration) => {
+        setSelectedUser(reg);
+        setCardInput(reg.cardNumber || "");
+        setError("");
+    };
+
+    const closeModal = () => {
+        setSelectedUser(null);
+        setCardInput("");
+        setError("");
+    };
+
+    // Format card number with spaces for display
+    const formatCardNumber = (card: string) => {
+        return card.replace(/(\d{4})/g, "$1 ").trim();
+    };
+
+    // Export to CSV for Excel
+    const exportToCSV = () => {
+        const headers = [
+            "Registration ID",
+            "Name",
+            "Mobile",
+            "Email",
+            "Address",
+            "Birthday",
+            "Anniversary",
+            "Card Number",
+            "Status",
+            "Registered At",
+            "Verified At"
+        ];
+
+        const rows = registrations.map(reg => [
+            reg.id,
+            reg.name,
+            reg.mobile,
+            reg.email,
+            reg.address || "",
+            reg.birthday,
+            reg.anniversary || "",
+            reg.cardNumber || "",
+            reg.verified ? "Verified" : "Pending",
+            reg.createdAt,
+            reg.verifiedAt || ""
+        ]);
+
+        const csvContent = [
+            headers.join(","),
+            ...rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(","))
+        ].join("\n");
+
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `anniversary-registrations-${new Date().toISOString().split("T")[0]}.csv`;
+        link.click();
     };
 
     // Login Screen
@@ -205,7 +284,7 @@ export default function AnniversaryAdminPage() {
     return (
         <div className="min-h-screen bg-gray-50 pt-20">
             {/* Header */}
-            <header className="bg-white shadow-sm sticky top-0 z-10">
+            <header className="bg-white shadow-sm border-b">
                 <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
                     <div>
                         <h1 className="text-xl font-bold text-gray-800">🎊 Anniversary Membership Admin</h1>
@@ -255,163 +334,214 @@ export default function AnniversaryAdminPage() {
                         </button>
                     ))}
                     <button
+                        onClick={exportToCSV}
+                        className="ml-auto px-4 py-2 bg-green-500 text-white rounded-lg text-sm font-medium hover:bg-green-600"
+                    >
+                        📥 Export CSV
+                    </button>
+                    <button
                         onClick={fetchRegistrations}
-                        className="ml-auto px-4 py-2 bg-white rounded-lg text-sm text-gray-600 hover:bg-gray-100"
+                        className="px-4 py-2 bg-white rounded-lg text-sm text-gray-600 hover:bg-gray-100"
                     >
                         🔄 Refresh
                     </button>
                 </div>
 
-                {/* Error */}
-                {error && (
-                    <div className="bg-red-50 text-red-600 px-4 py-3 rounded-xl text-sm mb-4">
-                        {error}
-                    </div>
-                )}
-
-                {/* Registrations Table */}
-                <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+                {/* Registrations Grid */}
+                <div className="bg-white rounded-xl shadow-sm p-4">
                     {loading ? (
                         <div className="p-8 text-center text-gray-500">Loading...</div>
                     ) : registrations.length === 0 ? (
-                        <div className="p-8 text-center text-gray-500">
-                            No registrations found
-                        </div>
+                        <div className="p-8 text-center text-gray-500">No registrations found</div>
                     ) : (
-                        <div className="overflow-x-auto">
-                            <table className="w-full">
-                                <thead className="bg-gray-50 border-b">
-                                    <tr>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            ID
-                                        </th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            Customer
-                                        </th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            Contact
-                                        </th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            Birthday / Anniversary
-                                        </th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            Card #
-                                        </th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            Status
-                                        </th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-100">
-                                    {registrations.map((reg) => (
-                                        <tr key={reg.id} className="hover:bg-gray-50">
-                                            <td className="px-4 py-3">
-                                                <span className="text-xs font-mono bg-gray-100 px-2 py-1 rounded">
-                                                    {reg.id}
-                                                </span>
-                                                <p className="text-xs text-gray-400 mt-1">
-                                                    {formatDateTime(reg.createdAt)}
-                                                </p>
-                                            </td>
-                                            <td className="px-4 py-3">
-                                                <p className="font-medium text-gray-800">{reg.name}</p>
-                                                <p className="text-xs text-gray-500">{reg.address || "No address"}</p>
-                                            </td>
-                                            <td className="px-4 py-3">
-                                                <a
-                                                    href={`tel:+91${reg.mobile}`}
-                                                    className="text-orange-600 hover:underline block"
-                                                >
-                                                    📞 {reg.mobile}
-                                                </a>
-                                                <p className="text-xs text-gray-500">{reg.email}</p>
-                                                <a
-                                                    href={`https://wa.me/91${reg.mobile}`}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="text-xs text-green-600 hover:underline"
-                                                >
-                                                    💬 WhatsApp
-                                                </a>
-                                            </td>
-                                            <td className="px-4 py-3 text-sm">
-                                                <p>🎂 {formatDate(reg.birthday)}</p>
-                                                {reg.anniversary && (
-                                                    <p>💝 {formatDate(reg.anniversary)}</p>
-                                                )}
-                                            </td>
-                                            <td className="px-4 py-3">
-                                                {editingCard === reg.id ? (
-                                                    <div className="flex gap-2">
-                                                        <input
-                                                            type="text"
-                                                            value={cardInput}
-                                                            onChange={(e) => setCardInput(e.target.value)}
-                                                            className="w-24 px-2 py-1 border rounded text-sm"
-                                                            placeholder="Card #"
-                                                        />
-                                                        <button
-                                                            onClick={() => updateCardNumber(reg.id)}
-                                                            className="text-green-600 text-sm"
-                                                        >
-                                                            ✓
-                                                        </button>
-                                                        <button
-                                                            onClick={() => setEditingCard(null)}
-                                                            className="text-red-600 text-sm"
-                                                        >
-                                                            ✗
-                                                        </button>
-                                                    </div>
-                                                ) : (
-                                                    <button
-                                                        onClick={() => {
-                                                            setEditingCard(reg.id);
-                                                            setCardInput(reg.cardNumber || "");
-                                                        }}
-                                                        className="text-sm text-gray-600 hover:text-orange-600"
-                                                    >
-                                                        {reg.cardNumber || "Assign Card #"}
-                                                    </button>
-                                                )}
-                                            </td>
-                                            <td className="px-4 py-3">
-                                                <span
-                                                    className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${reg.verified
-                                                        ? "bg-green-100 text-green-700"
-                                                        : "bg-amber-100 text-amber-700"
-                                                        }`}
-                                                >
-                                                    {reg.verified ? "✓ Verified" : "⏳ Pending"}
-                                                </span>
-                                                {reg.verifiedAt && (
-                                                    <p className="text-xs text-gray-400 mt-1">
-                                                        {formatDateTime(reg.verifiedAt)}
-                                                    </p>
-                                                )}
-                                            </td>
-                                            <td className="px-4 py-3">
-                                                <button
-                                                    onClick={() => toggleVerification(reg.id, reg.verified)}
-                                                    className={`px-3 py-1 rounded-lg text-sm font-medium transition-all ${reg.verified
-                                                        ? "bg-gray-100 text-gray-600 hover:bg-red-100 hover:text-red-600"
-                                                        : "bg-green-500 text-white hover:bg-green-600"
-                                                        }`}
-                                                >
-                                                    {reg.verified ? "Unverify" : "Verify Payment"}
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                            {registrations.map((reg) => (
+                                <button
+                                    key={reg.id}
+                                    onClick={() => openUserModal(reg)}
+                                    className="text-left p-4 border border-gray-100 rounded-xl hover:border-orange-300 hover:shadow-md transition-all bg-white"
+                                >
+                                    <div className="flex items-start justify-between mb-2">
+                                        <div>
+                                            <p className="font-semibold text-gray-800">{reg.name}</p>
+                                            <p className="text-sm text-gray-500">{reg.mobile}</p>
+                                        </div>
+                                        <span
+                                            className={`px-2 py-1 rounded-full text-xs font-medium ${reg.verified
+                                                ? "bg-green-100 text-green-700"
+                                                : "bg-amber-100 text-amber-700"
+                                                }`}
+                                        >
+                                            {reg.verified ? "✓ Verified" : "Pending"}
+                                        </span>
+                                    </div>
+                                    <p className="text-xs text-gray-400">
+                                        {formatDateTime(reg.createdAt)}
+                                    </p>
+                                    {reg.cardNumber && (
+                                        <p className="text-xs text-orange-600 mt-1 font-mono">
+                                            Card: {formatCardNumber(reg.cardNumber)}
+                                        </p>
+                                    )}
+                                </button>
+                            ))}
                         </div>
                     )}
                 </div>
             </div>
+
+            {/* User Detail Modal */}
+            <AnimatePresence>
+                {selectedUser && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+                        onClick={closeModal}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.95, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.95, opacity: 0 }}
+                            className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            {/* Modal Header */}
+                            <div className="bg-gradient-to-r from-orange-500 to-amber-500 p-4 text-white">
+                                <div className="flex items-center justify-between">
+                                    <h2 className="text-lg font-bold">{selectedUser.name}</h2>
+                                    <button onClick={closeModal} className="text-white/80 hover:text-white">
+                                        ✕
+                                    </button>
+                                </div>
+                                <p className="text-sm text-white/80">{selectedUser.id}</p>
+                            </div>
+
+                            {/* Modal Body */}
+                            <div className="p-6 space-y-4">
+                                {/* Contact Info */}
+                                <div className="space-y-2">
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-gray-500">📞</span>
+                                        <a href={`tel:+91${selectedUser.mobile}`} className="text-orange-600 hover:underline">
+                                            {selectedUser.mobile}
+                                        </a>
+                                        <a
+                                            href={`https://wa.me/91${selectedUser.mobile}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-green-600 text-sm hover:underline"
+                                        >
+                                            WhatsApp
+                                        </a>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-gray-500">📧</span>
+                                        <span className="text-gray-700">{selectedUser.email}</span>
+                                    </div>
+                                    {selectedUser.address && (
+                                        <div className="flex items-center gap-3">
+                                            <span className="text-gray-500">📍</span>
+                                            <span className="text-gray-700">{selectedUser.address}</span>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Dates */}
+                                <div className="bg-gray-50 rounded-xl p-3 space-y-2">
+                                    <div className="flex justify-between text-sm">
+                                        <span className="text-gray-500">🎂 Birthday</span>
+                                        <span className="font-medium">{formatDate(selectedUser.birthday)}</span>
+                                    </div>
+                                    {selectedUser.anniversary && (
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-gray-500">💝 Anniversary</span>
+                                            <span className="font-medium">{formatDate(selectedUser.anniversary)}</span>
+                                        </div>
+                                    )}
+                                    <div className="flex justify-between text-sm">
+                                        <span className="text-gray-500">📅 Registered</span>
+                                        <span className="font-medium">{formatDateTime(selectedUser.createdAt)}</span>
+                                    </div>
+                                </div>
+
+                                {/* Card Number */}
+                                <div className="space-y-2">
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Card Number (16 digits)
+                                    </label>
+                                    <div className="flex gap-2">
+                                        <input
+                                            type="text"
+                                            inputMode="numeric"
+                                            pattern="\d*"
+                                            maxLength={16}
+                                            value={cardInput}
+                                            onChange={(e) => {
+                                                // Only allow digits
+                                                const value = e.target.value.replace(/\D/g, "");
+                                                setCardInput(value);
+                                            }}
+                                            className="flex-1 px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent font-mono tracking-wider"
+                                            placeholder="0000000000000000"
+                                        />
+                                        <button
+                                            onClick={updateCardNumber}
+                                            disabled={updating}
+                                            className="px-4 py-2 bg-orange-500 text-white rounded-xl hover:bg-orange-600 disabled:opacity-50"
+                                        >
+                                            {updating ? "..." : "Save"}
+                                        </button>
+                                    </div>
+                                    {cardInput && cardInput.length !== 16 && (
+                                        <p className="text-xs text-red-500">{16 - cardInput.length} more digits needed</p>
+                                    )}
+                                </div>
+
+                                {/* Error */}
+                                {error && (
+                                    <div className="bg-red-50 text-red-600 px-4 py-2 rounded-xl text-sm">
+                                        {error}
+                                    </div>
+                                )}
+
+                                {/* Verification Status & Action */}
+                                <div className="pt-4 border-t">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <div>
+                                            <p className="text-sm text-gray-500">Payment Status</p>
+                                            <p className={`font-semibold ${selectedUser.verified ? "text-green-600" : "text-amber-600"}`}>
+                                                {selectedUser.verified ? "✓ Verified" : "⏳ Pending Verification"}
+                                            </p>
+                                            {selectedUser.verifiedAt && (
+                                                <p className="text-xs text-gray-400">
+                                                    Verified on {formatDateTime(selectedUser.verifiedAt)}
+                                                </p>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        onClick={() => toggleVerification(!selectedUser.verified)}
+                                        disabled={updating}
+                                        className={`w-full py-3 rounded-xl font-semibold transition-all disabled:opacity-50 ${selectedUser.verified
+                                            ? "bg-red-100 text-red-600 hover:bg-red-200"
+                                            : "bg-green-500 text-white hover:bg-green-600"
+                                            }`}
+                                    >
+                                        {updating
+                                            ? "Updating..."
+                                            : selectedUser.verified
+                                                ? "❌ Mark as Unverified"
+                                                : "✓ Verify Payment"}
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }

@@ -630,7 +630,7 @@ export default function AnniversaryPage() {
                                     />
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-4">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">
                                             Birthday *
@@ -640,18 +640,20 @@ export default function AnniversaryPage() {
                                             required
                                             value={formData.birthday}
                                             onChange={(e) => setFormData({ ...formData, birthday: e.target.value })}
-                                            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                                            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all appearance-none bg-white"
+                                            style={{ minHeight: '48px' }}
                                         />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                                            Anniversary
+                                            Anniversary (optional)
                                         </label>
                                         <input
                                             type="date"
                                             value={formData.anniversary}
                                             onChange={(e) => setFormData({ ...formData, anniversary: e.target.value })}
-                                            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                                            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all appearance-none bg-white"
+                                            style={{ minHeight: '48px' }}
                                         />
                                     </div>
                                 </div>
@@ -688,10 +690,13 @@ export default function AnniversaryPage() {
 
                                 <button
                                     type="submit"
-                                    disabled={isSubmitting}
-                                    className="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-4 rounded-xl font-semibold text-lg hover:shadow-lg hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                    disabled={isSubmitting || !acceptedTerms}
+                                    className={`w-full py-4 rounded-xl font-semibold text-lg transition-all ${acceptedTerms
+                                            ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:shadow-lg hover:scale-[1.02]"
+                                            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                        } disabled:opacity-50 disabled:cursor-not-allowed`}
                                 >
-                                    {isSubmitting ? "Submitting..." : "Proceed to Payment →"}
+                                    {isSubmitting ? "Submitting..." : acceptedTerms ? "Proceed to Payment →" : "Accept Terms to Continue"}
                                 </button>
                             </form>
                         </motion.div>
