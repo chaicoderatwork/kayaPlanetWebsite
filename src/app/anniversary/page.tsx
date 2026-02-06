@@ -588,6 +588,10 @@ export default function AnniversaryPage() {
                                                     "
                                                 />
 
+                                                <p className="text-xs text-amber-700 italic">
+                                                    For faster verification, please ensure the screenshot clearly shows the <strong>UTR / Reference Number</strong>.
+                                                </p>
+
                                                 {uploadPreview && (
                                                     <div className="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
                                                         <Image
@@ -788,8 +792,8 @@ export default function AnniversaryPage() {
                                             </svg>
                                         </div>
                                         <div>
-                                            <h4 className="font-semibold text-gray-800">Flat 20% on all Tich products</h4>
-                                            <p className="text-sm text-gray-600">Exclusive discount on our premium Tich product range.</p>
+                                            <h4 className="font-semibold text-gray-800">Flat 20% on all tich products</h4>
+                                            <p className="text-sm text-gray-600">Exclusive discount on our premium tich product range.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -828,7 +832,7 @@ export default function AnniversaryPage() {
                                 <div className="flex items-center gap-3">
                                     <div className="w-8 h-8 bg-orange-200 rounded-full flex items-center justify-center font-bold text-orange-700 text-xs">KP</div>
                                     <div>
-                                        <p className="text-sm font-semibold text-gray-800">Happy Member</p>
+                                        <p className="text-sm font-semibold text-gray-800">r</p>
                                     </div>
                                 </div>
                             </div>

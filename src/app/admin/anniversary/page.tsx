@@ -35,6 +35,17 @@ export default function AnniversaryAdminPage() {
     const [selectedUser, setSelectedUser] = useState<Registration | null>(null);
     const [cardInput, setCardInput] = useState("");
     const [updating, setUpdating] = useState(false);
+    const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
+
+    // Lock body scroll when modal is open
+    useEffect(() => {
+        if (selectedUser || fullscreenImage) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset";
+        }
+        return () => { document.body.style.overflow = "unset"; };
+    }, [selectedUser, fullscreenImage]);
 
     const fetchRegistrations = useCallback(async () => {
         setLoading(true);
@@ -398,14 +409,14 @@ export default function AnniversaryAdminPage() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+                        className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-sm"
                         onClick={closeModal}
                     >
                         <motion.div
-                            initial={{ scale: 0.95, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.95, opacity: 0 }}
-                            className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
+                            initial={{ y: "100%", opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: "100%", opacity: 0 }}
+                            className="bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
                             onClick={(e) => e.stopPropagation()}
                         >
                             {/* Modal Header */}
@@ -504,11 +515,14 @@ export default function AnniversaryAdminPage() {
                                 {selectedUser.paymentScreenshot && (
                                     <div className="space-y-2 pt-2 border-t">
                                         <p className="block text-sm font-medium text-gray-700">Payment Proof</p>
-                                        <div className="border border-gray-200 rounded-xl overflow-hidden bg-gray-50">
+                                        <div
+                                            className="border border-gray-200 rounded-xl overflow-hidden bg-gray-50 cursor-zoom-in"
+                                            onClick={() => setFullscreenImage(selectedUser.paymentScreenshot!)}
+                                        >
                                             <img
                                                 src={selectedUser.paymentScreenshot}
                                                 alt="Payment Proof"
-                                                className="w-full h-auto max-h-80 object-contain"
+                                                className="w-full h-auto max-h-60 object-contain"
                                             />
                                         </div>
                                     </div>
@@ -554,6 +568,31 @@ export default function AnniversaryAdminPage() {
                                 </div>
                             </div>
                         </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Fullscreen Image Modal */}
+            <AnimatePresence>
+                {fullscreenImage && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[60] bg-black flex items-center justify-center p-2"
+                        onClick={() => setFullscreenImage(null)}
+                    >
+                        <button
+                            className="absolute top-4 right-4 text-white bg-black/50 p-2 rounded-full hover:bg-white/20"
+                            onClick={() => setFullscreenImage(null)}
+                        >
+                            ✕
+                        </button>
+                        <img
+                            src={fullscreenImage}
+                            alt="Full Screen Proof"
+                            className="max-w-full max-h-full object-contain"
+                        />
                     </motion.div>
                 )}
             </AnimatePresence>
