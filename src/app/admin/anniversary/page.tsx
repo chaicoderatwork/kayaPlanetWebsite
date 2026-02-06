@@ -15,6 +15,7 @@ interface Registration {
     cardNumber: string | null;
     createdAt: string;
     verifiedAt: string | null;
+    paymentScreenshot?: string;
 }
 
 interface Stats {
@@ -498,6 +499,20 @@ export default function AnniversaryAdminPage() {
                                         <p className="text-xs text-red-500">{16 - cardInput.length} more digits needed</p>
                                     )}
                                 </div>
+
+                                {/* Payment Screenshot */}
+                                {selectedUser.paymentScreenshot && (
+                                    <div className="space-y-2 pt-2 border-t">
+                                        <p className="block text-sm font-medium text-gray-700">Payment Proof</p>
+                                        <div className="border border-gray-200 rounded-xl overflow-hidden bg-gray-50">
+                                            <img
+                                                src={selectedUser.paymentScreenshot}
+                                                alt="Payment Proof"
+                                                className="w-full h-auto max-h-80 object-contain"
+                                            />
+                                        </div>
+                                    </div>
+                                )}
 
                                 {/* Error */}
                                 {error && (
