@@ -1,14 +1,24 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import whatsappIcon from '../../public/whatsapp-icon.jpg'
 
+// Pages where WhatsApp widget should NOT show
+const EXCLUDED_PATHS = ['/anniversary', '/admin']
+
 export default function WhatsAppChatBox() {
+  const pathname = usePathname()
   const [isVisible, setIsVisible] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
 
+  // Check if current path is excluded
+  const isExcludedPath = EXCLUDED_PATHS.some(path => pathname?.startsWith(path))
+
   useEffect(() => {
+    if (isExcludedPath) return
+
     const visibilityTimer = setTimeout(() => {
       setIsVisible(true)
     }, 3000)
@@ -21,7 +31,7 @@ export default function WhatsAppChatBox() {
       clearTimeout(visibilityTimer)
       clearTimeout(expansionTimer)
     }
-  }, [])
+  }, [isExcludedPath])
 
   const handleExpand = () => {
     setIsExpanded(true)
@@ -30,6 +40,9 @@ export default function WhatsAppChatBox() {
   const handleCollapse = () => {
     setIsExpanded(false)
   }
+
+  // Don't render on excluded paths
+  if (isExcludedPath) return null
 
   const currentTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }).toLowerCase()
 

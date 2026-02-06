@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { X, Calendar, Phone, User, Sparkles, CheckCircle, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEnquiryPopup } from "./EnquiryPopupContext";
@@ -19,7 +20,11 @@ const SERVICES = [
 const STORAGE_KEY = "kp_enquiry_shown";
 const POPUP_DELAY = 12000; // 12 seconds
 
+// Pages where popup should NOT show
+const EXCLUDED_PATHS = ["/anniversary", "/admin"];
+
 export default function EnquiryPopup() {
+    const pathname = usePathname();
     const { isOpen, closeEnquiryPopup, openEnquiryPopup } = useEnquiryPopup();
     const [formData, setFormData] = useState({
         name: "",
@@ -31,8 +36,13 @@ export default function EnquiryPopup() {
     const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState("");
 
-    // Auto-show popup after delay (only once per session)
+    // Check if current path is excluded
+    const isExcludedPath = EXCLUDED_PATHS.some(path => pathname?.startsWith(path));
+
+    // Auto-show popup after delay (only once per session, not on excluded paths)
     useEffect(() => {
+        if (isExcludedPath) return;
+
         const hasSeenPopup = localStorage.getItem(STORAGE_KEY);
 
         if (!hasSeenPopup) {
@@ -42,7 +52,7 @@ export default function EnquiryPopup() {
 
             return () => clearTimeout(timer);
         }
-    }, [openEnquiryPopup]);
+    }, [openEnquiryPopup, isExcludedPath]);
 
     const handleClose = () => {
         closeEnquiryPopup();
@@ -96,6 +106,9 @@ export default function EnquiryPopup() {
             setIsSubmitting(false);
         }
     };
+
+    // Don't render popup on excluded paths
+    if (isExcludedPath) return null;
 
     return (
         <AnimatePresence>

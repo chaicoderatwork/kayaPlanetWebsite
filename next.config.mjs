@@ -9,7 +9,9 @@ const nextConfig = {
     ],
   },
   // Exclude heavy packages from serverless functions
-  serverExternalPackages: ["sharp"],
+  experimental: {
+    serverComponentsExternalPackages: ["sharp"],
+  },
 };
 
 export default nextConfig;
