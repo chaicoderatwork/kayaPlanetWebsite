@@ -740,6 +740,23 @@ export default function AnniversaryPage() {
                                 💝 Extra 10% on Anniversary Month
                             </span>
                         </div>
+
+                        {/* Dynamic Join Counter */}
+                        <div className="mt-8">
+                            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-full shadow-lg animate-pulse">
+                                <span className="text-2xl">🔥</span>
+                                <span className="font-bold text-lg">
+                                    {(() => {
+                                        const baseCount = 600;
+                                        const startDate = new Date("2026-02-07T00:00:00+05:30");
+                                        const now = new Date();
+                                        const hoursPassed = Math.floor((now.getTime() - startDate.getTime()) / (1000 * 60 * 60));
+                                        const incrementsOf4Hours = Math.floor(hoursPassed / 4);
+                                        return baseCount + (incrementsOf4Hours * 100);
+                                    })()}+ members joined!
+                                </span>
+                            </div>
+                        </div>
                     </motion.div>
                 </div>
             </section>
