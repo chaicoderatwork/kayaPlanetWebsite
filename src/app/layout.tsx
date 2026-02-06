@@ -225,7 +225,7 @@ export default function RootLayout({
         />
         <EnquiryPopupProvider>
           <Navbar />
-          <EnquiryPopup />
+          {/* <EnquiryPopup /> */}
           {children}
           <WhatsAppChatBox />
           <footer>
