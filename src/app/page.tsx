@@ -47,24 +47,64 @@ export default function Home() {
       {/* Hero Slider */}
       <HeroSlider />
 
-      {/* Anniversary Promo Section */}
-      <div className="w-full bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600 py-4 px-4 shadow-lg text-white">
-        <Link href="/anniversary" className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 text-center group cursor-pointer">
-          <div className="flex items-center gap-2">
-            <span className="animate-bounce">👑</span>
-            <span className="font-bold text-lg md:text-xl tracking-wide">
-              10th Anniversary Exclusive Membership is Live!
-            </span>
+      {/* Anniversary Dedication Letter Section */}
+      <section className="w-full py-16 md:py-24 px-4 bg-[#FDFBF9]">
+        <div className="max-w-3xl mx-auto bg-[#F8F5F2] p-8 md:p-12 rounded-sm shadow-sm border border-[#E8E4DF] relative">
+          {/* Paper Texture Effect */}
+          <div className="absolute inset-0 opacity-40 mix-blend-multiply pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/cream-paper.png")' }}></div>
+
+          <div className="relative z-10 text-center space-y-6 md:space-y-8">
+            {/* Logo / Header */}
+            <div className="mb-8">
+              <h2 className="text-3xl md:text-4xl font-[family-name:var(--font-stardom)] text-gray-800">
+                KAYA PLANET
+              </h2>
+              <div className="w-16 h-px bg-orange-300 mx-auto mt-4"></div>
+            </div>
+
+            {/* Letter Body */}
+            <div className="font-[family-name:var(--font-gelasio)] text-gray-700 leading-relaxed space-y-6 text-justify md:text-center text-sm md:text-base">
+              <p>
+                <span className="text-3xl float-left mr-2 font-[family-name:var(--font-stardom)] text-orange-600">W</span>
+                e started with a simple dream to give every woman in Kanpur a truly luxurious and soothing experience.
+              </p>
+              <p>
+                On 14th of Feb as we complete <span className="text-orange-600 italic font-medium">10 beautiful years</span>, it still feels unreal. What began as a women-only space has now grown into a premium unisex salon, and we are happy to share that our homegrown brand <span className="font-bold text-orange-800">tich</span> is now serving more than <span className="font-semibold">5k+ customers</span> every month. None of this would have been possible without <em>you</em> who stayed with us through the journey.
+              </p>
+              <p>
+                This gift box is our small way of saying thank you for being a part of our story. Your loyalty has helped us grow, your feedback has made us better, and your love has kept us going, especially on the hard days. We truly don't take it for granted.
+              </p>
+              <p>
+                To celebrate our anniversary with you, we would also love to give you a <span className="font-bold text-gray-900">lifetime 10% discount on all services</span> when you purchase our membership card just at Rs. 1000 (Terms & Conditions apply).
+              </p>
+              <p className="italic text-gray-600 mt-8">
+                From the bottom of our hearts, thank you for trusting us for 10 years. Here's to many more smiles, transformations, and moments together.
+              </p>
+            </div>
+
+            {/* Signature */}
+            <div className="mt-12 pt-8">
+              <p className="font-[family-name:var(--font-stardom)] text-4xl text-orange-400 mb-2">Thank You</p>
+              <p className="font-[family-name:var(--font-gelasio)] text-gray-600 italic">for being a part of our story..</p>
+
+              <div className="mt-6 text-gray-800 font-medium">
+                <p>With love,</p>
+                <p className="text-lg">Team Kaya Planet</p>
+              </div>
+            </div>
+
+            {/* CTA Button */}
+            <div className="pt-8">
+              <Link
+                href="/anniversary"
+                className="inline-block bg-[#111] text-white px-8 py-3 rounded-full hover:bg-orange-600 transition-colors duration-300 tracking-wider text-sm font-medium uppercase"
+              >
+                Join the Celebration
+              </Link>
+            </div>
           </div>
-          <span className="hidden md:block w-px h-6 bg-white/30"></span>
-          <div className="flex items-center gap-2 text-sm md:text-base bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full group-hover:bg-white group-hover:text-orange-600 transition-all duration-300 font-semibold">
-            Get Lifetime Discounts Now
-            <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </div>
-        </Link>
-      </div>
+        </div>
+      </section>
 
       {/* Reel Slider - Our Work */}
       <ReelSlider />

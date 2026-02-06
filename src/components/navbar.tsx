@@ -98,24 +98,24 @@ export default function Navbar() {
                                 {item.name}
                             </Link>
                         ))}
-                        <button
+                        {/* <button
                             onClick={openEnquiryPopup}
                             className="bg-gradient-to-r from-[#F27708] to-[#F89134] text-white px-5 py-2 rounded-full flex items-center space-x-2 hover:shadow-lg hover:shadow-orange-500/25 transition-all duration-300"
                         >
                             <Calendar className="h-4 w-4" />
                             <span>BOOK NOW</span>
-                        </button>
+                        </button> */}
                     </div>
 
                     {/* Mobile menu button and book button */}
                     <div className="md:hidden flex items-center gap-2 flex-shrink-0">
-                        <button
+                        {/* <button
                             onClick={openEnquiryPopup}
                             className="bg-gradient-to-r from-[#F27708] to-[#F89134] text-white px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1 hover:shadow-lg transition-all duration-300 whitespace-nowrap"
                         >
                             <Calendar className="h-3.5 w-3.5" />
                             <span>BOOK</span>
-                        </button>
+                        </button> */}
                         <button
                             onClick={toggleMenu}
                             className="text-[#F27708] hover:text-[#F89134] focus:outline-none ml-1"
