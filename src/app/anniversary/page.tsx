@@ -659,7 +659,7 @@ export default function AnniversaryPage() {
                                         pattern="[6-9][0-9]{9}"
                                         value={lookupMobile}
                                         onChange={(e) => setLookupMobile(e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all text-lg"
+                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all text-lg bg-white text-gray-900"
                                         placeholder="Enter your registered mobile"
                                         maxLength={10}
                                     />
@@ -870,7 +870,7 @@ export default function AnniversaryPage() {
                                         required
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all bg-white text-gray-900"
                                         placeholder="Enter your full name"
                                     />
                                 </div>
@@ -890,7 +890,7 @@ export default function AnniversaryPage() {
                                             const value = e.target.value.replace(/\D/g, "");
                                             setFormData({ ...formData, mobile: value });
                                         }}
-                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all bg-white text-gray-900"
                                         placeholder="10-digit mobile number"
                                         maxLength={10}
                                     />
@@ -905,7 +905,7 @@ export default function AnniversaryPage() {
                                         required
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all bg-white text-gray-900"
                                         placeholder="your@email.com"
                                     />
                                 </div>
@@ -917,7 +917,7 @@ export default function AnniversaryPage() {
                                     <textarea
                                         value={formData.address}
                                         onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all bg-white text-gray-900"
                                         placeholder="Your address (optional)"
                                         rows={2}
                                     />
@@ -934,7 +934,7 @@ export default function AnniversaryPage() {
                                             max={new Date().toISOString().split('T')[0]}
                                             value={formData.birthday}
                                             onChange={(e) => setFormData({ ...formData, birthday: e.target.value })}
-                                            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all appearance-none bg-white"
+                                            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all appearance-none bg-white text-gray-900"
                                             style={{ minHeight: '48px' }}
                                         />
                                     </div>
@@ -947,7 +947,7 @@ export default function AnniversaryPage() {
                                             max={new Date().toISOString().split('T')[0]}
                                             value={formData.anniversary}
                                             onChange={(e) => setFormData({ ...formData, anniversary: e.target.value })}
-                                            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all appearance-none bg-white"
+                                            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all appearance-none bg-white text-gray-900"
                                             style={{ minHeight: '48px' }}
                                         />
                                     </div>
