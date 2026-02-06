@@ -45,6 +45,11 @@ export default function AnniversaryPage() {
     const [uploadPreview, setUploadPreview] = useState<string | null>(null);
     const [isUploading, setIsUploading] = useState(false);
 
+    // Scroll to top when step changes
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [step]);
+
     // Compress image before upload
     const compressImage = (file: File): Promise<string> => {
         return new Promise((resolve, reject) => {
@@ -449,6 +454,7 @@ export default function AnniversaryPage() {
                                                 <li>Membership is valid for 1 year from the date of activation.</li>
                                                 <li>Benefits are non-transferable and available only to the registered member.</li>
                                                 <li>Discounts cannot be combined with other offers unless specified.</li>
+                                                <li>Discount not valid on retail products - discount on retail products is as per salon's discretion.</li>
                                                 <li>Payment is non-refundable once the membership is activated.</li>
                                                 <li>Kaya Planet reserves the right to modify benefits with prior notice.</li>
                                                 <li>Birthday and Anniversary dates cannot be changed after registration.</li>
@@ -774,6 +780,18 @@ export default function AnniversaryPage() {
                                             <p className="text-sm text-gray-600">Get 20% off during your birthday and anniversary months.</p>
                                         </div>
                                     </div>
+
+                                    <div className="flex items-start gap-4">
+                                        <div className="bg-orange-100 p-3 rounded-full text-orange-600">
+                                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-semibold text-gray-800">Flat 20% on all Tich products</h4>
+                                            <p className="text-sm text-gray-600">Exclusive discount on our premium Tich product range.</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -792,6 +810,25 @@ export default function AnniversaryPage() {
                                     <div className="flex items-center gap-3">
                                         <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center font-bold text-gray-500 text-sm">3</div>
                                         <p className="text-sm text-gray-600">Get your physical card</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Testimonial */}
+                            <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-3xl p-6 border border-orange-100 mt-6">
+                                <div className="flex items-center gap-2 mb-3">
+                                    <div className="flex text-orange-400">
+                                        {"★★★★★"}
+                                    </div>
+                                    <span className="text-xs font-semibold text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full">Client Feedback</span>
+                                </div>
+                                <blockquote className="text-gray-700 italic text-sm leading-relaxed mb-3">
+                                    &ldquo;This was the single smartest purchase I did in my lifetime as the breakeven is literally one salon visit. That too at a place you already visit and trust.&rdquo;
+                                </blockquote>
+                                <div className="flex items-center gap-3">
+                                    <div className="w-8 h-8 bg-orange-200 rounded-full flex items-center justify-center font-bold text-orange-700 text-xs">KP</div>
+                                    <div>
+                                        <p className="text-sm font-semibold text-gray-800">Happy Member</p>
                                     </div>
                                 </div>
                             </div>
