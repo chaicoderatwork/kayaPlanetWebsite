@@ -1,117 +1,117 @@
+
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import fs from "fs";
-import path from "path";
+import clientPromise from "@/lib/mongodb";
 
 interface Registration {
-    id: string;
-    name: string;
-    mobile: string;
-    email: string;
-    address: string;
-    birthday: string;
-    anniversary: string;
-    verified: boolean;
-    cardNumber: string | null;
-    createdAt: string;
-    verifiedAt: string | null;
+  id: string;
+  name: string;
+  mobile: string;
+  email: string;
+  address: string;
+  birthday: string;
+  anniversary: string;
+  verified: boolean;
+  cardNumber: string | null;
+  createdAt: string;
+  verifiedAt: string | null;
 }
-
-interface RegistrationData {
-    registrations: Registration[];
-}
-
-const DATA_FILE = path.join(process.cwd(), "data", "anniversary-registrations.json");
 
 function generateId(): string {
-    return `KP${Date.now().toString(36).toUpperCase()}${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
-}
-
-function readData(): RegistrationData {
-    try {
-        const data = fs.readFileSync(DATA_FILE, "utf-8");
-        return JSON.parse(data);
-    } catch {
-        return { registrations: [] };
-    }
-}
-
-function writeData(data: RegistrationData): void {
-    try {
-        fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
-    } catch (error) {
-        console.warn("Could not save registration to local file (expected in serverless/Vercel):", error);
-    }
+  return `KP${Date.now().toString(36).toUpperCase()}${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
 }
 
 export async function POST(req: NextRequest) {
-    try {
-        const body = await req.json();
-        const { name, mobile, email, address, birthday, anniversary } = body;
+  try {
+    const body = await req.json();
+    const { name, mobile, email, address, birthday, anniversary } = body;
 
-        // ... (validation code remains the same)
+    // Validate required fields
+    if (!name || !mobile || !email || !birthday) {
+      return NextResponse.json(
+        { message: "Name, mobile, email, and birthday are required" },
+        { status: 400 }
+      );
+    }
 
-        // Check for duplicate mobile number
-        const data = readData();
-        const existingRegistration = data.registrations.find(
-            (r) => r.mobile === mobile
-        );
-        if (existingRegistration) {
-            return NextResponse.json(
-                { message: "This mobile number is already registered for the membership." },
-                { status: 400 }
-            );
-        }
+    // Validate mobile number
+    if (!/^[6-9]\d{9}$/.test(mobile)) {
+      return NextResponse.json(
+        { message: "Invalid mobile number. Please enter a valid 10-digit Indian mobile number." },
+        { status: 400 }
+      );
+    }
 
-        // ... (newRegistration object creation remains the same)
-        const newRegistration: Registration = {
-            id: generateId(),
-            name: name.trim(),
-            mobile,
-            email: email.toLowerCase().trim(),
-            address: address?.trim() || "",
-            birthday,
-            anniversary: anniversary || "",
-            verified: false,
-            cardNumber: null,
-            createdAt: new Date().toISOString(),
-            verifiedAt: null,
-        };
+    // Validate email
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return NextResponse.json(
+        { message: "Invalid email address" },
+        { status: 400 }
+      );
+    }
 
-        // Add to local data (will fail silently on Vercel)
-        data.registrations.push(newRegistration);
-        writeData(data);
+    const client = await clientPromise;
+    const db = client.db("kayaPlanet");
+    const collection = db.collection("anniversaryRegistrations");
 
-        // Send email notification to admin
-        if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-            try {
-                const transporter = nodemailer.createTransport({
-                    service: "gmail",
-                    auth: {
-                        user: process.env.EMAIL_USER,
-                        pass: process.env.EMAIL_PASS,
-                    },
-                });
+    // Check for duplicate mobile number
+    const existingRegistration = await collection.findOne({ mobile });
 
-                const formattedBirthday = new Date(birthday).toLocaleDateString("en-IN", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                });
+    if (existingRegistration) {
+      return NextResponse.json(
+        { message: "This mobile number is already registered for the membership." },
+        { status: 400 }
+      );
+    }
 
-                const formattedAnniversary = anniversary
-                    ? new Date(anniversary).toLocaleDateString("en-IN", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                    })
-                    : "Not provided";
+    // Create new registration
+    const newRegistration: Registration = {
+      id: generateId(),
+      name: name.trim(),
+      mobile,
+      email: email.toLowerCase().trim(),
+      address: address?.trim() || "",
+      birthday,
+      anniversary: anniversary || "",
+      verified: false,
+      cardNumber: null,
+      createdAt: new Date().toISOString(),
+      verifiedAt: null,
+    };
 
-                await transporter.sendMail({
-                    from: process.env.EMAIL_USER,
-                    to: "kayaplanetacademy@gmail.com",
-                    subject: `🎉 New Anniversary Membership Registration - ${name}`,
-                    html: `
+    // Save to MongoDB
+    await collection.insertOne(newRegistration);
+
+    // Send email notification to admin
+    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+      try {
+        const transporter = nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+          },
+        });
+
+        const formattedBirthday = new Date(birthday).toLocaleDateString("en-IN", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+
+        const formattedAnniversary = anniversary
+          ? new Date(anniversary).toLocaleDateString("en-IN", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })
+          : "Not provided";
+
+        await transporter.sendMail({
+          from: process.env.EMAIL_USER,
+          to: "kayaplanetacademy@gmail.com",
+          subject: `🎉 New Anniversary Membership Registration - ${name}`,
+          html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
               <div style="background: linear-gradient(to right, #F27708, #F89134); padding: 20px; border-radius: 10px 10px 0 0;">
                 <h1 style="color: white; margin: 0; font-size: 24px;">🎊 New Membership Registration!</h1>
@@ -166,25 +166,25 @@ export async function POST(req: NextRequest) {
               </div>
             </div>
           `,
-                });
-            } catch (emailError) {
-                console.error("Failed to send email notification:", emailError);
-                // Don't fail the registration if email fails
-            }
-        }
-
-        return NextResponse.json(
-            {
-                message: "Registration successful!",
-                registrationId: newRegistration.id,
-            },
-            { status: 201 }
-        );
-    } catch (error) {
-        console.error("Registration error:", error);
-        return NextResponse.json(
-            { message: "Failed to process registration. Please try again." },
-            { status: 500 }
-        );
+        });
+      } catch (emailError) {
+        console.error("Failed to send email notification:", emailError);
+        // Don't fail the registration if email fails
+      }
     }
+
+    return NextResponse.json(
+      {
+        message: "Registration successful!",
+        registrationId: newRegistration.id,
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Registration error:", error);
+    return NextResponse.json(
+      { message: "Failed to process registration. Please try again." },
+      { status: 500 }
+    );
+  }
 }

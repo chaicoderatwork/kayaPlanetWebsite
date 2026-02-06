@@ -1,31 +1,6 @@
+
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
-
-interface Registration {
-    id: string;
-    name: string;
-    mobile: string;
-    email: string;
-    address: string;
-    birthday: string;
-    anniversary: string;
-    verified: boolean;
-    cardNumber: string | null;
-    createdAt: string;
-    verifiedAt: string | null;
-}
-
-const DATA_FILE = path.join(process.cwd(), "data", "anniversary-registrations.json");
-
-function readData(): { registrations: Registration[] } {
-    try {
-        const data = fs.readFileSync(DATA_FILE, "utf-8");
-        return JSON.parse(data);
-    } catch {
-        return { registrations: [] };
-    }
-}
+import clientPromise from "@/lib/mongodb";
 
 export async function GET(req: NextRequest) {
     try {
@@ -40,29 +15,29 @@ export async function GET(req: NextRequest) {
             );
         }
 
-        const data = readData();
+        const client = await clientPromise;
+        const db = client.db("kayaPlanet");
+        const collection = db.collection("anniversaryRegistrations");
 
-        // Sort by createdAt descending (newest first)
-        const sortedRegistrations = data.registrations.sort(
-            (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
+        // Fetch all registrations
+        const registrations = await collection.find({}).sort({ createdAt: -1 }).toArray();
 
         // Get filter from query
         const filter = req.nextUrl.searchParams.get("filter");
-        let filteredRegistrations = sortedRegistrations;
+        let filteredRegistrations = registrations;
 
         if (filter === "pending") {
-            filteredRegistrations = sortedRegistrations.filter((r) => !r.verified);
+            filteredRegistrations = registrations.filter((r) => !r.verified);
         } else if (filter === "verified") {
-            filteredRegistrations = sortedRegistrations.filter((r) => r.verified);
+            filteredRegistrations = registrations.filter((r) => r.verified);
         }
 
         return NextResponse.json({
             registrations: filteredRegistrations,
             stats: {
-                total: data.registrations.length,
-                pending: data.registrations.filter((r) => !r.verified).length,
-                verified: data.registrations.filter((r) => r.verified).length,
+                total: registrations.length,
+                pending: registrations.filter((r) => !r.verified).length,
+                verified: registrations.filter((r) => r.verified).length,
             },
         });
     } catch (error) {
@@ -73,3 +48,4 @@ export async function GET(req: NextRequest) {
         );
     }
 }
+

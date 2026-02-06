@@ -1,39 +1,6 @@
+
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
-
-const DATA_FILE = path.join(process.cwd(), "data", "anniversary-registrations.json");
-
-interface Registration {
-    id: string;
-    name: string;
-    mobile: string;
-    email: string;
-    address: string;
-    birthday: string;
-    anniversary: string;
-    verified: boolean;
-    cardNumber: string | null;
-    createdAt: string;
-    verifiedAt: string | null;
-}
-
-interface Data {
-    registrations: Registration[];
-}
-
-// Read existing data
-function readData(): Data {
-    try {
-        if (!fs.existsSync(DATA_FILE)) {
-            return { registrations: [] };
-        }
-        const content = fs.readFileSync(DATA_FILE, "utf-8");
-        return JSON.parse(content);
-    } catch {
-        return { registrations: [] };
-    }
-}
+import clientPromise from "@/lib/mongodb";
 
 // Mask name for privacy (show first 2 chars + asterisks)
 function maskName(name: string): string {
@@ -65,8 +32,11 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        const data = readData();
-        const registration = data.registrations.find((r) => r.mobile === mobile);
+        const client = await clientPromise;
+        const db = client.db("kayaPlanet");
+        const collection = db.collection("anniversaryRegistrations");
+
+        const registration = await collection.findOne({ mobile });
 
         if (!registration) {
             return NextResponse.json(
@@ -106,3 +76,4 @@ export async function POST(req: NextRequest) {
         );
     }
 }
+

@@ -1,35 +1,6 @@
+
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
-
-interface Registration {
-    id: string;
-    name: string;
-    mobile: string;
-    email: string;
-    address: string;
-    birthday: string;
-    anniversary: string;
-    verified: boolean;
-    cardNumber: string | null;
-    createdAt: string;
-    verifiedAt: string | null;
-}
-
-const DATA_FILE = path.join(process.cwd(), "data", "anniversary-registrations.json");
-
-function readData(): { registrations: Registration[] } {
-    try {
-        const data = fs.readFileSync(DATA_FILE, "utf-8");
-        return JSON.parse(data);
-    } catch {
-        return { registrations: [] };
-    }
-}
-
-function writeData(data: { registrations: Registration[] }): void {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
-}
+import clientPromise from "@/lib/mongodb";
 
 export async function PATCH(req: NextRequest) {
     try {
@@ -53,35 +24,45 @@ export async function PATCH(req: NextRequest) {
             );
         }
 
-        const data = readData();
-        const registrationIndex = data.registrations.findIndex(
-            (r) => r.id === registrationId
+        const client = await clientPromise;
+        const db = client.db("kayaPlanet");
+        const collection = db.collection("anniversaryRegistrations");
+
+        // Prepare update object
+        const updateFields: any = {};
+
+        if (verified !== undefined) {
+            updateFields.verified = verified;
+            updateFields.verifiedAt = verified ? new Date().toISOString() : null;
+        }
+
+        if (cardNumber !== undefined) {
+            updateFields.cardNumber = cardNumber;
+        }
+
+        if (Object.keys(updateFields).length === 0) {
+            return NextResponse.json(
+                { message: "No valid fields to update" },
+                { status: 400 }
+            );
+        }
+
+        const result = await collection.findOneAndUpdate(
+            { id: registrationId },
+            { $set: updateFields },
+            { returnDocument: 'after' }
         );
 
-        if (registrationIndex === -1) {
+        if (!result) {
             return NextResponse.json(
                 { message: "Registration not found" },
                 { status: 404 }
             );
         }
 
-        // Update registration
-        if (verified !== undefined) {
-            data.registrations[registrationIndex].verified = verified;
-            data.registrations[registrationIndex].verifiedAt = verified
-                ? new Date().toISOString()
-                : null;
-        }
-
-        if (cardNumber !== undefined) {
-            data.registrations[registrationIndex].cardNumber = cardNumber;
-        }
-
-        writeData(data);
-
         return NextResponse.json({
             message: "Registration updated successfully",
-            registration: data.registrations[registrationIndex],
+            registration: result,
         });
     } catch (error) {
         console.error("Error updating registration:", error);
@@ -91,3 +72,4 @@ export async function PATCH(req: NextRequest) {
         );
     }
 }
+
