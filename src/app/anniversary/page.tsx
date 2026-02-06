@@ -647,11 +647,70 @@ export default function AnniversaryPage() {
             <section className="py-8 md:py-12 px-4">
                 <div className="max-w-6xl mx-auto">
                     <div className="grid md:grid-cols-2 gap-8 md:gap-12">
-                        {/* Registration Form */}
+                        {/* Benefits & Info Card - Moved above/left of registration form */}
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.2 }}
+                            className="space-y-6"
+                        >
+                            <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
+                                <div className="bg-gradient-to-r from-orange-500 to-amber-500 p-6 text-white text-center">
+                                    <h3 className="text-xl font-bold">Why Join?</h3>
+                                    <p className="opacity-90">Unlock exclusive perks worth ₹5,000+</p>
+                                </div>
+                                <div className="p-6 space-y-4">
+                                    <div className="flex items-start gap-4">
+                                        <div className="bg-orange-100 p-3 rounded-full text-orange-600">
+                                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-semibold text-gray-800">Flat 10% Lifetime Discount</h4>
+                                            <p className="text-sm text-gray-600">Save on every visit for a lifetime. No minimum spend required.</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-start gap-4">
+                                        <div className="bg-orange-100 p-3 rounded-full text-orange-600">
+                                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-semibold text-gray-800">Double Discount (20%)</h4>
+                                            <p className="text-sm text-gray-600">Get 20% off during your birthday and anniversary months.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* How it works */}
+                            <div className="bg-white/80 backdrop-blur rounded-3xl p-6 border border-white/50">
+                                <h3 className="font-bold text-gray-800 mb-4">How it works</h3>
+                                <div className="space-y-4">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center font-bold text-gray-500 text-sm">1</div>
+                                        <p className="text-sm text-gray-600">Fill the registration form</p>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center font-bold text-gray-500 text-sm">2</div>
+                                        <p className="text-sm text-gray-600">Pay ₹1,000 one-time fee</p>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center font-bold text-gray-500 text-sm">3</div>
+                                        <p className="text-sm text-gray-600">Get your digital card via WhatsApp</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Registration Form - Now on right side (desktop) or below (mobile) */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.3 }}
                             className="bg-white rounded-3xl shadow-xl p-6 md:p-8"
                         >
                             <div className="flex items-center gap-3 mb-6">

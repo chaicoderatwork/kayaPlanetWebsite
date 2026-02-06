@@ -96,8 +96,14 @@ export async function POST(req: NextRequest) {
             verifiedAt: null,
         };
 
-        data.registrations.push(newRegistration);
-        writeData(data);
+        // Try to save to local file (might fail on Vercel/Production)
+        try {
+            data.registrations.push(newRegistration);
+            writeData(data);
+        } catch (storageError) {
+            console.error("Failed to save to local storage (likely read-only FS):", storageError);
+            // Continue execution to send email - don't fail the request
+        }
 
         // Send email notification to admin
         if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
