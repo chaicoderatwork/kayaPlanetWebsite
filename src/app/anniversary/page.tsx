@@ -880,8 +880,7 @@ export default function AnniversaryPage() {
                             </div>
 
                             {/* Already Registered Link */}
-                            {/* Already Registered Link */}
-                            {/* <button
+                            <button
                                 onClick={() => {
                                     setStep("lookup");
                                     setError("");
@@ -890,7 +889,7 @@ export default function AnniversaryPage() {
                                 className="w-full mb-6 py-3 border-2 border-dashed border-orange-200 rounded-xl text-orange-600 font-medium hover:bg-orange-50 transition-all focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
                             >
                                 Already registered? Click here to complete payment →
-                            </button> */}
+                            </button>
 
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 <div>
