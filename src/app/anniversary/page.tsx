@@ -743,9 +743,18 @@ export default function AnniversaryPage() {
 
                         {/* Dynamic Join Counter */}
                         <div className="mt-8">
-                            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-full shadow-lg animate-pulse">
-                                <span className="text-2xl">🔥</span>
-                                <span className="font-bold text-lg">
+                            <motion.div
+                                initial={{ scale: 0.9, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                transition={{ delay: 0.5, duration: 0.4 }}
+                                className="inline-flex flex-col items-center gap-1 bg-white/90 backdrop-blur-sm border border-gray-200 px-8 py-4 rounded-2xl shadow-xl"
+                            >
+                                <motion.span
+                                    className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.8 }}
+                                >
                                     {(() => {
                                         const baseCount = 600;
                                         const startDate = new Date("2026-02-07T00:00:00+05:30");
@@ -753,9 +762,10 @@ export default function AnniversaryPage() {
                                         const hoursPassed = Math.floor((now.getTime() - startDate.getTime()) / (1000 * 60 * 60));
                                         const incrementsOf4Hours = Math.floor(hoursPassed / 4);
                                         return baseCount + (incrementsOf4Hours * 100);
-                                    })()}+ members joined!
-                                </span>
-                            </div>
+                                    })()}+
+                                </motion.span>
+                                <span className="text-gray-600 font-medium text-sm uppercase tracking-widest">Members Joined</span>
+                            </motion.div>
                         </div>
                     </motion.div>
                 </div>
