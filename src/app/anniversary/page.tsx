@@ -32,7 +32,7 @@ export default function AnniversaryPage() {
         anniversary: "",
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [step, setStep] = useState<"register" | "lookup" | "payment" | "success" | "already-verified">("register");
+    const [step, setStep] = useState<"register" | "lookup" | "review" | "payment" | "success" | "already-verified">("register");
     const [error, setError] = useState("");
     const [acceptedTerms, setAcceptedTerms] = useState(false);
     const [registrationId, setRegistrationId] = useState("");
@@ -272,7 +272,7 @@ export default function AnniversaryPage() {
             }
 
             setRegistrationId(data.registrationId);
-            setStep("payment");
+            setStep("review");
             window.scrollTo({ top: 0, behavior: "smooth" });
         } catch (err) {
             setError(err instanceof Error ? err.message : "Something went wrong");
@@ -700,6 +700,110 @@ export default function AnniversaryPage() {
                                     {isLookingUp ? "Looking up..." : "Continue to Payment →"}
                                 </button>
                             </form>
+                        </motion.div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Review Step - Show filled details and T&C acceptance
+    if (step === "review") {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50 pt-20">
+                <div className="py-12 px-4">
+                    <div className="max-w-lg mx-auto">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="bg-white rounded-3xl shadow-xl p-6 md:p-8"
+                        >
+                            <div className="flex items-center gap-3 mb-6">
+                                <span className="bg-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">2</span>
+                                <h2 className="text-2xl font-bold text-gray-800">
+                                    Review Your Details
+                                </h2>
+                            </div>
+
+                            {/* User Details Summary */}
+                            <div className="bg-gray-50 rounded-xl p-4 mb-6 space-y-3">
+                                <div className="flex justify-between items-center border-b border-gray-200 pb-2">
+                                    <span className="text-gray-600 text-sm">Name</span>
+                                    <span className="font-medium text-gray-800">{formData.name}</span>
+                                </div>
+                                <div className="flex justify-between items-center border-b border-gray-200 pb-2">
+                                    <span className="text-gray-600 text-sm">Mobile</span>
+                                    <span className="font-medium text-gray-800">{formData.mobile}</span>
+                                </div>
+                                <div className="flex justify-between items-center border-b border-gray-200 pb-2">
+                                    <span className="text-gray-600 text-sm">Email</span>
+                                    <span className="font-medium text-gray-800">{formData.email || "—"}</span>
+                                </div>
+                                <div className="flex justify-between items-center border-b border-gray-200 pb-2">
+                                    <span className="text-gray-600 text-sm">Birthday</span>
+                                    <span className="font-medium text-gray-800">{formData.birthday || "—"}</span>
+                                </div>
+                                {formData.anniversary && (
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-600 text-sm">Anniversary</span>
+                                        <span className="font-medium text-gray-800">{formData.anniversary}</span>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Edit Button */}
+                            <button
+                                onClick={() => {
+                                    setStep("register");
+                                    window.scrollTo({ top: 0, behavior: "smooth" });
+                                }}
+                                className="w-full mb-6 py-2 border border-orange-300 rounded-xl text-orange-600 font-medium hover:bg-orange-50 transition-all text-sm"
+                            >
+                                ✏️ Edit Details
+                            </button>
+
+                            {/* Terms & Conditions */}
+                            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+                                <h3 className="font-semibold text-amber-800 mb-3">📋 Terms & Conditions</h3>
+                                <div className="text-xs text-gray-600 space-y-2 max-h-40 overflow-y-auto pr-2">
+                                    <ul className="list-disc list-inside space-y-1">
+                                        <li>Membership is valid from the date of registration until the salon is operational.</li>
+                                        <li>Discount is applicable only on services, not on products.</li>
+                                        <li>Discount not valid on retail products - discount on retail products is as per salon's discretion.</li>
+                                        <li>Membership card must be presented at the time of billing.</li>
+                                        <li>Birthday and Anniversary discounts are valid for the entire month.</li>
+                                        <li>Membership is non-transferable and non-refundable.</li>
+                                        <li>Kaya Planet reserves the right to modify terms without prior notice.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            {/* Accept Terms Checkbox */}
+                            <label className="flex items-start gap-3 mb-6 cursor-pointer group">
+                                <input
+                                    type="checkbox"
+                                    checked={acceptedTerms}
+                                    onChange={(e) => setAcceptedTerms(e.target.checked)}
+                                    className="mt-1 w-5 h-5 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+                                />
+                                <span className="text-sm text-gray-700 group-hover:text-gray-900">
+                                    I have reviewed my details and agree to the <span className="font-semibold text-orange-600">Terms & Conditions</span>
+                                </span>
+                            </label>
+
+                            {/* Proceed Button */}
+                            <button
+                                onClick={() => {
+                                    if (acceptedTerms) {
+                                        setStep("payment");
+                                        window.scrollTo({ top: 0, behavior: "smooth" });
+                                    }
+                                }}
+                                disabled={!acceptedTerms}
+                                className="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-4 rounded-xl font-semibold text-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                Proceed to Payment →
+                            </button>
                         </motion.div>
                     </div>
                 </div>
