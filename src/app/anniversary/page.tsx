@@ -171,6 +171,13 @@ export default function AnniversaryPage() {
     // Lookup existing registration
     const handleLookup = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Validate mobile before proceeding
+        if (!lookupMobile || lookupMobile.length !== 10 || !/^[6-9]\d{9}$/.test(lookupMobile)) {
+            setError("Please enter a valid 10-digit mobile number");
+            return;
+        }
+
         setIsLookingUp(true);
         setError("");
 
@@ -662,7 +669,10 @@ export default function AnniversaryPage() {
                                         required
                                         pattern="[6-9][0-9]{9}"
                                         value={lookupMobile}
-                                        onChange={(e) => setLookupMobile(e.target.value)}
+                                        onChange={(e) => {
+                                            setLookupMobile(e.target.value);
+                                            if (error) setError("");
+                                        }}
                                         className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all text-lg bg-white text-gray-900"
                                         placeholder="Enter your registered mobile"
                                         maxLength={10}
