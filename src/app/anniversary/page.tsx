@@ -32,7 +32,7 @@ export default function AnniversaryPage() {
         anniversary: "",
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [step, setStep] = useState<"register" | "lookup" | "review" | "payment" | "success" | "already-verified">("register");
+    const [step, setStep] = useState<"register" | "lookup" | "review" | "payment" | "success" | "already-verified" | "edit">("register");
     const [error, setError] = useState("");
     const [acceptedTerms, setAcceptedTerms] = useState(false);
     const [registrationId, setRegistrationId] = useState("");
@@ -221,7 +221,7 @@ export default function AnniversaryPage() {
                 anniversary: data.registration.anniversary || "",
             });
             setRegistrationId(data.registration.id);
-            setStep("payment");
+            setStep("review");
             window.scrollTo({ top: 0, behavior: "smooth" });
         } catch (err) {
             setError(err instanceof Error ? err.message : "Something went wrong");
@@ -272,6 +272,34 @@ export default function AnniversaryPage() {
             }
 
             setRegistrationId(data.registrationId);
+            setStep("review");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Something went wrong");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    // Handle update of existing registration
+    const handleUpdate = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError("");
+        setIsSubmitting(true);
+
+        try {
+            const response = await fetch("/api/anniversary/update", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: registrationId, ...formData }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || "Update failed");
+            }
+
             setStep("review");
             window.scrollTo({ top: 0, behavior: "smooth" });
         } catch (err) {
@@ -754,7 +782,7 @@ export default function AnniversaryPage() {
                             {/* Edit Button */}
                             <button
                                 onClick={() => {
-                                    setStep("register");
+                                    setStep("edit");
                                     window.scrollTo({ top: 0, behavior: "smooth" });
                                 }}
                                 className="w-full mb-6 py-2 border border-orange-300 rounded-xl text-orange-600 font-medium hover:bg-orange-50 transition-all text-sm"
@@ -804,6 +832,133 @@ export default function AnniversaryPage() {
                             >
                                 Proceed to Payment →
                             </button>
+                        </motion.div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Edit Step - Edit existing registration details
+    if (step === "edit") {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50 pt-20">
+                <div className="py-12 px-4">
+                    <div className="max-w-lg mx-auto">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="bg-white rounded-3xl shadow-xl p-6 md:p-8"
+                        >
+                            <div className="flex items-center gap-3 mb-6">
+                                <span className="bg-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">✏️</span>
+                                <h2 className="text-2xl font-bold text-gray-800">
+                                    Edit Your Details
+                                </h2>
+                            </div>
+
+                            <form onSubmit={handleUpdate} className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Full Name *
+                                    </label>
+                                    <input
+                                        type="text"
+                                        required
+                                        value={formData.name}
+                                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all bg-white text-gray-900"
+                                        placeholder="Enter your full name"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Mobile Number (cannot be changed)
+                                    </label>
+                                    <input
+                                        type="tel"
+                                        value={formData.mobile}
+                                        disabled
+                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-100 text-gray-500 cursor-not-allowed"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Email (optional)
+                                    </label>
+                                    <input
+                                        type="email"
+                                        value={formData.email}
+                                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all bg-white text-gray-900"
+                                        placeholder="Enter your email"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Birthday
+                                    </label>
+                                    <input
+                                        type="date"
+                                        max={new Date().toISOString().split('T')[0]}
+                                        value={formData.birthday}
+                                        onChange={(e) => setFormData({ ...formData, birthday: e.target.value })}
+                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all bg-white text-gray-900"
+                                        style={{ minHeight: '48px' }}
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Anniversary (Optional)
+                                    </label>
+                                    <input
+                                        type="date"
+                                        max={new Date().toISOString().split('T')[0]}
+                                        value={formData.anniversary}
+                                        onChange={(e) => setFormData({ ...formData, anniversary: e.target.value })}
+                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all bg-white text-gray-900"
+                                        style={{ minHeight: '48px' }}
+                                    />
+                                </div>
+
+                                <AnimatePresence>
+                                    {error && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: -10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0 }}
+                                            className="bg-red-50 text-red-600 px-4 py-3 rounded-xl text-sm"
+                                        >
+                                            {error}
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+
+                                <div className="flex gap-3 pt-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setStep("review");
+                                            setError("");
+                                            window.scrollTo({ top: 0, behavior: "smooth" });
+                                        }}
+                                        className="flex-1 py-3 border border-gray-300 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition-all"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        disabled={isSubmitting}
+                                        className="flex-1 bg-gradient-to-r from-orange-500 to-amber-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50"
+                                    >
+                                        {isSubmitting ? "Saving..." : "Save Changes"}
+                                    </button>
+                                </div>
+                            </form>
                         </motion.div>
                     </div>
                 </div>

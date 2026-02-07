@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({
             found: true,
             registration: {
-                id: registration.id,
+                id: registration._id.toString(),
                 // Masked name for confirmation (e.g., "Pr****")
                 maskedName: maskName(registration.name),
                 // Full name is needed for payment page display - but user already entered it during registration
