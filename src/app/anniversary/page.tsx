@@ -801,6 +801,7 @@ export default function AnniversaryPage() {
                                         <li>Membership card must be presented at the time of billing.</li>
                                         <li>Birthday and Anniversary discounts are valid for the entire month.</li>
                                         <li>Membership is non-transferable and non-refundable.</li>
+                                        <li>If the physical membership card is lost, the membership is void.</li>
                                         <li>Kaya Planet reserves the right to modify terms without prior notice.</li>
                                     </ul>
                                 </div>
