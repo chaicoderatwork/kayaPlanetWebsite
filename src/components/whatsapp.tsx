@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import whatsappIcon from '../../public/whatsapp-icon.jpg'
+import { waLink, trackContact } from '@/lib/contact'
 
 // Pages where WhatsApp widget should NOT show
 const EXCLUDED_PATHS = ['/anniversary', '/admin']
@@ -21,7 +22,7 @@ export default function WhatsAppChatBox() {
 
     const visibilityTimer = setTimeout(() => {
       setIsVisible(true)
-    }, 3000)
+    }, 1500)
 
     const expansionTimer = setTimeout(() => {
       setIsExpanded(true)
@@ -47,7 +48,7 @@ export default function WhatsAppChatBox() {
   const currentTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }).toLowerCase()
 
   return (
-    <div className={`fixed bottom-4 right-4 z-[100] transition-opacity duration-500 ease-in-out ${isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+    <div className={`fixed bottom-4 right-4 z-[100] hidden md:block transition-opacity duration-500 ease-in-out ${isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
       <div
         className={`relative transition-all duration-300 ease-in-out hidden md:block ${isExpanded
           ? 'w-72 h-96 pointer-events-auto'
@@ -67,9 +68,10 @@ export default function WhatsAppChatBox() {
           <div className="mt-4 flex flex-col justify-between h-[calc(100%-6rem)]">
             <p className="text-gray-700 mb-4">Have any questions? We&apos;re here to help!</p>
             <a
-              href="https://wa.me/919999424375"
+              href={waLink("general")}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackContact("whatsapp_click", "float")}
               className="block w-full py-2 px-4 bg-[#25D366] text-white rounded-full text-center font-medium hover:bg-[#128C7E] transition duration-300"
             >
               Start Chat
@@ -98,20 +100,7 @@ export default function WhatsAppChatBox() {
           height={24}
         />
       </button>
-      {/* Mobile: direct link to WhatsApp */}
-      <a
-        href="https://wa.me/919999424375"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="md:hidden bg-[#25D366] text-white p-3 rounded-full shadow-lg hover:bg-[#128C7E] transition-all duration-300 transform hover:scale-110 flex items-center justify-center"
-      >
-        <Image
-          src={whatsappIcon}
-          alt="WhatsApp"
-          width={24}
-          height={24}
-        />
-      </a>
+      {/* Mobile: the sticky Call / WhatsApp bar (StickyMobileCTA) replaces the float */}
       <style jsx>{`
         .whatsapp-bg {
           background-color: #e5ddd5;

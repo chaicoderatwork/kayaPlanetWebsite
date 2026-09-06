@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import HeroSlider from "../components/HeroSlider";
-import WhatsAppChatBox from "../components/whatsapp";
 // Code splitting below-the-fold components
 import dynamic from "next/dynamic";
 
@@ -43,8 +42,6 @@ const InfluencerSection = dynamic(() => import("@/components/InfluencerSection")
 export default function Home() {
   return (
     <main className="flex flex-col overflow-x-hidden items-center justify-start font-[family-name:var(--font-geist-sans)] bg-[#FDFBF9] text-[#111111]">
-      <WhatsAppChatBox />
-
       {/* Hero Slider */}
       <HeroSlider />
 

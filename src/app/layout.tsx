@@ -8,6 +8,8 @@ import WhatsAppChatBox from "@/components/whatsapp";
 import EnquiryPopup from "@/components/EnquiryPopup";
 import { EnquiryPopupProvider } from "@/components/EnquiryPopupContext";
 import { Analytics } from "@vercel/analytics/next";
+import StickyMobileCTA from "@/components/StickyMobileCTA";
+import MetaPixel from "@/components/MetaPixel";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -228,10 +230,12 @@ export default function RootLayout({
           {/* <EnquiryPopup /> */}
           {children}
           <WhatsAppChatBox />
-          <footer>
+          <StickyMobileCTA />
+          <footer className="pb-20 md:pb-0">
             <Footer />
           </footer>
         </EnquiryPopupProvider>
+        <MetaPixel />
         <Analytics />
       </body>
     </html>

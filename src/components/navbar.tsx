@@ -2,17 +2,16 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Menu, X, Calendar } from 'lucide-react'
+import { Menu, X, MessageCircle } from 'lucide-react'
 import Image from 'next/image'
 import kp from '../../public/kayaplanetlogo.png'
 import { usePathname } from 'next/navigation'
-import { useEnquiryPopup } from './EnquiryPopupContext'
+import { waLink, trackContact } from '@/lib/contact'
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
     const router = usePathname()
-    const { openEnquiryPopup } = useEnquiryPopup()
 
     const navItems = [
         { name: 'HOME', href: '/' },
@@ -98,24 +97,30 @@ export default function Navbar() {
                                 {item.name}
                             </Link>
                         ))}
-                        {/* <button
-                            onClick={openEnquiryPopup}
-                            className="bg-gradient-to-r from-[#F27708] to-[#F89134] text-white px-5 py-2 rounded-full flex items-center space-x-2 hover:shadow-lg hover:shadow-orange-500/25 transition-all duration-300"
+                        <a
+                            href={waLink("bridal")}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => trackContact("whatsapp_click", "navbar", "bridal")}
+                            className="bg-[#25D366] hover:bg-[#1DA851] text-white px-5 py-2 rounded-full flex items-center space-x-2 hover:shadow-lg transition-all duration-300"
                         >
-                            <Calendar className="h-4 w-4" />
-                            <span>BOOK NOW</span>
-                        </button> */}
+                            <MessageCircle className="h-4 w-4" />
+                            <span>CHECK MY DATE</span>
+                        </a>
                     </div>
 
                     {/* Mobile menu button and book button */}
                     <div className="md:hidden flex items-center gap-2 flex-shrink-0">
-                        {/* <button
-                            onClick={openEnquiryPopup}
-                            className="bg-gradient-to-r from-[#F27708] to-[#F89134] text-white px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1 hover:shadow-lg transition-all duration-300 whitespace-nowrap"
+                        <a
+                            href={waLink("bridal")}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => trackContact("whatsapp_click", "navbar-mobile", "bridal")}
+                            className="bg-[#25D366] text-white px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1 hover:shadow-lg transition-all duration-300 whitespace-nowrap"
                         >
-                            <Calendar className="h-3.5 w-3.5" />
-                            <span>BOOK</span>
-                        </button> */}
+                            <MessageCircle className="h-3.5 w-3.5" />
+                            <span>WHATSAPP</span>
+                        </a>
                         <button
                             onClick={toggleMenu}
                             className="text-[#F27708] hover:text-[#F89134] focus:outline-none ml-1"

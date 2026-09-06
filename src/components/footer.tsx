@@ -1,5 +1,8 @@
-import { Instagram, Phone, MapPin } from "lucide-react"
+"use client"
+
+import { Instagram, Phone, MapPin, MessageCircle } from "lucide-react"
 import Link from "next/link"
+import { waLink, PHONE_TEL, PHONE_DISPLAY, trackContact } from "@/lib/contact"
 import Image from "next/image"
 import kp from '../../public/kayaplanetlogo.png'
 
@@ -33,9 +36,13 @@ export default function Footer() {
           {/* Contact - Left aligned */}
           <div className="flex flex-col items-start space-y-2">
             <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-1">Contact</h3>
-            <a href="tel:+919999424375" className="flex items-center gap-2 text-sm hover:text-[#F27708] transition-colors">
+            <a href={PHONE_TEL} onClick={() => trackContact("call_click", "footer")} className="flex items-center gap-2 text-sm hover:text-[#F27708] transition-colors">
               <Phone size={14} />
-              +91 99994 24375
+              {PHONE_DISPLAY}
+            </a>
+            <a href={waLink("general")} target="_blank" rel="noopener noreferrer" onClick={() => trackContact("whatsapp_click", "footer")} className="flex items-center gap-2 text-sm hover:text-[#25D366] transition-colors">
+              <MessageCircle size={14} />
+              WhatsApp us
             </a>
             <div className="flex items-start gap-2 text-sm">
               <MapPin size={14} className="mt-0.5 flex-shrink-0" />

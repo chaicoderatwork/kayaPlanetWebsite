@@ -4,21 +4,22 @@ import React, { useCallback, useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useEnquiryPopup } from "./EnquiryPopupContext";
+import { ChevronLeft, ChevronRight, MessageCircle } from "lucide-react";
 import heroSlidesData from "@/data/hero-slides.json";
+import { waLink, trackContact, type ContactService } from "@/lib/contact";
 
 interface HeroSlide {
     id: number;
     image: string;
     title: string;
     subtitle: string;
+    service?: ContactService;
+    cta?: string;
 }
 
-const HERO_SLIDES: HeroSlide[] = heroSlidesData;
+const HERO_SLIDES: HeroSlide[] = heroSlidesData as HeroSlide[];
 
 export default function HeroSlider() {
-    const { openEnquiryPopup } = useEnquiryPopup();
     const [emblaRef, emblaApi] = useEmblaCarousel(
         {
             loop: true,
@@ -63,12 +64,16 @@ export default function HeroSlider() {
                                 <p className="text-lg md:text-xl text-gray-200 mb-6">
                                     {slide.subtitle}
                                 </p>
-                                <button
-                                    onClick={openEnquiryPopup}
-                                    className="inline-block bg-[#F27708] hover:bg-[#F89134] text-white font-medium px-8 py-3 rounded-full transition-colors"
+                                <a
+                                    href={waLink(slide.service ?? "bridal")}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={() => trackContact("whatsapp_click", "hero", slide.service ?? "bridal")}
+                                    className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1DA851] text-white font-medium px-8 py-3 rounded-full transition-colors"
                                 >
-                                    Book Appointment
-                                </button>
+                                    <MessageCircle className="w-5 h-5" />
+                                    {slide.cta ?? "Check my date on WhatsApp"}
+                                </a>
                             </div>
                         </div>
                     ))}
