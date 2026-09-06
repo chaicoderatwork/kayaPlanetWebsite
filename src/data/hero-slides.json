@@ -3,23 +3,39 @@
         "id": 1,
         "image": "/hero1.webp",
         "title": "Best Bridal Makeup Artist in Kanpur",
+<<<<<<< Updated upstream
         "subtitle": "Book Your Dream Wedding Look Today",
         "service": "bridal",
         "cta": "Check my date on WhatsApp"
+=======
+        "subtitle": "By Bhawna & Rashika · from ₹20,000 · Nov–Dec and Jan–Mar dates open",
+        "service": "bridal",
+        "cta": "Check my date"
+>>>>>>> Stashed changes
     },
     {
         "id": 2,
         "image": "/hero2.webp",
         "title": "Bridal Makeup",
+<<<<<<< Updated upstream
         "subtitle": "Customized bridal makeup for every bride",
         "service": "bridal",
         "cta": "Check my date on WhatsApp"
+=======
+        "subtitle": "Signature, Royal Signature and KP's Royal Bride, customised for every bride",
+        "service": "bridal",
+        "cta": "Check my date"
+>>>>>>> Stashed changes
     },
     {
         "id": 3,
         "image": "/hero4.webp",
         "title": "Engagement Makeup",
+<<<<<<< Updated upstream
         "subtitle": "Flawless HD Looks for Every Occasion",
+=======
+        "subtitle": "HD and Airbrush engagement looks from ₹10,000",
+>>>>>>> Stashed changes
         "service": "engagement",
         "cta": "Book my engagement look"
     },
@@ -27,7 +43,11 @@
         "id": 4,
         "image": "/hero3.webp",
         "title": "KP Royal Bride",
+<<<<<<< Updated upstream
         "subtitle": "Signature Glam Makeup that elevate your looks",
+=======
+        "subtitle": "Kundan jewellery on rent, nail extensions and human-hair lashes included",
+>>>>>>> Stashed changes
         "service": "royal-bride",
         "cta": "Ask about KP Royal Bride"
     }

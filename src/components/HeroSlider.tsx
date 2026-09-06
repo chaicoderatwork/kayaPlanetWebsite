@@ -58,9 +58,15 @@ export default function HeroSlider() {
 
                             {/* Content */}
                             <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 text-white">
-                                <h1 className={`text-3xl sm:text-4xl md:text-6xl font-[family-name:var(--font-gelasio)] mb-3 ${slide.title.length > 25 ? "" : "whitespace-nowrap"}`}>
-                                    {slide.title}
-                                </h1>
+                                {index === 0 ? (
+                                    <h1 className={`text-3xl sm:text-4xl md:text-6xl font-[family-name:var(--font-gelasio)] mb-3 ${slide.title.length > 25 ? "" : "whitespace-nowrap"}`}>
+                                        {slide.title}
+                                    </h1>
+                                ) : (
+                                    <h2 className={`text-3xl sm:text-4xl md:text-6xl font-[family-name:var(--font-gelasio)] mb-3 ${slide.title.length > 25 ? "" : "whitespace-nowrap"}`}>
+                                        {slide.title}
+                                    </h2>
+                                )}
                                 <p className="text-lg md:text-xl text-gray-200 mb-6">
                                     {slide.subtitle}
                                 </p>

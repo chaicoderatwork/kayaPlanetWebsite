@@ -120,8 +120,8 @@ export default function RootLayout({
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": 26.4499,
-      "longitude": 80.3319
+      "latitude": 26.4496,
+      "longitude": 80.2988
     },
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
@@ -129,7 +129,7 @@ export default function RootLayout({
       "opens": "10:00",
       "closes": "21:00"
     },
-    "priceRange": "$$",
+    "priceRange": "₹16,000 - ₹42,000",
     "sameAs": [
       "https://www.instagram.com/kayaplanetbeautysalon/",
       "https://www.facebook.com/kayaplanet/"
@@ -143,7 +143,23 @@ export default function RootLayout({
           "itemOffered": {
             "@type": "Service",
             "name": "Bridal Makeup",
-            "description": "Professional HD and Airbrush Bridal Makeup by expert artists in Kanpur."
+            "description": "Bridal makeup by Bhawna Vij & Rashika Vij in Kanpur: MAC, HD, Signature/Airbrush, Royal Signature and KP's Royal Bride, from ₹20,000."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Engagement Makeup",
+            "description": "HD and Airbrush engagement makeup in Kanpur, from ₹10,000."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Pre-Bridal Package",
+            "description": "Skin and hair care sessions before the wedding, from ₹12,000."
           }
         },
         {
@@ -172,7 +188,7 @@ export default function RootLayout({
           "name": "Who is the best bridal makeup artist in Kanpur?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Kaya Planet is rated as the best bridal makeup artist in Kanpur, known for flawless HD and Airbrush makeup for weddings and engagements."
+            "text": "Kaya Planet in Govind Nagar is rated the best bridal makeup artist in Kanpur (WedMeGood Best MUA Kanpur, 660+ Google reviews). Bridal looks by founders Bhawna Vij and Rashika Vij start at ₹20,000."
           }
         },
         {

@@ -10,7 +10,15 @@ const FAQS = [
     },
     {
         question: "What is the price of a Makeup Artist in Kanpur?",
-        answer: "Prices for a professional makeup artist in Kanpur vary, but at Kaya Planet, our HD and Airbrush bridal packages start from ₹15,000, ensuring luxury quality at best rates."
+        answer: "Bridal looks by Bhawna & Rashika start at ₹20,000 (MAC), with HD at ₹24,000, Signature/Airbrush at ₹28,000, Royal Signature at ₹32,000 and KP's Royal Bride at ₹42,000, which includes kundan jewellery on rent, nail extensions and human-hair lashes. Bridal by a senior artist starts at ₹16,000, engagement from ₹10,000 and the pre-bridal package from ₹12,000."
+    },
+    {
+        question: "How far in advance should I book my bridal date?",
+        answer: "Most of our brides book about three months before the wedding, and the popular muhurat dates in November and February fill four months out. We take a limited number of brides on each date, so message us on WhatsApp with your date as soon as it is fixed; a ₹5,000 advance confirms it."
+    },
+    {
+        question: "What is included in the pre-bridal package?",
+        answer: "Skin and hair care sessions in the weeks before the wedding, planned around your date, starting at ₹12,000. Ask for it when you book your bridal date and we will schedule the sessions with your trial."
     },
     {
         question: "Do you provide Makeup Academy courses?",
@@ -69,7 +77,7 @@ export default function FAQ() {
                                 )}
                             </button>
                             <div
-                                className={`transition-all duration-300 ease-in-out ${openIndex === index ? "max-h-48 opacity-100" : "max-h-0 opacity-0"
+                                className={`transition-all duration-300 ease-in-out ${openIndex === index ? "max-h-[32rem] opacity-100" : "max-h-0 opacity-0"
                                     }`}
                             >
                                 <div className="px-5 pb-5 pt-0 text-gray-600 border-t border-gray-50 mt-1">

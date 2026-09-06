@@ -6,7 +6,9 @@ import { useInView } from "framer-motion";
 
 // Simple count-up animation hook
 function useCountUp(end: number, duration: number = 2000, startWhenInView: boolean = false, inView: boolean = false): number {
-    const [count, setCount] = useState(0);
+    // Start at the final value so the number is readable without JavaScript
+    // (and for crawlers); the count-up runs once the section is in view.
+    const [count, setCount] = useState(end);
     const hasAnimated = useRef(false);
 
     useEffect(() => {
@@ -15,6 +17,7 @@ function useCountUp(end: number, duration: number = 2000, startWhenInView: boole
         // Don't re-animate
         if (hasAnimated.current) return;
         hasAnimated.current = true;
+        setCount(0);
 
         let startTime: number;
         let animationFrame: number;
