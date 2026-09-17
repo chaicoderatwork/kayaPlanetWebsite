@@ -104,7 +104,7 @@ export default function EnquiryPopup() {
             })
             : "";
 
-        trackEnquiry("enquiry-popup", contactService);
+        await trackEnquiry("enquiry-popup", contactService);
         void fetch("/api/enquiry", {
             method: "POST",
             headers: { "Content-Type": "application/json" },

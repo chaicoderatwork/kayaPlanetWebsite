@@ -42,7 +42,7 @@ export default function StickyMobileCTA() {
                 {!isBridalPath && (
                 <a
                     href={PHONE_TEL}
-                    onClick={() => trackContact("call_click", "sticky-bar", contactService)}
+                    onClick={() => trackContact("phone_click", "sticky-bar", contactService)}
                     className="flex flex-col items-center justify-center text-gray-700 hover:text-[#F27708] py-1"
                 >
                     <Phone className="h-5 w-5 mb-1" />

@@ -81,23 +81,51 @@ export function bridalEnquiryLink(details: BridalEnquiryDetails = {}): string {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
 }
 
-type ContactEvent = "whatsapp_click" | "call_click";
+type ContactEvent = "whatsapp_click" | "phone_click";
+
+const GTAG_WAIT_MS = 1200;
+
+function waitForGtag(): Promise<((...args: unknown[]) => void) | undefined> {
+  if (typeof window === "undefined") return Promise.resolve(undefined);
+  if (typeof window.gtag === "function") return Promise.resolve(window.gtag);
+
+  return new Promise((resolve) => {
+    const started = Date.now();
+    const tick = () => {
+      if (typeof window.gtag === "function") {
+        resolve(window.gtag);
+        return;
+      }
+      if (Date.now() - started >= GTAG_WAIT_MS) {
+        resolve(undefined);
+        return;
+      }
+      window.setTimeout(tick, 40);
+    };
+    tick();
+  });
+}
 
 /**
  * Primary conversion: a captured enquiry that continues to WhatsApp.
- * Fire this on form submit, before navigation. Never pass personal details.
+ * Wait for gtag to flush generate_lead before navigating away.
+ * Never pass personal details.
  */
-export function trackEnquiry(location: string, service: ContactService = "bridal"): void {
+export async function trackEnquiry(
+  location: string,
+  service: ContactService = "bridal",
+): Promise<void> {
   if (typeof window === "undefined") return;
+
+  const params = {
+    event_category: "conversion",
+    location,
+    service,
+    page_path: window.location.pathname,
+    transport_type: "beacon",
+  };
+
   try {
-    const params = {
-      event_category: "conversion",
-      location,
-      service,
-      page_path: window.location.pathname,
-    };
-    window.gtag?.("event", "enquiry_submit", params);
-    window.gtag?.("event", "generate_lead", params);
     window.fbq?.("track", "Lead", {
       content_name: service,
       content_category: "enquiry_submit",
@@ -105,6 +133,27 @@ export function trackEnquiry(location: string, service: ContactService = "bridal
   } catch {
     /* analytics must never interrupt the success message */
   }
+
+  const gtag = await waitForGtag();
+  if (!gtag) return;
+
+  await new Promise<void>((resolve) => {
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      resolve();
+    };
+    const timer = window.setTimeout(finish, 800);
+    gtag("event", "enquiry_submit", params);
+    gtag("event", "generate_lead", {
+      ...params,
+      event_callback: () => {
+        window.clearTimeout(timer);
+        finish();
+      },
+    });
+  });
 }
 
 declare global {
@@ -131,6 +180,7 @@ export function trackContact(
       location,
       service,
       page_path: window.location.pathname,
+      transport_type: "beacon",
     });
     window.fbq?.("track", "Contact", {
       content_name: service,

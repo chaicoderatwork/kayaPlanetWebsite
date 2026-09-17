@@ -22,9 +22,9 @@ export default function SiteAnalytics() {
         <>
           <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-            strategy="lazyOnload"
+            strategy="afterInteractive"
           />
-          <Script id="google-analytics" strategy="lazyOnload">
+          <Script id="google-analytics" strategy="afterInteractive">
             {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}

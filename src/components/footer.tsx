@@ -37,7 +37,7 @@ export default function Footer() {
           {/* Contact - Left aligned */}
           <div className="flex flex-col items-start space-y-2">
             <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-1">Contact</h3>
-            <a href={PHONE_TEL} onClick={() => trackContact("call_click", "footer")} className="flex items-center gap-2 text-sm hover:text-[#F27708] transition-colors">
+            <a href={PHONE_TEL} onClick={() => trackContact("phone_click", "footer")} className="flex items-center gap-2 text-sm hover:text-[#F27708] transition-colors">
               <Phone size={14} />
               {PHONE_DISPLAY}
             </a>

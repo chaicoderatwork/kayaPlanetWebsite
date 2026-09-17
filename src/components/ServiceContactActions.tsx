@@ -14,7 +14,7 @@ export default function ServiceContactActions({ service, location }: {
         className="inline-flex items-center justify-center gap-2 rounded-full bg-[#227843] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#195e33]">
         <MessageCircle size={18} aria-hidden="true" /> Check my engagement date
       </a>
-      <a href={PHONE_TEL} onClick={() => trackContact("call_click", location, service)}
+      <a href={PHONE_TEL} onClick={() => trackContact("phone_click", location, service)}
         className="inline-flex items-center justify-center gap-2 rounded-full border border-current px-6 py-3 text-sm font-semibold transition hover:opacity-75">
         <Phone size={17} aria-hidden="true" /> Call the salon
       </a>

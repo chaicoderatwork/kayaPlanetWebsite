@@ -47,7 +47,7 @@ export default function BridalEnquiry({
     [formattedDate, functionName],
   );
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
 
@@ -57,7 +57,7 @@ export default function BridalEnquiry({
     }
 
     setIsSubmitting(true);
-    trackEnquiry(trackingLocation, contactService);
+    await trackEnquiry(trackingLocation, contactService);
 
     notifyDateCheckEmail({
       eventDate,
@@ -127,7 +127,7 @@ export default function BridalEnquiry({
               <a
                 href={PHONE_TEL}
                 onClick={() =>
-                  trackContact("call_click", trackingLocation, "bridal")
+                  trackContact("phone_click", trackingLocation, "bridal")
                 }
                 className="inline-flex items-center gap-2 text-sm text-white/75 transition hover:text-white"
               >
