@@ -46,6 +46,9 @@ const gelasio = Gelasio({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  alternates: {
+    canonical: SITE_URL,
+  },
   verification: {
     google: "Pid-L7klulPZY8LgoDimtiRPmyWR-i-27WndJ63rk6Y",
   },

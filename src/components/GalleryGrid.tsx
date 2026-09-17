@@ -241,8 +241,8 @@ export default function GalleryGrid({ items: initialItems = [], groups = [] }: G
                                 💄 Bridal | Engagement | HD Makeup<br />
                                 🎓 Professional Makeup Artist Academy Courses
                             </p>
-                            <a href="https://kayaplanet.com" className="text-[#00376B] font-semibold hover:underline">
-                                kayaplanet.com
+                            <a href="https://www.kayaplanet.com/" className="text-[#00376B] font-semibold hover:underline">
+                                www.kayaplanet.com
                             </a>
                         </div>
 

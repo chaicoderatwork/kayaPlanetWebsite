@@ -15,6 +15,12 @@ const nextConfig = {
   async redirects() {
     return [
       { source: "/bridal", destination: "/", permanent: true },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "kayaplanet.com" }],
+        destination: "https://www.kayaplanet.com/:path*",
+        permanent: true,
+      },
     ];
   },
 };
