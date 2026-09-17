@@ -5,17 +5,34 @@ import Link from "next/link";
 import { useRef, useState, useCallback, useEffect } from "react";
 import { useInView } from "framer-motion";
 import { Eye, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { trackContact, waLink } from "@/lib/contact";
 
 const INTERIOR_IMAGES = [
-    { src: "/interior1.webp", alt: "Kaya Planet Salon Interior - Styling Area" },
-    { src: "/interior3.webp", alt: "Kaya Planet Salon Interior - Photo Shoot Zone" },
-    { src: "/interior4.webp", alt: "Kaya Planet Salon Interior - Main Area" },
-    { src: "/interior2.webp", alt: "Kaya Planet Salon Interior - Premium Section" },
+    {
+        src: "/interior1.webp",
+        alt: "Jharokha view into Kaya Planet’s Indian-aesthetic bridal photography space",
+        label: "Bridal photography set",
+        featured: true,
+    },
+    {
+        src: "/interior3.webp",
+        alt: "Carved door and chandelier backdrop used for bridal portraits",
+        label: "Portrait backdrop",
+    },
+    {
+        src: "/interior2.webp",
+        alt: "Hair styling floor at Kaya Planet",
+        label: "Hair studio",
+    },
+    {
+        src: "/interior4.webp",
+        alt: "Makeup and wash area at Kaya Planet",
+        label: "Getting-ready studio",
+    },
 ];
 
-// Replace with your actual Google Maps/Business Profile 360 link
-const GOOGLE_MAPS_360_LINK = "https://www.google.com/maps/place/Kaya+Planet+Beauty+Salon+-+Make+Up+Artist+In+Kanpur,+Bridal+Make+Up+Artist+In+Kanpur,+Make+Up+Academy+In+Kanpur/@26.4496116,80.2988153,3a,75y,220h,90t/data=!3m8!1e1!3m6!1sCIABIhAGbzzgWS23EmfKlasAB18u!2e10!3e11!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FAPRy3c_sKBj7YxgQccxIEVireS4tz5jTVY7_hERhHmL8S9MeMMrAvNpgY2WbeiuOrZ84nBNGGvMgQIjUpTVvKDSc_GvgfrMfivOvRivCblNnIlFNecgqD9YgpzMCT9VVJjAAxra8X4mPX8xQZfE%3Dw900-h600-k-no-pi0-ya5.674942016601591-ro0-fo100!7i7680!8i3840!4m18!1m8!3m7!1s0x399c479344ff543f:0x18ea6eb778191466!2sKaya+Planet+Beauty+Salon+-+Make+Up+Artist+In+Kanpur,+Bridal+Make+Up+Artist+In+Kanpur,+Make+Up+Academy+In+Kanpur!8m2!3d26.4496295!4d80.2988175!10e1!16s%2Fg%2F11cls7bnj0!3m8!1s0x399c479344ff543f:0x18ea6eb778191466!8m2!3d26.4496295!4d80.2988175!10e5!14m1!1BCgIgARICCAI!16s%2Fg%2F11cls7bnj0?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D";
-
+const GOOGLE_MAPS_360_LINK =
+    "https://www.google.com/maps/place/Kaya+Planet+Beauty+Salon+-+Make+Up+Artist+In+Kanpur,+Bridal+Make+Up+Artist+In+Kanpur,+Make+Up+Academy+In+Kanpur/@26.4496116,80.2988153,3a,75y,220h,90t/data=!3m8!1e1!3m6!1sCIABIhAGbzzgWS23EmfKlasAB18u!2e10!3e11!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FAPRy3c_sKBj7YxgQccxIEVireS4tz5jTVY7_hERhHmL8S9MeMMrAvNpgY2WbeiuOrZ84nBNGGvMgQIjUpTVvKDSc_GvgfrMfivOvRivCblNnIlFNecgqD9YgpzMCT9VVJjAAxra8X4mPX8xQZfE%3Dw900-h600-k-no-pi0-ya5.674942016601591-ro0-fo100!7i7680!8i3840!4m18!1m8!3m7!1s0x399c479344ff543f:0x18ea6eb778191466!2sKaya+Planet+Beauty+Salon+-+Make+Up+Artist+In+Kanpur,+Bridal+Make+Up+Artist+In+Kanpur,+Make+Up+Academy+In+Kanpur!8m2!3d26.4496295!4d80.2988175!10e1!16s%2Fg%2F11cls7bnj0!3m8!1s0x399c479344ff543f:0x18ea6eb778191466!8m2!3d26.4496295!4d80.2988175!10e5!14m1!1BCgIgARICCAI!16s%2Fg%2F11cls7bnj0?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D";
 
 export default function SalonInterior() {
     const ref = useRef(null);
@@ -27,7 +44,9 @@ export default function SalonInterior() {
 
     const goToPrev = useCallback(() => {
         if (selectedIndex === null) return;
-        setSelectedIndex((selectedIndex - 1 + INTERIOR_IMAGES.length) % INTERIOR_IMAGES.length);
+        setSelectedIndex(
+            (selectedIndex - 1 + INTERIOR_IMAGES.length) % INTERIOR_IMAGES.length,
+        );
     }, [selectedIndex]);
 
     const goToNext = useCallback(() => {
@@ -35,7 +54,6 @@ export default function SalonInterior() {
         setSelectedIndex((selectedIndex + 1) % INTERIOR_IMAGES.length);
     }, [selectedIndex]);
 
-    // Keyboard navigation
     useEffect(() => {
         if (selectedIndex === null) return;
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -48,125 +66,144 @@ export default function SalonInterior() {
     }, [selectedIndex, goToPrev, goToNext]);
 
     return (
-        <section className="py-10 bg-[#FDFBF9]">
-            <div className="container mx-auto px-4">
-                {/* Section Heading */}
-                <div className="text-center mb-12">
-                    <span className="text-sm font-semibold text-[#F27708] uppercase tracking-wider">
-                        Visit Us
-                    </span>
-                    <h2 className="text-3xl md:text-4xl font-[family-name:var(--font-gelasio)] mt-2 text-[#111111]">
-                        Our Salon Space
+        <section
+            id="photography-space"
+            className="w-full bg-[#F7F0E8] px-5 py-16 sm:px-8 md:py-20 lg:px-12"
+        >
+            <div className="mx-auto max-w-7xl">
+                <div className="max-w-3xl">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#9A592D]">
+                        Bridal photography space
+                    </p>
+                    <h2 className="mt-3 font-[family-name:var(--font-gelasio)] text-3xl leading-tight text-[#28170F] sm:text-4xl md:text-5xl">
+                        A set from an Indian aesthetics book.
                     </h2>
-                    <p className="text-gray-500 mt-3 max-w-xl mx-auto">
-                        Step into a world of luxury and relaxation at our Kanpur salon.
+                    <p className="mt-4 max-w-2xl text-sm leading-7 text-[#6B584F] sm:text-base">
+                        This is where you get ready and take the first photographs.
+                        Jharokha arches, carved doors and chandelier light — so the
+                        portraits already feel like the wedding album, before you leave
+                        the salon.
                     </p>
                 </div>
 
-                {/* Photo Grid */}
                 <div
                     ref={ref}
-                    className="grid grid-cols-2 md:grid-cols-4 gap-4"
+                    className="mt-10 grid gap-3 md:grid-cols-3 md:grid-rows-2"
                     style={{
-                        transform: isInView ? "none" : "translateY(30px)",
+                        transform: isInView ? "none" : "translateY(24px)",
                         opacity: isInView ? 1 : 0,
-                        transition: "all 0.8s cubic-bezier(0.17, 0.55, 0.55, 1) 0.2s",
+                        transition: "all 0.8s cubic-bezier(0.17, 0.55, 0.55, 1) 0.15s",
                     }}
                 >
                     {INTERIOR_IMAGES.map((image, idx) => (
                         <button
-                            key={idx}
+                            key={image.src}
+                            type="button"
                             onClick={() => openLightbox(idx)}
-                            className="relative aspect-square rounded-xl overflow-hidden group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#F27708] focus:ring-offset-2"
+                            className={`group relative overflow-hidden rounded-2xl bg-[#E8D4C0] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9A592D] ${
+                                image.featured
+                                    ? "aspect-[16/11] md:col-span-2 md:row-span-2 md:aspect-auto md:min-h-[28rem]"
+                                    : "aspect-[4/3]"
+                            }`}
                             aria-label={`View ${image.alt}`}
                         >
                             <Image
                                 src={image.src}
                                 alt={image.alt}
                                 fill
-                                className="object-cover transition-transform duration-500 group-hover:scale-110"
-                                sizes="(max-width: 768px) 50vw, 25vw"
+                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                sizes={
+                                    image.featured
+                                        ? "(max-width: 768px) 100vw, 66vw"
+                                        : "(max-width: 768px) 100vw, 33vw"
+                                }
                             />
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-                                <Eye className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
-                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
+                            <span className="absolute bottom-3 left-3 text-left text-[10px] font-semibold uppercase tracking-[0.14em] text-white sm:bottom-4 sm:left-4 sm:text-xs">
+                                {image.label}
+                            </span>
+                            <Eye className="absolute right-3 top-3 h-5 w-5 text-white opacity-0 transition group-hover:opacity-100" />
                         </button>
                     ))}
                 </div>
 
-                {/* 360° Virtual Tour & Directions - Inline Buttons */}
-                <div className="flex items-center justify-center gap-3 mt-10">
+                <div className="mt-8 flex flex-wrap items-center gap-3">
                     <Link
                         href={GOOGLE_MAPS_360_LINK}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 bg-[#F27708] hover:bg-[#F89134] text-white text-xs sm:text-sm font-medium px-4 py-2.5 rounded-full transition-all shadow-lg hover:shadow-xl"
+                        className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[#7D431F] px-5 text-sm font-semibold text-white transition hover:bg-[#643417]"
                     >
-                        <Eye className="w-4 h-4" />
-                        360° Tour
+                        <Eye className="h-4 w-4" />
+                        Walk through in 360°
                     </Link>
                     <Link
                         href="https://maps.google.com/?q=Kaya+Planet+Salon+125/53-B+Govind+Nagar+Kanpur"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 border-2 border-[#F27708] text-[#F27708] hover:bg-[#F27708] hover:text-white text-xs sm:text-sm font-medium px-4 py-2.5 rounded-full transition-all"
+                        className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[#C9A585] px-5 text-sm font-semibold text-[#7D431F] transition hover:bg-white"
                     >
-                        <MapPin className="w-4 h-4" />
-                        Directions
+                        <MapPin className="h-4 w-4" />
+                        Govind Nagar salon
                     </Link>
+                    <a
+                        href={waLink("bridal")}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => trackContact("whatsapp_click", "photography-space", "bridal")}
+                        className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[#7D431F] underline decoration-[#C9A585] underline-offset-4"
+                    >
+                        Check my date
+                    </a>
                 </div>
             </div>
 
-            {/* Lightbox Modal */}
             {selectedIndex !== null && (
                 <div
-                    className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
                     onClick={closeLightbox}
                 >
-                    {/* Close Button */}
                     <button
                         onClick={closeLightbox}
-                        className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+                        className="absolute right-4 top-4 z-10 grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white"
                         aria-label="Close lightbox"
                     >
-                        <X className="w-6 h-6 text-white" />
+                        <X className="h-6 w-6" />
                     </button>
-
-                    {/* Previous Button */}
                     <button
-                        onClick={(e) => { e.stopPropagation(); goToPrev(); }}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            goToPrev();
+                        }}
+                        className="absolute left-4 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-white/10 text-white"
                         aria-label="Previous image"
                     >
-                        <ChevronLeft className="w-7 h-7 text-white" />
+                        <ChevronLeft className="h-7 w-7" />
                     </button>
-
-                    {/* Next Button */}
                     <button
-                        onClick={(e) => { e.stopPropagation(); goToNext(); }}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            goToNext();
+                        }}
+                        className="absolute right-4 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-white/10 text-white"
                         aria-label="Next image"
                     >
-                        <ChevronRight className="w-7 h-7 text-white" />
+                        <ChevronRight className="h-7 w-7" />
                     </button>
-
-                    {/* Image */}
                     <div
-                        className="relative max-w-4xl max-h-[85vh] w-full h-full"
+                        className="relative h-full w-full max-h-[85vh] max-w-4xl"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <Image
                             src={INTERIOR_IMAGES[selectedIndex].src}
                             alt={INTERIOR_IMAGES[selectedIndex].alt}
                             fill
-                            className="object-contain rounded-lg"
+                            className="rounded-lg object-contain"
                             sizes="(max-width: 1024px) 100vw, 80vw"
                             priority
                         />
                     </div>
-
-                    {/* Image Counter */}
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/70 text-sm">
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm text-white/70">
                         {selectedIndex + 1} / {INTERIOR_IMAGES.length}
                     </div>
                 </div>

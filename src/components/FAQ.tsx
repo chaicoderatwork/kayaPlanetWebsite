@@ -5,20 +5,20 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 
 const FAQS = [
     {
-        question: "How do I book the Best Makeup Artist in Kanpur?",
-        answer: "Booking the best makeup artist in Kanpur is easy! You can call us at +91-9999424375 or book a pre-wedding trial at our Govind Nagar salon to finalize your look."
+        question: "How do I book bridal makeup at Kaya Planet in Kanpur?",
+        answer: "Call +91 99994 24375 or message us on WhatsApp with your wedding date, getting-ready location and preferred artist. Bridal packages start at ₹14,000. The salon will confirm availability, inclusions and booking terms before you reserve your appointment."
     },
     {
-        question: "What is the price of a Makeup Artist in Kanpur?",
-        answer: "Bridal looks by Bhawna & Rashika start at ₹20,000 (MAC), with HD at ₹24,000, Signature/Airbrush at ₹28,000, Royal Signature at ₹32,000 and KP's Royal Bride at ₹42,000, which includes kundan jewellery on rent, nail extensions and human-hair lashes. Bridal by a senior artist starts at ₹16,000, engagement from ₹10,000 and the pre-bridal package from ₹12,000."
+        question: "What bridal packages do you offer in Kanpur?",
+        answer: "Bridal looks by Bhawna & Rashika include MAC, HD, Signature/Airbrush, Royal Signature and KP's Royal Bride, which includes kundan jewellery on rent, nail extensions and human-hair lashes. Senior-artist bridal, engagement looks and a pre-bridal package are also available. Message us on WhatsApp with your date and the look you have in mind."
     },
     {
         question: "How far in advance should I book my bridal date?",
-        answer: "Most of our brides book about three months before the wedding, and the popular muhurat dates in November and February fill four months out. We take a limited number of brides on each date, so message us on WhatsApp with your date as soon as it is fixed; a ₹5,000 advance confirms it."
+        answer: "Most of our brides book about three months before the wedding, and the popular muhurat dates in November and February fill four months out. We take a limited number of brides on each date, so message us on WhatsApp with your date as soon as it is fixed; an advance confirms it."
     },
     {
         question: "What is included in the pre-bridal package?",
-        answer: "Skin and hair care sessions in the weeks before the wedding, planned around your date, starting at ₹12,000. Ask for it when you book your bridal date and we will schedule the sessions with your trial."
+        answer: "Skin and hair care sessions in the weeks before the wedding, planned around your date. Ask for it when you book your bridal date and we will schedule the sessions with your trial."
     },
     {
         question: "Do you provide Makeup Academy courses?",

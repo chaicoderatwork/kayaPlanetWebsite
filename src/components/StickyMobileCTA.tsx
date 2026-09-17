@@ -12,6 +12,8 @@ export default function StickyMobileCTA() {
     const pathname = usePathname();
     const [isVisible, setIsVisible] = useState(false);
     const isExcludedPath = EXCLUDED_PATHS.some((p) => pathname?.startsWith(p));
+    const isBridalPath = pathname === "/" || pathname?.startsWith("/bridal");
+    const contactService = pathname === "/engagement" ? "engagement" : isBridalPath ? "bridal" : "general";
 
     useEffect(() => {
         const handleScroll = () => {
@@ -36,25 +38,37 @@ export default function StickyMobileCTA() {
                 isVisible ? "translate-y-0" : "translate-y-full"
             )}
         >
-            <div className="grid grid-cols-2 gap-3">
+            <div className={cn("grid gap-3", isBridalPath ? "grid-cols-1" : "grid-cols-2")}>
+                {!isBridalPath && (
                 <a
                     href={PHONE_TEL}
-                    onClick={() => trackContact("call_click", "sticky-bar")}
+                    onClick={() => trackContact("call_click", "sticky-bar", contactService)}
                     className="flex flex-col items-center justify-center text-gray-700 hover:text-[#F27708] py-1"
                 >
                     <Phone className="h-5 w-5 mb-1" />
                     <span className="text-[10px] font-medium uppercase tracking-wide">Call Now</span>
                 </a>
+                )}
 
                 <a
-                    href={waLink("bridal")}
+                    href={waLink(contactService)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() => trackContact("whatsapp_click", "sticky-bar", "bridal")}
-                    className="flex flex-col items-center justify-center bg-[#25D366] text-white rounded-lg py-2 shadow-sm"
+                    onClick={() =>
+                        trackContact(
+                            "whatsapp_click",
+                            isBridalPath ? "bridal-sticky-bar" : "sticky-bar",
+                            contactService,
+                        )
+                    }
+                    className="flex min-h-12 items-center justify-center gap-2 bg-[#25D366] text-white rounded-xl px-4 py-2 shadow-sm"
                 >
-                    <MessageCircle className="h-5 w-5 mb-1" />
-                    <span className="text-[10px] font-medium uppercase tracking-wide">Check my date on WhatsApp</span>
+                    <MessageCircle className="h-5 w-5" />
+                    <span className="text-xs font-semibold">
+                        {isBridalPath
+                            ? "Check my date"
+                            : "Chat on WhatsApp"}
+                    </span>
                 </a>
             </div>
         </div>

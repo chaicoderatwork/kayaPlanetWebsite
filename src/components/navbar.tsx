@@ -6,7 +6,7 @@ import { Menu, X, MessageCircle } from 'lucide-react'
 import Image from 'next/image'
 import kp from '../../public/kayaplanetlogo.png'
 import { usePathname } from 'next/navigation'
-import { waLink, trackContact } from '@/lib/contact'
+import { trackContact, waLink } from '@/lib/contact'
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -15,6 +15,7 @@ export default function Navbar() {
 
     const navItems = [
         { name: 'HOME', href: '/' },
+        { name: 'BRIDAL', href: '/#bridal-enquiry' },
         { name: 'GALLERY', href: '/gallery' },
     ]
 
@@ -57,7 +58,7 @@ export default function Navbar() {
 
     return (
         <nav
-            className={`h-[16] p-4 fixed w-full z-50 transition-colors duration-300 text-white ${isScrolled
+            className={`h-20 p-4 fixed w-full z-50 transition-colors duration-300 text-white ${isScrolled
                 ? 'bg-[#151515]/80 backdrop-blur-xl'
                 : router === '/gallery'
                     ? 'bg-black/70 backdrop-blur-xl'
@@ -92,7 +93,8 @@ export default function Navbar() {
                             <Link
                                 key={item.name}
                                 href={item.href}
-                                className="hover:text-[#F27708] font-medium transition-colors duration-300"
+                                aria-current={router === item.href ? 'page' : undefined}
+                                className={`font-medium transition-colors duration-300 hover:text-[#F2B576] ${router === item.href ? 'text-[#F2B576]' : ''}`}
                             >
                                 {item.name}
                             </Link>
@@ -119,7 +121,7 @@ export default function Navbar() {
                             className="bg-[#25D366] text-white px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1 hover:shadow-lg transition-all duration-300 whitespace-nowrap"
                         >
                             <MessageCircle className="h-3.5 w-3.5" />
-                            <span>WHATSAPP</span>
+                            <span>CHECK DATE</span>
                         </a>
                         <button
                             onClick={toggleMenu}
@@ -164,6 +166,7 @@ export default function Navbar() {
                                 <Link
                                     key={item.name}
                                     href={item.href}
+                                    aria-current={router === item.href ? 'page' : undefined}
                                     className="text-[#111111] border-b w-[100%] hover:text-[#F27708] font-medium transition-colors duration-300"
                                     onClick={() => setIsMenuOpen(false)}
                                 >

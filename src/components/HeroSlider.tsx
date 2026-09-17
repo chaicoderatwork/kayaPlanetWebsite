@@ -1,116 +1,73 @@
 "use client";
 
-import React, { useCallback, useEffect } from "react";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, MessageCircle } from "lucide-react";
-import heroSlidesData from "@/data/hero-slides.json";
-import { waLink, trackContact, type ContactService } from "@/lib/contact";
-
-interface HeroSlide {
-    id: number;
-    image: string;
-    title: string;
-    subtitle: string;
-    service?: ContactService;
-    cta?: string;
-}
-
-const HERO_SLIDES: HeroSlide[] = heroSlidesData as HeroSlide[];
+import { MessageCircle, Star } from "lucide-react";
+import { BRIDAL_TRUST } from "@/data/bridal";
+import { trackContact, waLink } from "@/lib/contact";
 
 export default function HeroSlider() {
-    const [emblaRef, emblaApi] = useEmblaCarousel(
-        {
-            loop: true,
-            align: "center",
-        },
-        [Autoplay({ delay: 4000, stopOnInteraction: false }) as any]
-    );
-
-    const scrollPrev = useCallback(() => {
-        if (emblaApi) emblaApi.scrollPrev();
-    }, [emblaApi]);
-
-    const scrollNext = useCallback(() => {
-        if (emblaApi) emblaApi.scrollNext();
-    }, [emblaApi]);
-
     return (
-        <section className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden bg-black">
-            <div className="overflow-hidden h-full" ref={emblaRef}>
-                <div className="flex h-full">
-                    {HERO_SLIDES.map((slide, index) => (
-                        <div
-                            key={slide.id}
-                            className="relative flex-none w-full h-full"
+        <section className="relative isolate flex min-h-[78svh] w-full items-end overflow-hidden bg-[#1C0F0B] text-white md:min-h-[84svh] md:items-center">
+            <Image
+                src="/hero1.webp"
+                alt="Kaya Planet bride wearing a luminous traditional bridal look"
+                fill
+                priority
+                className="object-cover object-[62%_top] md:object-top"
+                sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,8,5,0.08)_0%,rgba(20,8,5,0.28)_36%,rgba(20,8,5,0.94)_100%)] md:bg-[linear-gradient(90deg,rgba(20,8,5,0.94)_0%,rgba(20,8,5,0.72)_42%,rgba(20,8,5,0.08)_78%)]" />
+
+            <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-10 pt-28 sm:px-8 md:px-12 md:py-36">
+                <div className="max-w-2xl">
+                    <h1 className="text-balance font-[family-name:var(--font-gelasio)] text-4xl leading-[0.98] tracking-[-0.03em] sm:text-6xl lg:text-7xl">
+                        Bridal makeup in Kanpur,
+                        <span className="block font-normal italic text-[#F2C88F]">
+                            by Bhawna &amp; Rashika.
+                        </span>
+                    </h1>
+
+                    <div className="mt-7">
+                        <a
+                            href={waLink("bridal")}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => trackContact("whatsapp_click", "hero", "bridal")}
+                            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 text-sm font-semibold text-white transition hover:bg-[#1DA851] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                         >
-                            <Image
-                                src={slide.image}
-                                alt={slide.title}
-                                fill
-                                priority={index === 0}
-                                className="object-cover object-top"
-                                sizes="100vw"
-                            />
-                            {/* Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                            <MessageCircle className="h-5 w-5" />
+                            Check my date
+                        </a>
+                    </div>
 
-                            {/* Content */}
-                            <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 text-white">
-                                {index === 0 ? (
-                                    <h1 className={`text-3xl sm:text-4xl md:text-6xl font-[family-name:var(--font-gelasio)] mb-3 ${slide.title.length > 25 ? "" : "whitespace-nowrap"}`}>
-                                        {slide.title}
-                                    </h1>
-                                ) : (
-                                    <h2 className={`text-3xl sm:text-4xl md:text-6xl font-[family-name:var(--font-gelasio)] mb-3 ${slide.title.length > 25 ? "" : "whitespace-nowrap"}`}>
-                                        {slide.title}
-                                    </h2>
-                                )}
-                                <p className="text-lg md:text-xl text-gray-200 mb-6">
-                                    {slide.subtitle}
-                                </p>
-                                <a
-                                    href={waLink(slide.service ?? "bridal")}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={() => trackContact("whatsapp_click", "hero", slide.service ?? "bridal")}
-                                    className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1DA851] text-white font-medium px-8 py-3 rounded-full transition-colors"
-                                >
-                                    <MessageCircle className="w-5 h-5" />
-                                    {slide.cta ?? "Check my date on WhatsApp"}
-                                </a>
-                            </div>
+                    <div className="mt-8 grid max-w-xl grid-cols-3 gap-3 border-t border-white/20 pt-5">
+                        <div>
+                            <p className="flex items-center gap-1 font-[family-name:var(--font-gelasio)] text-lg text-[#F5D7AD] sm:text-xl">
+                                <Star className="h-4 w-4 fill-current" />
+                                {BRIDAL_TRUST.rating}
+                            </p>
+                            <p className="mt-1 text-[9px] uppercase tracking-[0.12em] text-white/55 sm:text-[10px]">
+                                147 {BRIDAL_TRUST.reviewSource} reviews
+                            </p>
                         </div>
-                    ))}
+                        <div>
+                            <p className="font-[family-name:var(--font-gelasio)] text-lg text-[#F5D7AD] sm:text-xl">
+                                From ₹14k
+                            </p>
+                            <p className="mt-1 text-[9px] uppercase tracking-[0.12em] text-white/55 sm:text-[10px]">
+                                Bridal packages
+                            </p>
+                        </div>
+                        <div>
+                            <p className="font-[family-name:var(--font-gelasio)] text-lg text-[#F5D7AD] sm:text-xl">
+                                10+
+                            </p>
+                            <p className="mt-1 text-[9px] uppercase tracking-[0.12em] text-white/55 sm:text-[10px]">
+                                Years in Kanpur
+                            </p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            {/* Navigation Arrows */}
-            <button
-                onClick={scrollPrev}
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm p-2 rounded-full transition-colors hidden md:block"
-                aria-label="Previous slide"
-            >
-                <ChevronLeft className="w-6 h-6 text-white" />
-            </button>
-            <button
-                onClick={scrollNext}
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm p-2 rounded-full transition-colors hidden md:block"
-                aria-label="Next slide"
-            >
-                <ChevronRight className="w-6 h-6 text-white" />
-            </button>
-
-            {/* Dots Indicator */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                {HERO_SLIDES.map((_, idx) => (
-                    <button
-                        key={idx}
-                        className="w-2.5 h-2.5 rounded-full bg-white/60 hover:bg-white transition-colors"
-                        aria-label={`Go to slide ${idx + 1}`}
-                    />
-                ))}
             </div>
         </section>
     );

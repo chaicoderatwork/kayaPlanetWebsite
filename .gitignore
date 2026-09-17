@@ -1,6 +1,7 @@
 node_modules
 .next
 .DS_Store
+.env*.local
 
 # Large raw assets (optimized versions are used in app)
 public/gallery-assets/
@@ -9,3 +10,4 @@ public/*.JPEG
 public/*.MOV
 
 data/anniversary-registrations.json
+data/enquiries.json

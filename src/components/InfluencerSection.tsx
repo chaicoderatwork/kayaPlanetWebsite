@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -95,7 +97,7 @@ export default function InfluencerSection() {
                         Trusted by Creators
                     </h2>
                     <p className="text-gray-500 text-sm mt-3 px-4 md:px-0 md:max-w-lg mx-auto leading-relaxed">
-                        Our confidence comes from being the natural choice<br className="md:hidden" />
+                        Our confidence comes from being the natural choice
                         for Kanpur&apos;s biggest influencers, even for their special days.
                     </p>
                 </div>

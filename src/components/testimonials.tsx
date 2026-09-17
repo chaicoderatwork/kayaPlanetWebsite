@@ -1,174 +1,212 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { CheckCheck } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import {
+  ArrowUpRight,
+  ChevronLeft,
+  ChevronRight,
+  Star,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
+import { BRIDAL_REVIEWS, BRIDAL_TRUST } from "@/data/bridal";
 
-interface Testimonial {
-    id: string;
-    username: string;
-    rating: number;
-    time: string;
-    text: string;
-}
+function ReviewVideo({
+  videoUrl,
+  posterUrl,
+  label,
+}: {
+  videoUrl: string;
+  posterUrl: string;
+  label: string;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
+  const [shouldLoad, setShouldLoad] = useState(false);
 
-const STATIC_TESTIMONIALS: Testimonial[] = [
-    {
-        id: "1",
-        username: "Priya Sharma",
-        rating: 5,
-        time: "2 weeks ago",
-        text: "Hands down the best bridal makeup artist in Kanpur! My HD makeup was flawless and lasted the entire wedding. Highly recommend! 💕",
-    },
-    {
-        id: "2",
-        username: "Anjali Gupta",
-        rating: 5,
-        time: "1 month ago",
-        text: "Visited for party makeup in Govind Nagar. Staff is so professional and my hairstyle got so many compliments! ✨",
-    },
-    {
-        id: "3",
-        username: "Sneha Verma",
-        rating: 5,
-        time: "3 weeks ago",
-        text: "If you're searching for the best makeup artist in Kanpur, look no further! Their Academy course was amazing. Use of MAC & Huda Beauty really helped me learn. 🙌",
-    },
-    {
-        id: "4",
-        username: "Ritika Singh",
-        rating: 5,
-        time: "1 week ago",
-        text: "Got my engagement makeup done here. The Airbrush finish was stunning. Best bridal makeup in Kanpur for sure! 💖",
-    },
-    {
-        id: "5",
-        username: "Kavita Yadav",
-        rating: 5,
-        time: "5 days ago",
-        text: "The pre-bridal package was amazing! They truly are the best makeup artist Kanpur has. 10/10 recommend for any bride! 👰",
-    },
-];
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
 
-// Lightweight avatar - just initials with gradient background
-function SimpleAvatar({ name }: { name: string }) {
-    const initials = name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase();
-    // Generate consistent color from name
-    const hue = name.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0) % 360;
-    return (
-        <div
-            className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-semibold"
-            style={{ background: `linear-gradient(135deg, hsl(${hue}, 70%, 50%), hsl(${hue + 30}, 70%, 40%))` }}
-        >
-            {initials}
-        </div>
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setShouldLoad(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: "120px", threshold: 0.1 },
     );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (shouldLoad) {
+      void videoRef.current?.play().catch(() => {});
+    }
+  }, [shouldLoad]);
+
+  const toggleSound = () => {
+    const nextMuted = !isMuted;
+    setIsMuted(nextMuted);
+
+    if (videoRef.current) {
+      videoRef.current.muted = nextMuted;
+      if (!nextMuted) {
+        void videoRef.current.play().catch(() => {
+          setIsMuted(true);
+        });
+      }
+    }
+  };
+
+  return (
+    <div ref={containerRef} className="absolute inset-0">
+      {shouldLoad ? (
+        <video
+          ref={videoRef}
+          src={videoUrl}
+          poster={posterUrl}
+          muted={isMuted}
+          autoPlay
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+          className="h-full w-full object-cover"
+        />
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={posterUrl}
+          alt=""
+          className="h-full w-full object-cover"
+        />
+      )}
+      <button
+        type="button"
+        onClick={toggleSound}
+        aria-label={isMuted ? `Play ${label} with sound` : `Mute ${label}`}
+        className="absolute right-3 top-3 z-10 grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/45 text-white backdrop-blur-md"
+      >
+        {isMuted ? (
+          <VolumeX className="h-4 w-4" />
+        ) : (
+          <Volume2 className="h-4 w-4" />
+        )}
+      </button>
+    </div>
+  );
 }
 
 export default function Testimonials() {
-    const [reviews, setReviews] = useState<Testimonial[]>(STATIC_TESTIMONIALS);
-    const scrollRef = useRef<HTMLDivElement>(null);
-    const [isPaused, setIsPaused] = useState(false);
-    const scrollPositionRef = useRef(0);
-    const animationRef = useRef<number | null>(null);
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "start",
+    containScroll: "trimSnaps",
+  });
 
-    useEffect(() => {
-        const controller = new AbortController();
-        const fetchReviews = async () => {
-            try {
-                const res = await fetch("https://kpcrud-vj8f.vercel.app/api/links6", {
-                    signal: controller.signal,
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data.length > 0) setReviews(data);
-                }
-            } catch {
-                // Use static testimonials
-            }
-        };
-        fetchReviews();
-        return () => controller.abort();
-    }, []);
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
-    useEffect(() => {
-        const scrollContent = scrollRef.current;
-        if (!scrollContent || reviews.length === 0) return;
-
-        const speed = 0.3;
-
-        const animate = () => {
-            if (!scrollContent) return;
-            if (!isPaused) {
-                scrollPositionRef.current += speed;
-                const scrollWidth = scrollContent.scrollWidth / 2;
-                if (scrollPositionRef.current >= scrollWidth) {
-                    scrollPositionRef.current = 0;
-                }
-                scrollContent.style.transform = `translateX(-${scrollPositionRef.current}px)`;
-            }
-            animationRef.current = requestAnimationFrame(animate);
-        };
-
-        animationRef.current = requestAnimationFrame(animate);
-        return () => {
-            if (animationRef.current) cancelAnimationFrame(animationRef.current);
-        };
-    }, [reviews.length, isPaused]);
-
-    const displayReviews = [...reviews, ...reviews];
-
-    return (
-        <section className="py-12 bg-[#FDFBF9]">
-            <div className="container mx-auto px-4 mb-8">
-                <div className="text-center">
-                    <span className="text-xs font-semibold text-[#F27708] uppercase tracking-wider">
-                        Reviews
-                    </span>
-                    <h2 className="text-2xl md:text-4xl font-[family-name:var(--font-gelasio)] mt-1 text-[#111111]">
-                        Happy Clients
-                    </h2>
-                </div>
-            </div>
-
-            <div
-                className="overflow-hidden"
-                onMouseEnter={() => setIsPaused(true)}
-                onMouseLeave={() => setIsPaused(false)}
-                onTouchStart={() => setIsPaused(true)}
-                onTouchEnd={() => setIsPaused(false)}
+  return (
+    <section className="w-full bg-[#24140F] px-5 py-16 text-white sm:px-8 md:py-20 lg:px-12">
+      <div className="mx-auto max-w-7xl">
+        <div className="flex items-end justify-between gap-5">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#E2AC70]">
+              Real bridal reviews
+            </p>
+            <h2 className="mt-2 font-[family-name:var(--font-gelasio)] text-2xl leading-tight sm:text-4xl">
+              Real brides. Real words.
+            </h2>
+          </div>
+          <div className="hidden gap-2 sm:flex">
+            <button
+              type="button"
+              onClick={scrollPrev}
+              aria-label="Previous bridal review"
+              className="grid h-11 w-11 place-items-center rounded-full border border-white/20 transition hover:bg-white hover:text-[#24140F]"
             >
-                <div
-                    ref={scrollRef}
-                    className="flex gap-4 px-4"
-                    style={{ willChange: "transform" }}
-                >
-                    {displayReviews.map((review, index) => (
-                        <div
-                            key={`${review.id}-${index}`}
-                            className="flex-shrink-0 w-[280px] md:w-[320px]"
-                        >
-                            {/* WhatsApp-style Chat Bubble */}
-                            <div className="bg-[#DCF8C6] rounded-2xl rounded-tl-sm p-4 shadow-sm relative">
-                                <div className="absolute -left-2 top-0 w-4 h-4 bg-[#DCF8C6]" style={{
-                                    clipPath: "polygon(100% 0, 100% 100%, 0 0)"
-                                }} />
-                                <p className="text-gray-800 text-sm leading-relaxed">
-                                    {review.text}
-                                </p>
-                                <div className="flex items-center justify-end gap-1 mt-2">
-                                    <span className="text-[10px] text-gray-500">{review.time}</span>
-                                    <CheckCheck className="w-4 h-4 text-blue-500" />
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-2 mt-3 ml-2">
-                                <SimpleAvatar name={review.username} />
-                                <span className="text-sm font-medium text-gray-700">{review.username}</span>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </section>
-    );
-}
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={scrollNext}
+              aria-label="Next bridal review"
+              className="grid h-11 w-11 place-items-center rounded-full border border-white/20 transition hover:bg-white hover:text-[#24140F]"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
 
+        <div ref={emblaRef} className="mt-8 overflow-hidden">
+          <div className="-ml-3 flex">
+            {BRIDAL_REVIEWS.map((review) => (
+              <div
+                key={review.id}
+                className="min-w-0 flex-[0_0_86%] pl-3 sm:flex-[0_0_48%] lg:flex-[0_0_33.333%]"
+              >
+                <article>
+                  <div className="relative h-[58vh] overflow-hidden rounded-2xl bg-[#120A07] sm:h-auto sm:aspect-[9/16]">
+                    <ReviewVideo
+                      videoUrl={review.videoUrl}
+                      posterUrl={review.posterUrl}
+                      label={review.videoLabel}
+                    />
+                  </div>
+                  <div className="px-0.5 pt-3">
+                    <div
+                      className="flex gap-0.5 text-[#F0C086]"
+                      aria-label="5 out of 5 stars"
+                    >
+                      {Array.from({ length: 5 }).map((_, index) => (
+                        <Star
+                          key={index}
+                          className="h-3 w-3 fill-current"
+                        />
+                      ))}
+                    </div>
+                    <blockquote className="mt-1.5 font-[family-name:var(--font-gelasio)] text-[15px] leading-5 text-white line-clamp-2 sm:text-base sm:leading-6">
+                      “{review.quote}”
+                    </blockquote>
+                    <p className="mt-1.5 text-[11px] text-white/45">
+                      {review.artist}
+                    </p>
+                  </div>
+                </article>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-6 flex items-center justify-between gap-3 border-t border-white/10 pt-5 text-xs text-white/45">
+          <a
+            href={BRIDAL_TRUST.instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 font-semibold text-[#F2CE9F] underline decoration-[#B77A43] underline-offset-4"
+          >
+            Watch more
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </a>
+          <a
+            href={BRIDAL_TRUST.reviewUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 font-semibold text-[#F2CE9F] underline decoration-[#B77A43] underline-offset-4"
+          >
+            147 reviews
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}

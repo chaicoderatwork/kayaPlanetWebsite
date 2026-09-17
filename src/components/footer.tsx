@@ -5,6 +5,7 @@ import Link from "next/link"
 import { waLink, PHONE_TEL, PHONE_DISPLAY, trackContact } from "@/lib/contact"
 import Image from "next/image"
 import kp from '../../public/kayaplanetlogo.png'
+import { GOOGLE_MAPS_URL } from '@/lib/seo'
 
 export default function Footer() {
   return (
@@ -29,7 +30,7 @@ export default function Footer() {
               className="mb-4 h-7 w-auto object-contain"
             />
             <p className="text-gray-400 text-sm leading-relaxed">
-              Rated as the <strong className="text-gray-300">Best Makeup Artist in Kanpur</strong>. We specialize in luxury bridal makeovers, engagement looks, and professional academy courses.
+              Kaya Planet is a salon and makeup academy in Govind Nagar, Kanpur, offering bridal makeup, engagement looks, hair, skin and nail services.
             </p>
           </div>
 
@@ -46,8 +47,9 @@ export default function Footer() {
             </a>
             <div className="flex items-start gap-2 text-sm">
               <MapPin size={14} className="mt-0.5 flex-shrink-0" />
-              <span>125/53-B, opp. Viva Natraj, Lal Quarter, Govind Nagar, Kanpur</span>
+              <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener noreferrer" className="hover:text-[#F27708]">125/53-B, opp. Viva Natraj, Lal Quarter, Govind Nagar, Kanpur, Uttar Pradesh 208006</a>
             </div>
+            <p className="text-sm">Open daily: 10 am–8:30 pm</p>
           </div>
 
           {/* Social - Left aligned */}
@@ -61,6 +63,10 @@ export default function Footer() {
               <Instagram size={16} />
               @kayaplanetbeautysalon
             </Link>
+            <h3 className="text-xs font-semibold text-white uppercase tracking-wider pt-4">Explore</h3>
+            <Link href="/#bridal-enquiry" className="text-sm hover:text-[#F27708]">Bridal makeup in Kanpur</Link>
+            <Link href="/gallery" className="text-sm hover:text-[#F27708]">Makeup gallery</Link>
+            <Link href="/academy" className="text-sm hover:text-[#F27708]">Makeup academy</Link>
           </div>
         </div>
 

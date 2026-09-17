@@ -1,12 +1,13 @@
 import React from "react";
 import GalleryGrid from "@/components/GalleryGrid";
 import galleryItems from "@/data/gallery-processed.json";
-import { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Gallery | Kaya Planet Salon & Academy",
-  description: "Explore our portfolio of best bridal makeup in Kanpur, engagement looks, and professional academy courses.",
-};
+export const metadata = pageMetadata({
+  path: "/gallery",
+  title: "Bridal & Engagement Makeup Gallery in Kanpur",
+  description: "Explore Kaya Planet's bridal, engagement and party makeup portfolio in Kanpur, with soft glam, traditional and signature looks.",
+});
 
 export default function GalleryPage() {
   return (

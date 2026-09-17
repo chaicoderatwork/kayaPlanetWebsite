@@ -16,23 +16,30 @@ export default function WhatsAppChatBox() {
 
   // Check if current path is excluded
   const isExcludedPath = EXCLUDED_PATHS.some(path => pathname?.startsWith(path))
+  const isBridalPath = pathname === '/' || pathname?.startsWith('/bridal')
+  const isEngagementPath = pathname === '/engagement'
+  const isServicePath = isBridalPath || isEngagementPath
+  const contactService = isEngagementPath ? 'engagement' : isBridalPath ? 'bridal' : 'general'
 
   useEffect(() => {
     if (isExcludedPath) return
 
+    setIsExpanded(false)
     const visibilityTimer = setTimeout(() => {
       setIsVisible(true)
     }, 1500)
 
-    const expansionTimer = setTimeout(() => {
-      setIsExpanded(true)
-    }, 7000)
+    const expansionTimer = isServicePath
+      ? undefined
+      : setTimeout(() => {
+          setIsExpanded(true)
+        }, 7000)
 
     return () => {
       clearTimeout(visibilityTimer)
-      clearTimeout(expansionTimer)
+      if (expansionTimer) clearTimeout(expansionTimer)
     }
-  }, [isExcludedPath])
+  }, [isServicePath, isExcludedPath])
 
   const handleExpand = () => {
     setIsExpanded(true)
@@ -44,8 +51,6 @@ export default function WhatsAppChatBox() {
 
   // Don't render on excluded paths
   if (isExcludedPath) return null
-
-  const currentTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }).toLowerCase()
 
   return (
     <div className={`fixed bottom-4 right-4 z-[100] hidden md:block transition-opacity duration-500 ease-in-out ${isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
@@ -62,19 +67,30 @@ export default function WhatsAppChatBox() {
             }`}
         >
           <div className="message-bubble bg-white p-3 shadow-sm relative mt-6 mb-4">
-            <p className="text-gray-800 font-medium mb-1 relative z-10">Get in Touch Now!</p>
-            <span className="text-xs text-gray-500 absolute bottom-1 right-2 z-10">{currentTime}</span>
+            <p className="text-gray-800 font-medium mb-1 relative z-10">
+              {isEngagementPath ? 'Check your engagement date' : isBridalPath ? 'Check your bridal date' : 'Get in Touch Now!'}
+            </p>
           </div>
           <div className="mt-4 flex flex-col justify-between h-[calc(100%-6rem)]">
-            <p className="text-gray-700 mb-4">Have any questions? We&apos;re here to help!</p>
+            <p className="text-gray-700 mb-4">
+              {isServicePath
+                ? 'Send your function, date and venue to check availability.'
+                : 'Have any questions? We’re here to help!'}
+            </p>
             <a
-              href={waLink("general")}
+              href={waLink(contactService)}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => trackContact("whatsapp_click", "float")}
+              onClick={() =>
+                trackContact(
+                  "whatsapp_click",
+                  isBridalPath ? "bridal-float" : "float",
+                  contactService,
+                )
+              }
               className="block w-full py-2 px-4 bg-[#25D366] text-white rounded-full text-center font-medium hover:bg-[#128C7E] transition duration-300"
             >
-              Start Chat
+              {isServicePath ? 'Check my date on WhatsApp' : 'Start Chat'}
             </a>
           </div>
           <button
@@ -90,6 +106,7 @@ export default function WhatsAppChatBox() {
       {/* Desktop: expandable button */}
       <button
         onClick={handleExpand}
+        aria-label={isEngagementPath ? "Check engagement date on WhatsApp" : isBridalPath ? "Check bridal date on WhatsApp" : "Open WhatsApp chat"}
         className={`absolute bottom-0 right-0 bg-[#25D366] text-white p-3 rounded-full shadow-lg hover:bg-[#128C7E] transition-all duration-300 transform hover:scale-110 hidden md:flex ${isExpanded ? 'scale-0 opacity-0 pointer-events-none' : 'scale-100 opacity-100 pointer-events-auto'
           }`}
       >

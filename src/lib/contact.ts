@@ -4,8 +4,8 @@
  * - WhatsApp links always open the front-desk business number with a
  *   pre-filled message, so the reply team knows the function, date and
  *   area before they type a word.
- * - Every click is reported to GA4 (and to the Meta Pixel when it is
- *   installed) so ads can be judged on conversations, not impressions.
+ * - Contact clicks and accepted enquiries are reported separately to
+ *   GA4 and the Meta Pixel when installed.
  */
 
 export const WHATSAPP_NUMBER = "919999424375"; // country code + number, digits only
@@ -40,7 +40,64 @@ export function waLink(service: ContactService = "general"): string {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(MESSAGES[service])}`;
 }
 
+export type BridalEnquiryDetails = {
+  name?: string;
+  mobile?: string;
+  eventDate?: string;
+  functionName?: string;
+  area?: string;
+  look?: string;
+  packageName?: string;
+};
+
+function cleanMessageValue(value?: string): string | undefined {
+  const cleaned = value?.replace(/[\r\n]+/g, " ").trim().slice(0, 120);
+  return cleaned || undefined;
+}
+
+/**
+ * Build a bridal WhatsApp link from choices made on the bridal page.
+ * Values are kept short and flattened to one line before URL encoding.
+ */
+export function bridalEnquiryLink(details: BridalEnquiryDetails = {}): string {
+  const name = cleanMessageValue(details.name);
+  const mobile = cleanMessageValue(details.mobile);
+  const eventDate = cleanMessageValue(details.eventDate);
+  const functionName = cleanMessageValue(details.functionName);
+  const area = cleanMessageValue(details.area);
+  const look = cleanMessageValue(details.look);
+  const packageName = cleanMessageValue(details.packageName);
+
+  const lines = [
+    `Hi Kaya Planet!${name ? ` I’m ${name}.` : ""} I’d like to check ${functionName === "Engagement" ? "engagement" : "bridal"} makeup availability.`,
+    `Event date: ${eventDate ?? "___"}`,
+    `Function: ${functionName ?? "___"}`,
+    `Area / venue: ${area ?? "___"}`,
+    mobile ? `Mobile: ${mobile}` : undefined,
+    look ? `Look I loved: ${look}` : undefined,
+    packageName ? `Package I’m considering: ${packageName}` : undefined,
+  ].filter((line): line is string => Boolean(line));
+
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
+}
+
 type ContactEvent = "whatsapp_click" | "call_click";
+
+/** Call only after the enquiry API confirms receipt. Never pass personal details. */
+export function trackEnquiry(location: string, service: ContactService = "bridal"): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.gtag?.("event", "generate_lead", {
+      event_category: "enquiry",
+      location,
+      service,
+      page_path: window.location.pathname,
+    });
+    window.fbq?.("track", "Lead", { content_name: service });
+  } catch {
+    /* analytics must never interrupt the success message */
+  }
+}
 
 declare global {
   interface Window {
