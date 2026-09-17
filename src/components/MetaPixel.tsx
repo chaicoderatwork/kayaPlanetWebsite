@@ -2,7 +2,8 @@
 
 import Script from "next/script";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { shouldCollectAnalytics } from "@/lib/analytics";
 
 /**
  * Meta Pixel. Renders nothing until NEXT_PUBLIC_META_PIXEL_ID is set
@@ -14,13 +15,18 @@ const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 
 export default function MetaPixel() {
   const pathname = usePathname();
+  const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
-    if (!PIXEL_ID) return;
-    window.fbq?.("track", "PageView");
-  }, [pathname]);
+    setEnabled(shouldCollectAnalytics());
+  }, []);
 
-  if (!PIXEL_ID) return null;
+  useEffect(() => {
+    if (!PIXEL_ID || !enabled) return;
+    window.fbq?.("track", "PageView");
+  }, [pathname, enabled]);
+
+  if (!PIXEL_ID || !enabled) return null;
 
   return (
     <>

@@ -83,17 +83,25 @@ export function bridalEnquiryLink(details: BridalEnquiryDetails = {}): string {
 
 type ContactEvent = "whatsapp_click" | "call_click";
 
-/** Call only after the enquiry API confirms receipt. Never pass personal details. */
+/**
+ * Primary conversion: a captured enquiry that continues to WhatsApp.
+ * Fire this on form submit, before navigation. Never pass personal details.
+ */
 export function trackEnquiry(location: string, service: ContactService = "bridal"): void {
   if (typeof window === "undefined") return;
   try {
-    window.gtag?.("event", "generate_lead", {
-      event_category: "enquiry",
+    const params = {
+      event_category: "conversion",
       location,
       service,
       page_path: window.location.pathname,
+    };
+    window.gtag?.("event", "enquiry_submit", params);
+    window.gtag?.("event", "generate_lead", params);
+    window.fbq?.("track", "Lead", {
+      content_name: service,
+      content_category: "enquiry_submit",
     });
-    window.fbq?.("track", "Lead", { content_name: service });
   } catch {
     /* analytics must never interrupt the success message */
   }

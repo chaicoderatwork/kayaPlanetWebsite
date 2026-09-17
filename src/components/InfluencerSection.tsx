@@ -70,6 +70,7 @@ function VideoModal({
                         autoPlay
                         controls
                         playsInline
+                        preload="none"
                         className="w-full h-full object-cover"
                     />
                 </div>

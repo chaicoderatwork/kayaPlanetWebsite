@@ -3,9 +3,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
-import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import servicesData from "@/data/services.json";
+import DeferredVideoPoster from "@/components/DeferredVideoPoster";
 
 interface ServiceVideo {
     id: string;
@@ -17,77 +17,6 @@ interface ServiceVideo {
 const SERVICE_VIDEOS: ServiceVideo[] = servicesData;
 
 const WHATSAPP_NUMBER = "919999424375";
-
-// Lazy Video component that only loads when visible
-function LazyVideo({
-    videoUrl,
-    posterUrl,
-}: {
-    videoUrl: string;
-    posterUrl: string;
-}) {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const videoRef = useRef<HTMLVideoElement>(null);
-    const [shouldLoad, setShouldLoad] = useState(false);
-
-    useEffect(() => {
-        const container = containerRef.current;
-        if (!container) return;
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setShouldLoad(true);
-                        observer.disconnect();
-                    }
-                });
-            },
-            {
-                rootMargin: "100px",
-                threshold: 0.1
-            }
-        );
-
-        observer.observe(container);
-        return () => observer.disconnect();
-    }, []);
-
-    // Play video when it loads
-    useEffect(() => {
-        const video = videoRef.current;
-        if (video && shouldLoad) {
-            video.play().catch(() => { /* Ignore play errors */ });
-        }
-    }, [shouldLoad]);
-
-    return (
-        <div ref={containerRef} className="w-full h-full relative bg-gray-900 icon-wrapper">
-            {shouldLoad ? (
-                <video
-                    ref={videoRef}
-                    src={videoUrl}
-                    poster={posterUrl}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    webkit-playsinline="true"
-                    preload="metadata"
-                    className="w-full h-full object-cover"
-                />
-            ) : (
-                <Image
-                    src={posterUrl}
-                    alt="Service Preview"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 20vw"
-                />
-            )}
-        </div>
-    );
-}
 
 // Full-screen modal component - rendered conditionally for zero cost when closed
 function FullScreenModal({
@@ -180,6 +109,7 @@ function FullScreenModal({
                         loop
                         playsInline
                         controls
+                        preload="none"
                         className="w-full h-full object-cover"
                     />
                 </div>
@@ -267,9 +197,10 @@ export default function ServicesSlider() {
                                     onClick={() => openModal(service, index)}
                                     className="relative block w-full h-[280px] md:h-[350px] rounded-xl overflow-hidden bg-gray-900 shadow-lg group text-left"
                                 >
-                                    <LazyVideo
-                                        videoUrl={service.videoUrl}
+                                    <DeferredVideoPoster
                                         posterUrl={service.posterUrl}
+                                        alt={service.title}
+                                        sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 20vw"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
                                     <div className="absolute bottom-0 left-0 right-0 p-3 pointer-events-none">

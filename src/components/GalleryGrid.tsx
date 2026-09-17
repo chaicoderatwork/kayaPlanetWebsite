@@ -52,6 +52,29 @@ function formatViews(views: number): string {
     return views.toString();
 }
 
+function GalleryThumb({ item }: { item: GalleryItem }) {
+    const src = item.type === "video" ? item.poster || item.src : item.src;
+    return (
+        <>
+            <Image
+                src={src}
+                alt={item.alt}
+                fill
+                loading="lazy"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width: 768px) 33vw, 25vw"
+                placeholder={item.blurData ? "blur" : "empty"}
+                blurDataURL={item.blurData}
+            />
+            {item.type === "video" ? (
+                <div className="absolute top-2 right-2">
+                    <Play fill="white" className="w-5 h-5 text-white drop-shadow-lg" />
+                </div>
+            ) : null}
+        </>
+    );
+}
+
 export default function GalleryGrid({ items: initialItems = [], groups = [] }: GalleryGridProps) {
     // Flatten groups for lightbox navigation if groups are provided
     const allItems = useMemo(() => {
@@ -327,33 +350,7 @@ export default function GalleryGrid({ items: initialItems = [], groups = [] }: G
                                         className="relative aspect-square cursor-pointer group overflow-hidden bg-gray-100"
                                         onClick={() => openItem(item)}
                                     >
-                                        {item.type === "image" ? (
-                                            <Image
-                                                src={item.src}
-                                                alt={item.alt}
-                                                fill
-                                                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                                sizes="(max-width: 768px) 33vw, 25vw"
-                                                placeholder={item.blurData ? "blur" : "empty"}
-                                                blurDataURL={item.blurData}
-                                            />
-                                        ) : (
-                                            <>
-                                                <video
-                                                    src={item.src}
-                                                    poster={item.poster}
-                                                    className="w-full h-full object-cover"
-                                                    playsInline
-                                                    muted
-                                                    loop // Auto loop small videos in grid is nice
-                                                    autoPlay // Autoplay muted
-                                                />
-                                                <div className="absolute top-2 right-2">
-                                                    <Play fill="white" className="w-5 h-5 text-white drop-shadow-lg" />
-                                                </div>
-                                            </>
-                                        )}
-                                        {/* Badges - Bottom Left */}
+                                        <GalleryThumb item={item} />
                                         {item.badge && (
                                             <div className="absolute bottom-3 left-3 z-10 w-fit">
                                                 {item.badgeType === 'real-bride' ? (
@@ -391,37 +388,10 @@ export default function GalleryGrid({ items: initialItems = [], groups = [] }: G
                                 className="relative aspect-square cursor-pointer group overflow-hidden bg-gray-100"
                                 onClick={() => openItem(item)}
                             >
-                                {item.type === "image" ? (
-                                    <Image
-                                        src={item.src}
-                                        alt={item.alt}
-                                        fill
-                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                        sizes="(max-width: 768px) 33vw, 25vw"
-                                        placeholder={item.blurData ? "blur" : "empty"}
-                                        blurDataURL={item.blurData}
-                                    />
-                                ) : (
-                                    <>
-                                        <video
-                                            src={item.src}
-                                            poster={item.poster}
-                                            className="w-full h-full object-cover"
-                                            playsInline
-                                            muted
-                                            loop
-                                            autoPlay
-                                        />
-                                        <div className="absolute top-2 right-2">
-                                            <Play fill="white" className="w-5 h-5 text-white drop-shadow-lg" />
-                                        </div>
-                                    </>
-                                )}
-                                {/* Hover overlay */}
+                                <GalleryThumb item={item} />
                                 <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                     <Eye className="w-6 h-6 text-white" />
                                 </div>
-                                {/* Badges */}
                                 {item.badge && (
                                     <div className="absolute bottom-3 left-3 z-10 w-fit">
                                         {item.badgeType === 'real-bride' ? (
@@ -502,6 +472,7 @@ export default function GalleryGrid({ items: initialItems = [], groups = [] }: G
                                         controls
                                         autoPlay
                                         playsInline
+                                        preload="none"
                                     />
                                 )}
                                 {/* Lightbox Badge - Positioned over media */}

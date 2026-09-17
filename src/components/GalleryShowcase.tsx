@@ -5,19 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-// Hardcoded featured items from gallery for reliable display
-import brideAish1 from "../../public/gallery/bride_aish_1.webp";
-import brideRaadhya1 from "../../public/gallery/bride_raadhya_1.webp";
-import brideAnanya1 from "../../public/gallery/bride_ananya_1.webp";
-import brideSaumya1 from "../../public/gallery/bride_saumya_1.webp";
-import brideRad1 from "../../public/gallery/bride_rad_1.webp";
-
 const FEATURED_ITEMS = [
-    { id: "bride_aish_1", src: brideAnanya1, alt: "Bridal makeup transformation with elegant styling", title: "Bridal Elegance", hashtags: ["BridalMakeup"] },
-    { id: "bride_raadhya_1", src: brideRaadhya1, alt: "Traditional bridal look with jewelry", title: "Royal Bride", hashtags: ["TraditionalBride"] },
-    { id: "bride_ananya_1", src: brideAish1, alt: "Engagement ceremony makeup look", title: "Engagement Glow", hashtags: ["EngagementMakeup"] },
-    { id: "bride_saumya_1", src: brideSaumya1, alt: "South Indian bridal look", title: "South Bride", hashtags: ["SouthIndianBride"] },
-    { id: "bride_rad_1", src: brideRad1, alt: "Contemporary bridal style", title: "Modern Bride", hashtags: ["ModernBride"] },
+    { id: "bride_aish_1", src: "/gallery/bride_ananya_1.webp", alt: "Bridal makeup transformation with elegant styling", title: "Bridal Elegance", hashtags: ["BridalMakeup"] },
+    { id: "bride_raadhya_1", src: "/gallery/bride_raadhya_1.webp", alt: "Traditional bridal look with jewelry", title: "Royal Bride", hashtags: ["TraditionalBride"] },
+    { id: "bride_ananya_1", src: "/gallery/bride_aish_1.webp", alt: "Engagement ceremony makeup look", title: "Engagement Glow", hashtags: ["EngagementMakeup"] },
+    { id: "bride_saumya_1", src: "/gallery/bride_saumya_1.webp", alt: "South Indian bridal look", title: "South Bride", hashtags: ["SouthIndianBride"] },
+    { id: "bride_rad_1", src: "/gallery/bride_rad_1.webp", alt: "Contemporary bridal style", title: "Modern Bride", hashtags: ["ModernBride"] },
 ];
 
 export default function GalleryShowcase() {
@@ -78,7 +71,7 @@ export default function GalleryShowcase() {
                                         src={item.src}
                                         alt={item.alt}
                                         fill
-                                        placeholder="blur"
+                                        loading="lazy"
                                         className="object-cover transition-transform duration-500 group-hover:scale-110"
                                         sizes={
                                             index === 0

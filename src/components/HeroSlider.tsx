@@ -1,21 +1,19 @@
 "use client";
 
-import Image from "next/image";
 import { MessageCircle, Star } from "lucide-react";
 import { BRIDAL_TRUST } from "@/data/bridal";
 import { trackContact, waLink } from "@/lib/contact";
+import HeroLcpImage from "@/components/HeroLcpImage";
 
 export default function HeroSlider() {
     return (
         <section className="relative isolate flex min-h-[78svh] w-full items-end overflow-hidden bg-[#1C0F0B] text-white md:min-h-[84svh] md:items-center">
-            <Image
-                src="/hero1.webp"
-                alt="Kaya Planet bride wearing a luminous traditional bridal look"
-                fill
-                priority
-                className="object-cover object-[62%_top] md:object-top"
-                sizes="100vw"
-            />
+            <div className="absolute inset-0">
+                <HeroLcpImage
+                    alt="Kaya Planet bride wearing a luminous traditional bridal look"
+                    className="h-full w-full object-cover object-[62%_top] md:object-top"
+                />
+            </div>
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,8,5,0.08)_0%,rgba(20,8,5,0.28)_36%,rgba(20,8,5,0.94)_100%)] md:bg-[linear-gradient(90deg,rgba(20,8,5,0.94)_0%,rgba(20,8,5,0.72)_42%,rgba(20,8,5,0.08)_78%)]" />
 
             <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-10 pt-28 sm:px-8 md:px-12 md:py-36">

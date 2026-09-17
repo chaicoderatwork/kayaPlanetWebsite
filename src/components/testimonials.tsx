@@ -1,11 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import {
   ArrowUpRight,
   ChevronLeft,
   ChevronRight,
+  Play,
   Star,
   Volume2,
   VolumeX,
@@ -21,77 +22,50 @@ function ReviewVideo({
   posterUrl: string;
   label: string;
 }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState(true);
   const [shouldLoad, setShouldLoad] = useState(false);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setShouldLoad(true);
-            observer.disconnect();
-          }
-        });
-      },
-      { rootMargin: "120px", threshold: 0.1 },
-    );
-
-    observer.observe(container);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (shouldLoad) {
-      void videoRef.current?.play().catch(() => {});
-    }
-  }, [shouldLoad]);
-
-  const toggleSound = () => {
-    const nextMuted = !isMuted;
-    setIsMuted(nextMuted);
-
-    if (videoRef.current) {
-      videoRef.current.muted = nextMuted;
-      if (!nextMuted) {
-        void videoRef.current.play().catch(() => {
-          setIsMuted(true);
-        });
-      }
-    }
-  };
-
-  return (
-    <div ref={containerRef} className="absolute inset-0">
-      {shouldLoad ? (
-        <video
-          ref={videoRef}
-          src={videoUrl}
-          poster={posterUrl}
-          muted={isMuted}
-          autoPlay
-          loop
-          playsInline
-          preload="metadata"
-          aria-hidden="true"
-          className="h-full w-full object-cover"
-        />
-      ) : (
-        // eslint-disable-next-line @next/next/no-img-element
+  if (!shouldLoad) {
+    return (
+      <button
+        type="button"
+        onClick={() => setShouldLoad(true)}
+        className="absolute inset-0"
+        aria-label={`Play ${label}`}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={posterUrl}
           alt=""
+          loading="lazy"
+          decoding="async"
           className="h-full w-full object-cover"
         />
-      )}
+        <span className="absolute inset-0 flex items-center justify-center">
+          <span className="grid h-12 w-12 place-items-center rounded-full bg-black/45 text-white backdrop-blur-sm">
+            <Play className="ml-0.5 h-5 w-5 fill-current" />
+          </span>
+        </span>
+      </button>
+    );
+  }
+
+  return (
+    <div className="absolute inset-0">
+      <video
+        src={videoUrl}
+        poster={posterUrl}
+        muted={isMuted}
+        autoPlay
+        loop
+        playsInline
+        preload="none"
+        aria-hidden="true"
+        className="h-full w-full object-cover"
+      />
       <button
         type="button"
-        onClick={toggleSound}
+        onClick={() => setIsMuted((muted) => !muted)}
         aria-label={isMuted ? `Play ${label} with sound` : `Mute ${label}`}
         className="absolute right-3 top-3 z-10 grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/45 text-white backdrop-blur-md"
       >

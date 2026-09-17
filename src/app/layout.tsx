@@ -1,53 +1,42 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Navbar from "../components/navbar";
 import Footer from "@/components/footer";
-import Script from "next/script";
 import WhatsAppChatBox from "@/components/whatsapp";
-import EnquiryPopup from "@/components/EnquiryPopup";
 import { EnquiryPopupProvider } from "@/components/EnquiryPopupContext";
-import { Analytics } from "@vercel/analytics/next";
 import StickyMobileCTA from "@/components/StickyMobileCTA";
 import MetaPixel from "@/components/MetaPixel";
-import { BUSINESS_ID, SITE_URL } from "@/lib/seo";
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
-const Stardom = localFont({
-  src: "./fonts/Stardom-Regular.woff",
-  variable: "--font-stardom",
-  weight: "100 900",
-});
-
+import SiteAnalytics from "@/components/SiteAnalytics";
+import { BUSINESS_ID, SITE_URL, canonicalUrl } from "@/lib/seo";
 import { Poppins, Gelasio } from "next/font/google";
 
 const poppins = Poppins({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600"],
   subsets: ["latin"],
   display: "swap",
   variable: "--font-poppins",
+  preload: false,
 });
 
 const gelasio = Gelasio({
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600", "700"],
+  style: ["normal", "italic"],
   subsets: ["latin"],
   display: "swap",
   variable: "--font-gelasio",
+  preload: true,
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   alternates: {
-    canonical: SITE_URL,
+    canonical: canonicalUrl(),
   },
   verification: {
     google: "Pid-L7klulPZY8LgoDimtiRPmyWR-i-27WndJ63rk6Y",
@@ -71,15 +60,15 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: SITE_URL,
+    url: canonicalUrl(),
     siteName: "Kaya Planet Salon & Academy",
     title: "Kaya Planet Salon & Academy | Luxury Beauty in Kanpur",
     description: "Discover bridal artistry, hair, skin, nails, engagement looks and professional makeup courses at Kaya Planet in Govind Nagar, Kanpur.",
     images: [
       {
-        url: "/hs1.jpg",
-        width: 1200,
-        height: 630,
+        url: "/hero1.webp",
+        width: 1272,
+        height: 1771,
         alt: "Best Bridal Makeup Artist in Kanpur - Kaya Planet",
       },
     ],
@@ -88,7 +77,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Kaya Planet Salon & Academy | Kanpur",
     description: "Luxury bridal artistry, salon services and professional makeup courses in Kanpur.",
-    images: ["/hs1.jpg"],
+    images: ["/hero1.webp"],
   },
   robots: {
     index: true,
@@ -114,7 +103,7 @@ export default function RootLayout({
     "@id": BUSINESS_ID,
     "name": "Kaya Planet Salon & Academy",
     "image": `${SITE_URL}/kayaplanetlogo.png`,
-    "url": SITE_URL,
+    "url": canonicalUrl(),
     "telephone": "+919999424375",
     "address": {
       "@type": "PostalAddress",
@@ -190,28 +179,8 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-        {/* Google Analytics */}
-        {process.env.NEXT_PUBLIC_GA_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
-              `}
-            </Script>
-          </>
-        )}
-      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${Stardom.variable} ${poppins.variable} ${gelasio.variable} antialiased font-[family-name:var(--font-gelasio)]`}
+        className={`${poppins.variable} ${gelasio.variable} antialiased font-[family-name:var(--font-poppins)]`}
       >
         <script
           id="local-business-schema"
@@ -220,7 +189,6 @@ export default function RootLayout({
         />
         <EnquiryPopupProvider>
           <Navbar />
-          {/* <EnquiryPopup /> */}
           {children}
           <WhatsAppChatBox />
           <StickyMobileCTA />
@@ -229,7 +197,7 @@ export default function RootLayout({
           </footer>
         </EnquiryPopupProvider>
         <MetaPixel />
-        <Analytics />
+        <SiteAnalytics />
       </body>
     </html>
   );

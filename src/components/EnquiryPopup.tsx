@@ -5,6 +5,11 @@ import { usePathname } from "next/navigation";
 import { X, Calendar, Phone, User, Sparkles, CheckCircle, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEnquiryPopup } from "./EnquiryPopupContext";
+import {
+    bridalEnquiryLink,
+    trackEnquiry,
+    type ContactService,
+} from "@/lib/contact";
 
 const SERVICES = [
     { value: "bridal-makeup", label: "Bridal Makeup" },
@@ -19,6 +24,14 @@ const SERVICES = [
 
 const STORAGE_KEY = "kp_enquiry_shown";
 const POPUP_DELAY = 12000; // 12 seconds
+
+const SERVICE_TO_CONTACT: Record<string, ContactService> = {
+    "bridal-makeup": "bridal",
+    "engagement-makeup": "engagement",
+    "party-makeup": "party",
+    "reception-makeup": "bridal",
+    "pre-bridal": "pre-bridal",
+};
 
 // Pages where popup should NOT show
 const EXCLUDED_PATHS = ["/anniversary", "/admin"];
@@ -81,30 +94,34 @@ export default function EnquiryPopup() {
         setIsSubmitting(true);
         setError("");
 
-        try {
-            const response = await fetch("/api/enquiry", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
-            });
+        const contactService = SERVICE_TO_CONTACT[formData.service] ?? "general";
+        const formattedDate = formData.eventDate
+            ? new Date(`${formData.eventDate}T00:00:00`).toLocaleDateString("en-IN", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            })
+            : "";
 
-            if (response.ok) {
-                setIsSuccess(true);
-                localStorage.setItem(STORAGE_KEY, "true");
-                setTimeout(() => {
-                    handleClose();
-                    setIsSuccess(false);
-                    setFormData({ name: "", mobile: "", eventDate: "", service: "" });
-                }, 3000);
-            } else {
-                const data = await response.json();
-                setError(data.message || "Something went wrong. Please try again.");
-            }
-        } catch {
-            setError("Network error. Please try again.");
-        } finally {
-            setIsSubmitting(false);
-        }
+        trackEnquiry("enquiry-popup", contactService);
+        void fetch("/api/enquiry", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            keepalive: true,
+            body: JSON.stringify(formData),
+        }).catch(() => {
+            /* WhatsApp still opens */
+        });
+
+        window.location.assign(
+            bridalEnquiryLink({
+                name: formData.name,
+                mobile: formData.mobile,
+                eventDate: formattedDate,
+                functionName: SERVICES.find((item) => item.value === formData.service)?.label,
+            }),
+        );
     };
 
     // Don't render popup on excluded paths
@@ -148,7 +165,7 @@ export default function EnquiryPopup() {
                                     Book Your Appointment
                                 </h3>
                                 <p className="text-white/90 text-sm mt-1">
-                                    Get a callback from our expert team
+                                    Send your details and continue on WhatsApp
                                 </p>
                             </div>
 
@@ -256,12 +273,12 @@ export default function EnquiryPopup() {
                                                     Submitting...
                                                 </>
                                             ) : (
-                                                "Get Callback"
+                                                "Continue on WhatsApp"
                                             )}
                                         </button>
 
                                         <p className="text-center text-xs text-gray-400">
-                                            We respect your privacy. No spam, ever.
+                                            Opens WhatsApp with your details. No spam, ever.
                                         </p>
                                     </form>
                                 )}

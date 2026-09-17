@@ -75,6 +75,7 @@ export default function Navbar() {
                             width="50"
                             height="50"
                             className="flex-shrink-0"
+                            sizes="50px"
                         />
                         {/* Brand Name - visible on mobile */}
                         <div className="relative h-6 w-full max-w-[180px] md:hidden">
@@ -82,6 +83,7 @@ export default function Navbar() {
                                 src="/kp-logo-white.png"
                                 alt="Kaya Planet"
                                 fill
+                                sizes="180px"
                                 className="object-contain object-left"
                             />
                         </div>

@@ -7,14 +7,16 @@ export const GOOGLE_MAPS_URL =
   "https://www.google.com/maps?q=Kaya+Planet+Salon+125/53-B+Govind+Nagar+Kanpur";
 
 export function canonicalUrl(path = "/"): string {
-  return new URL(path, `${SITE_URL}/`).toString();
+  const url = new URL(path, `${SITE_URL}/`);
+  if (url.pathname === "/") return SITE_URL;
+  return `${SITE_URL}${url.pathname.replace(/\/$/, "")}`;
 }
 
 export function pageMetadata({
   path,
   title,
   description,
-  image = "/hs1.jpg",
+  image = "/hero1.webp",
 }: {
   path: string;
   title: string;

@@ -1,5 +1,7 @@
 import HeroSlider from "../components/HeroSlider";
 import { pageMetadata } from "@/lib/seo";
+import { preload } from "react-dom";
+import dynamic from "next/dynamic";
 
 export const metadata = pageMetadata({
   path: "/",
@@ -7,8 +9,6 @@ export const metadata = pageMetadata({
   description:
     "Bridal makeup at Kaya Planet in Govind Nagar, Kanpur. Bridal packages from ₹14,000. Explore work by Bhawna and Rashika and check your date.",
 });
-// Code splitting below-the-fold components
-import dynamic from "next/dynamic";
 
 const AboutFounders = dynamic(() => import("@/components/AboutFounders"), {
   loading: () => <div className="h-[400px] bg-white w-full animate-pulse" />,
@@ -39,8 +39,13 @@ const InfluencerSection = dynamic(() => import("@/components/InfluencerSection")
 });
 
 export default function Home() {
+  preload("/hero1-mobile.avif", {
+    as: "image",
+    fetchPriority: "high",
+  });
+
   return (
-    <main className="flex flex-col overflow-x-hidden items-center justify-start font-[family-name:var(--font-geist-sans)] bg-[#FDFBF9] text-[#111111]">
+    <main className="flex flex-col overflow-x-hidden items-center justify-start bg-[#FDFBF9] text-[#111111]">
       {/* Hero Slider */}
       <HeroSlider />
 

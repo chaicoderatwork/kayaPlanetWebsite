@@ -57,7 +57,7 @@ export default function BridalEnquiry({
     }
 
     setIsSubmitting(true);
-    trackContact("whatsapp_click", trackingLocation, contactService);
+    trackEnquiry(trackingLocation, contactService);
 
     notifyDateCheckEmail({
       eventDate,
@@ -75,13 +75,9 @@ export default function BridalEnquiry({
         functionName,
         source: trackingLocation,
       }),
-    })
-      .then((response) => {
-        if (response.ok) trackEnquiry(trackingLocation, contactService);
-      })
-      .catch(() => {
-        /* WhatsApp still opens; save must never block the bride */
-      });
+    }).catch(() => {
+      /* WhatsApp still opens; save must never block the bride */
+    });
 
     window.location.assign(whatsappUrl);
   };

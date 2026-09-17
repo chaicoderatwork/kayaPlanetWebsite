@@ -14,7 +14,7 @@ import Acadtestimonials from "@/components/acadtestimonials";
 
 export default function Home() {
   return (
-    <div className="flex overflow-x-hidden flex-col items-center justify-start font-[family-name:var(--font-geist-sans)] bg-[#FDFBF9] text-[#111111]">
+    <div className="flex overflow-x-hidden flex-col items-center justify-start bg-[#FDFBF9] text-[#111111]">
       <WhatsAppChatBox />
       <HeroSection />
       <Strip/>

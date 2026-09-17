@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import {
   ArrowDown,
   MessageCircle,
@@ -9,6 +8,7 @@ import {
 } from "lucide-react";
 import { waLink, trackContact } from "@/lib/contact";
 import { BRIDAL_SEASONS, BRIDAL_TRUST } from "@/data/bridal";
+import HeroLcpImage from "@/components/HeroLcpImage";
 
 export default function BridalHero() {
   return (
@@ -105,13 +105,9 @@ export default function BridalHero() {
         </div>
 
         <div className="absolute inset-0 overflow-hidden lg:relative lg:inset-auto lg:min-h-full">
-          <Image
-            src="/hero1.webp"
+          <HeroLcpImage
             alt="Kaya Planet bride in a gold wedding look"
-            fill
-            priority
-            className="object-cover object-top"
-            sizes="(max-width: 1024px) 100vw, 49vw"
+            className="h-full w-full object-cover object-top"
           />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(29,15,11,0.25)_0%,rgba(29,15,11,0.88)_62%,rgba(29,15,11,0.98)_100%)] lg:bg-gradient-to-r lg:from-[#1D0F0B]/25 lg:to-transparent" />
           <div className="absolute bottom-5 left-5 right-5 hidden flex-wrap gap-2 sm:left-8 sm:right-8 lg:flex">
