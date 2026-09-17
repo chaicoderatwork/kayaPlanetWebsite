@@ -3,10 +3,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import Image from "next/image";
+import { ChevronLeft, ChevronRight, Volume2, VolumeX, X } from "lucide-react";
 import Link from "next/link";
 import reelsData from "@/data/reels.json";
-import DeferredVideoPoster from "@/components/DeferredVideoPoster";
 
 interface Reel {
     id: string;
@@ -19,7 +19,72 @@ const REELS: Reel[] = reelsData;
 
 const WHATSAPP_NUMBER = "919999424375";
 
-// Full-screen modal component - rendered conditionally for zero cost when closed
+function LazyVideo({
+    videoUrl,
+    posterUrl,
+}: {
+    videoUrl: string;
+    posterUrl: string;
+}) {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const [shouldLoad, setShouldLoad] = useState(false);
+
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setShouldLoad(true);
+                        observer.disconnect();
+                    }
+                });
+            },
+            { rootMargin: "100px", threshold: 0.1 }
+        );
+
+        observer.observe(container);
+        return () => observer.disconnect();
+    }, []);
+
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video || !shouldLoad) return;
+        video.muted = true;
+        video.play().catch(() => {});
+    }, [shouldLoad]);
+
+    return (
+        <div ref={containerRef} className="w-full h-full relative bg-gray-900">
+            {shouldLoad ? (
+                <video
+                    ref={videoRef}
+                    src={videoUrl}
+                    poster={posterUrl}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-full object-cover"
+                />
+            ) : (
+                <Image
+                    src={posterUrl}
+                    alt=""
+                    fill
+                    loading="lazy"
+                    className="object-cover"
+                    sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 20vw"
+                />
+            )}
+        </div>
+    );
+}
+
 function FullScreenModal({
     reel,
     onClose,
@@ -36,6 +101,7 @@ function FullScreenModal({
     hasNext: boolean;
 }) {
     const videoRef = useRef<HTMLVideoElement>(null);
+    const [isMuted, setIsMuted] = useState(true);
 
     const getWhatsAppLink = () => {
         const message = `Hi! I loved this look: "${reel.title}". I want to enquire more about it`;
@@ -53,13 +119,30 @@ function FullScreenModal({
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, [onClose, onPrev, onNext, hasPrev, hasNext]);
 
-    // Prevent body scroll when modal is open
     useEffect(() => {
         document.body.style.overflow = "hidden";
         return () => {
             document.body.style.overflow = "";
         };
     }, []);
+
+    useEffect(() => {
+        setIsMuted(true);
+        const video = videoRef.current;
+        if (!video) return;
+        video.muted = true;
+        const play = () => {
+            video.play().catch(() => {});
+        };
+        video.addEventListener("canplay", play);
+        play();
+        return () => video.removeEventListener("canplay", play);
+    }, [reel.videoUrl]);
+
+    useEffect(() => {
+        const video = videoRef.current;
+        if (video) video.muted = isMuted;
+    }, [isMuted]);
 
     return (
         <div
@@ -107,12 +190,20 @@ function FullScreenModal({
                         src={reel.videoUrl}
                         poster={reel.posterUrl}
                         autoPlay
+                        muted
                         loop
                         playsInline
-                        controls
-                        preload="none"
+                        preload="auto"
                         className="w-full h-full object-cover"
                     />
+                    <button
+                        type="button"
+                        onClick={() => setIsMuted((muted) => !muted)}
+                        aria-label={isMuted ? "Unmute video" : "Mute video"}
+                        className="absolute right-3 top-3 z-10 grid h-10 w-10 place-items-center rounded-full border border-white/20 bg-black/45 text-white backdrop-blur-md"
+                    >
+                        {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                    </button>
                 </div>
 
                 {/* Title and CTA - fixed at bottom of content with safe spacing */}
@@ -206,10 +297,9 @@ export default function ReelSlider() {
                                     onClick={() => openModal(reel, index)}
                                     className="relative block w-full h-[280px] md:h-[350px] rounded-xl overflow-hidden bg-gray-900 shadow-lg group text-left"
                                 >
-                                    <DeferredVideoPoster
+                                    <LazyVideo
+                                        videoUrl={reel.videoUrl}
                                         posterUrl={reel.posterUrl}
-                                        alt={reel.title}
-                                        sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 20vw"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-transparent to-black/70 pointer-events-none" />
                                     <div className="absolute bottom-0 left-0 right-0 p-3 pointer-events-none">

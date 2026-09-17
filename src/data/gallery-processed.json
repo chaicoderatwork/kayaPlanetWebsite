@@ -1,5 +1,363 @@
 [
   {
+    "group": "Night",
+    "items": [
+      {
+        "type": "image",
+        "src": "/gallery/bride_night_1.webp",
+        "width": 682,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAADwAQCdASoHAAoABUB8JagCdAEO9DKaxAAA/u7W8bcAHEGh53esFFNDtk++woGuEai9Z2qyMrHgAA==",
+        "alt": "Bridal makeup under evening lights",
+        "title": "Evening Bride",
+        "hashtags": []
+      }
+    ]
+  },
+  {
+    "group": "Gold",
+    "items": [
+      {
+        "type": "image",
+        "src": "/gallery/bride_gold_1.webp",
+        "width": 576,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoGAAoABUB8JQBOgCHMv0MYAAD+zZ+gZoV83pb2OfJQRpn+IiUaIDMBAAA=",
+        "alt": "Gold bridal makeup with ruby jewellery",
+        "title": "Gold Glam",
+        "hashtags": [
+          "bestbridalmakeupkanpur",
+          "makeupartistinkanpur",
+          "bridalmakeup",
+          "indianbride",
+          "BridalMakeup",
+          "GoldGlam",
+          "IndianBride",
+          "kayaplanetbride"
+        ],
+        "badge": "Real Bride",
+        "badgeType": "real-bride"
+      },
+      {
+        "type": "image",
+        "src": "/gallery/bride_gold_2.webp",
+        "width": 576,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAADQAQCdASoGAAoABUB8JYgCdADzelbYAAD+0fSbG/0ylqM5BL3R1DQ0gvGQ3ULVya/mhdnkNCXrAAAA",
+        "alt": "Close-up gold bridal makeup in Kanpur",
+        "title": "Gold Portrait",
+        "hashtags": [
+          "bestbridalmakeupkanpur",
+          "makeupartistinkanpur",
+          "bridalmakeup",
+          "indianbride",
+          "BridalMakeup",
+          "GoldGlam",
+          "IndianBride",
+          "kayaplanetbride"
+        ],
+        "badge": "Real Bride",
+        "badgeType": "real-bride"
+      }
+    ]
+  },
+  {
+    "group": "Emerald",
+    "items": [
+      {
+        "type": "image",
+        "src": "/gallery/bride_emerald_1.webp",
+        "width": 576,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADwAQCdASoGAAoABUB8JZgCdAD0mi7QN4AA/Y1a+j98J0RKu9vqEALdxkoXLgD38oDV8lywcAA=",
+        "alt": "Emerald jewellery bridal makeup",
+        "title": "Emerald Glow",
+        "hashtags": [
+          "bestbridalmakeupkanpur",
+          "makeupartistinkanpur",
+          "bridalmakeup",
+          "indianbride",
+          "BridalMakeup",
+          "EngagementMakeup",
+          "IndianBride",
+          "kayaplanetbride"
+        ],
+        "badge": "Real Bride",
+        "badgeType": "real-bride"
+      },
+      {
+        "type": "image",
+        "src": "/gallery/bride_emerald_2.webp",
+        "width": 576,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAADQAQCdASoGAAoABUB8JZACdAEegHVuAAD+qOXMY01JU61cN43FbLqUy0jWA6inyuAAAA==",
+        "alt": "Seated emerald bridal look",
+        "title": "Emerald Bride",
+        "hashtags": [
+          "bestbridalmakeupkanpur",
+          "makeupartistinkanpur",
+          "bridalmakeup",
+          "indianbride",
+          "BridalMakeup",
+          "EngagementMakeup",
+          "IndianBride",
+          "kayaplanetbride"
+        ],
+        "badge": "Real Bride",
+        "badgeType": "real-bride"
+      },
+      {
+        "type": "image",
+        "src": "/gallery/bride_emerald_3.webp",
+        "width": 576,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADwAQCdASoGAAoABUB8JYwCdAEO6nh/RgAAzXg+JjGgVg611Rjd+xfQ1+9XjiO8RFqO5pAAAAA=",
+        "alt": "Emerald bridal makeup by the window",
+        "title": "Emerald Evening",
+        "hashtags": []
+      }
+    ]
+  },
+  {
+    "group": "Heritage",
+    "items": [
+      {
+        "type": "image",
+        "src": "/gallery/bride_heritage_1.webp",
+        "width": 576,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAADQAQCdASoGAAoABUB8JbACdADz2ebgAAD+MyPL5Hv1/NcQC29WMNnNuqNex3J7u+tIAAAA",
+        "alt": "Traditional bridal makeup outdoors",
+        "title": "Heritage Bride",
+        "hashtags": [
+          "bestbridalmakeupkanpur",
+          "makeupartistinkanpur",
+          "bridalmakeup",
+          "indianbride",
+          "BridalMakeup",
+          "TraditionalBride",
+          "IndianBride",
+          "kayaplanetbride"
+        ],
+        "badge": "Real Bride",
+        "badgeType": "real-bride"
+      },
+      {
+        "type": "image",
+        "src": "/gallery/bride_heritage_2.webp",
+        "width": 576,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADQAQCdASoGAAoABUB8JbACdADzcRDkAAD9dKQRfdFC1unaeyEdXnvhkBh9d3vfpju546WdsAA=",
+        "alt": "Traditional bridal close-up with maang tikka",
+        "title": "Heritage Glow",
+        "hashtags": [
+          "bestbridalmakeupkanpur",
+          "makeupartistinkanpur",
+          "bridalmakeup",
+          "indianbride",
+          "BridalMakeup",
+          "TraditionalBride",
+          "IndianBride",
+          "kayaplanetbride"
+        ],
+        "badge": "Real Bride",
+        "badgeType": "real-bride"
+      }
+    ]
+  },
+  {
+    "group": "Ruby",
+    "items": [
+      {
+        "type": "image",
+        "src": "/gallery/bride_ruby_1.webp",
+        "width": 576,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAADQAQCdASoGAAoABUB8JZACdAD0rChgoAD8Y/wuzmjMad5OdNUSpLkLdWT9LrshzSAAAA==",
+        "alt": "Red bridal lehenga makeup on the staircase",
+        "title": "Ruby Bride",
+        "hashtags": [
+          "bestbridalmakeupkanpur",
+          "makeupartistinkanpur",
+          "bridalmakeup",
+          "indianbride",
+          "BridalMakeup",
+          "WeddingGlam",
+          "IndianBride",
+          "kayaplanetbride"
+        ],
+        "badge": "Real Bride",
+        "badgeType": "real-bride"
+      },
+      {
+        "type": "image",
+        "src": "/gallery/bride_ruby_2.webp",
+        "width": 576,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAADwAQCdASoGAAoABUB8JZACdAD0TvwGzgAA/rw6ejBcVYPhXkaU19OeN7N+3UhQieEUjqLk1+fnm3AA",
+        "alt": "Red bridal makeup portrait",
+        "title": "Ruby Portrait",
+        "hashtags": []
+      },
+      {
+        "type": "image",
+        "src": "/gallery/bride_ruby_3.webp",
+        "width": 576,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADQAQCdASoGAAoABUB8JbACdADydYgQAAD6SEXU6RjIw6VSn6qkbCF2TpfnmrJPeXvZDmkAAAA=",
+        "alt": "Red bridal look in profile",
+        "title": "Ruby Profile",
+        "hashtags": [
+          "bestbridalmakeupkanpur",
+          "makeupartistinkanpur",
+          "bridalmakeup",
+          "indianbride",
+          "BridalMakeup",
+          "WeddingGlam",
+          "IndianBride",
+          "kayaplanetbride"
+        ],
+        "badge": "Real Bride",
+        "badgeType": "real-bride"
+      },
+      {
+        "type": "image",
+        "src": "/gallery/bride_ruby_4.webp",
+        "width": 576,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADQAQCdASoGAAoABUB8JYgC7ADbHFJEgAD2gQ5B0W/TsCPZxLhCCVSk9Q1Re1A7x62r+v3AAAA=",
+        "alt": "Red bridal makeup at the verandah",
+        "title": "Ruby Verandah",
+        "hashtags": [
+          "bestbridalmakeupkanpur",
+          "makeupartistinkanpur",
+          "bridalmakeup",
+          "indianbride",
+          "BridalMakeup",
+          "WeddingGlam",
+          "IndianBride",
+          "kayaplanetbride"
+        ],
+        "badge": "Real Bride",
+        "badgeType": "real-bride"
+      },
+      {
+        "type": "image",
+        "src": "/gallery/bride_ruby_5.webp",
+        "width": 576,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAACwAQCdASoGAAoABUB8JagCdAEYiQwAAP5s3cwcRKLP+of41VlvWIf9yfpdjxtzsoAAAA==",
+        "alt": "Red bridal makeup by the window",
+        "title": "Ruby Window",
+        "hashtags": [
+          "bestbridalmakeupkanpur",
+          "makeupartistinkanpur",
+          "bridalmakeup",
+          "indianbride",
+          "BridalMakeup",
+          "WeddingGlam",
+          "IndianBride",
+          "kayaplanetbride"
+        ],
+        "badge": "Real Bride",
+        "badgeType": "real-bride"
+      },
+      {
+        "type": "image",
+        "src": "/gallery/bride_ruby_6.webp",
+        "width": 576,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAACwAQCdASoGAAoABUB8JYgCdAD0eeIAAM38fakJPg+OHrXpBxgVQzfMJvSLaJa78mFlOAAA",
+        "alt": "Red bridal makeup in the courtyard",
+        "title": "Ruby Courtyard",
+        "hashtags": []
+      },
+      {
+        "type": "image",
+        "src": "/gallery/bride_ruby_7.webp",
+        "width": 576,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAACwAQCdASoGAAoABUB8JbACdADz3kmwAP6tlQbcDkSM6tlG2tosXeaWEbDHpp0GlnjFAAAA",
+        "alt": "Red bridal makeup seated on the stairs",
+        "title": "Ruby Stairs",
+        "hashtags": [
+          "bestbridalmakeupkanpur",
+          "makeupartistinkanpur",
+          "bridalmakeup",
+          "indianbride",
+          "BridalMakeup",
+          "WeddingGlam",
+          "IndianBride",
+          "kayaplanetbride"
+        ],
+        "badge": "Real Bride",
+        "badgeType": "real-bride"
+      }
+    ]
+  },
+  {
+    "group": "Crimson",
+    "items": [
+      {
+        "type": "image",
+        "src": "/gallery/bride_crimson_1.webp",
+        "width": 682,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAACwAQCdASoHAAoABUB8JbACdADydUHoAP7c9JNsz5F5xozp1ku4EEEV5h7L/d+E9owvesAAAAA=",
+        "alt": "Crimson bridal makeup close-up",
+        "title": "Crimson Portrait",
+        "hashtags": [
+          "bestbridalmakeupkanpur",
+          "makeupartistinkanpur",
+          "bridalmakeup",
+          "indianbride",
+          "BridalMakeup",
+          "WeddingGlam",
+          "IndianBride",
+          "kayaplanetbride"
+        ],
+        "badge": "Real Bride",
+        "badgeType": "real-bride"
+      },
+      {
+        "type": "image",
+        "src": "/gallery/bride_crimson_2.webp",
+        "width": 682,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACQAQCdASoHAAoABUB8JQBYdh4/EvAA/uzD/+quEbkPd71O5qBZWs6uhElV0AAA",
+        "alt": "Crimson bridal lehenga full look",
+        "title": "Crimson Bride",
+        "hashtags": [
+          "bestbridalmakeupkanpur",
+          "makeupartistinkanpur",
+          "bridalmakeup",
+          "indianbride",
+          "BridalMakeup",
+          "WeddingGlam",
+          "IndianBride",
+          "kayaplanetbride"
+        ],
+        "badge": "Real Bride",
+        "badgeType": "real-bride"
+      }
+    ]
+  },
+  {
+    "group": "Coral",
+    "items": [
+      {
+        "type": "image",
+        "src": "/gallery/bride_coral_1.webp",
+        "width": 681,
+        "height": 1024,
+        "blurData": "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAACwAQCdASoHAAoABUB8JaACdADbEGAAAP5IvOlZ+GyvvlJhzZOHtRprMlBf7GgRB/SX08g5V6v7AAAA",
+        "alt": "Coral bridal makeup with gold jewellery",
+        "title": "Coral Glam",
+        "hashtags": []
+      }
+    ]
+  },
+  {
     "group": "Aish",
     "items": [
       {

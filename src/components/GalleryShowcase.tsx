@@ -6,11 +6,11 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 const FEATURED_ITEMS = [
-    { id: "bride_aish_1", src: "/gallery/bride_ananya_1.webp", alt: "Bridal makeup transformation with elegant styling", title: "Bridal Elegance", hashtags: ["BridalMakeup"] },
-    { id: "bride_raadhya_1", src: "/gallery/bride_raadhya_1.webp", alt: "Traditional bridal look with jewelry", title: "Royal Bride", hashtags: ["TraditionalBride"] },
-    { id: "bride_ananya_1", src: "/gallery/bride_aish_1.webp", alt: "Engagement ceremony makeup look", title: "Engagement Glow", hashtags: ["EngagementMakeup"] },
-    { id: "bride_saumya_1", src: "/gallery/bride_saumya_1.webp", alt: "South Indian bridal look", title: "South Bride", hashtags: ["SouthIndianBride"] },
-    { id: "bride_rad_1", src: "/gallery/bride_rad_1.webp", alt: "Contemporary bridal style", title: "Modern Bride", hashtags: ["ModernBride"] },
+    { id: "bride_ruby_6", src: "/gallery/bride_ruby_6.webp", alt: "Bridal makeup in the courtyard" },
+    { id: "bride_ruby_2", src: "/gallery/bride_ruby_2.webp", alt: "Bridal makeup portrait" },
+    { id: "bride_emerald_3", src: "/gallery/bride_emerald_3.webp", alt: "Bridal makeup by the window" },
+    { id: "bride_coral_1", src: "/gallery/bride_coral_1.webp", alt: "Bridal makeup with gold jewellery" },
+    { id: "bride_night_1", src: "/gallery/bride_night_1.webp", alt: "Bridal makeup under evening lights" },
 ];
 
 export default function GalleryShowcase() {
@@ -80,18 +80,7 @@ export default function GalleryShowcase() {
                                         }
                                     />
 
-                                    {/* Gradient Overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                                    {/* Title on Hover */}
-                                    <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                                        <p className="text-white font-medium text-sm md:text-base">
-                                            {item.title}
-                                        </p>
-                                        <p className="text-white/70 text-xs mt-1">
-                                            {item.hashtags?.[0] && `#${item.hashtags[0]}`}
-                                        </p>
-                                    </div>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                 </div>
                             </Link>
                         </div>
