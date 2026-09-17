@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRef, useState, useCallback, useEffect } from "react";
 import { useInView } from "framer-motion";
 import { Eye, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
-import { trackContact, waLink } from "@/lib/contact";
 
 const INTERIOR_IMAGES = [
     {
@@ -144,17 +143,8 @@ export default function SalonInterior() {
                         className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[#C9A585] px-5 text-sm font-semibold text-[#7D431F] transition hover:bg-white"
                     >
                         <MapPin className="h-4 w-4" />
-                        Govind Nagar salon
+                        Get directions
                     </Link>
-                    <a
-                        href={waLink("bridal")}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => trackContact("whatsapp_click", "photography-space", "bridal")}
-                        className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[#7D431F] underline decoration-[#C9A585] underline-offset-4"
-                    >
-                        Check my date
-                    </a>
                 </div>
             </div>
 
