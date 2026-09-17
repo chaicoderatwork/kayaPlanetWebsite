@@ -12,6 +12,11 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ["sharp"],
   },
+  async redirects() {
+    return [
+      { source: "/bridal", destination: "/", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -9,11 +9,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 1,
         },
         {
-            url: canonicalUrl('/bridal'),
-            changeFrequency: 'weekly',
-            priority: 0.95,
-        },
-        {
             url: canonicalUrl('/gallery'),
             changeFrequency: 'daily',
             priority: 0.9,

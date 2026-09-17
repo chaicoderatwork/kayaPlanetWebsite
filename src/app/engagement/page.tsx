@@ -113,7 +113,7 @@ export default function EngagementPage() {
           <div className="rounded-2xl bg-[#FBF7F1] p-7">
             <h3 className="font-[family-name:var(--font-gelasio)] text-2xl">Planning your wedding makeup too?</h3>
             <p className="my-4 text-sm leading-7 text-[#65594F]">Our bridal page compares packages from ₹14,000 and shows work by Bhawna and Rashika. Engagement pricing is quoted separately for your requirements.</p>
-            <Link href="/bridal" className="text-sm font-semibold underline underline-offset-4">Compare bridal makeup packages →</Link>
+            <Link href="/" className="text-sm font-semibold underline underline-offset-4">See bridal makeup on the homepage →</Link>
           </div>
         </div>
       </section>
