@@ -2,8 +2,8 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
     path: "/blog",
-    title: "Makeup Tips & Insights",
-    description: "Expert makeup tips, bridal beauty guides, and skincare routines from the best makeup artist in Kanpur. Learn professional techniques at Kaya Planet.",
+    title: "Bridal Makeup Tips & Guides in Kanpur",
+    description: "Bridal makeup tips and guides from Kaya Planet in Kanpur. Learn how Bhawna and Rashika plan wedding looks, skincare prep and makeup finishes.",
 });
 
 export default function BlogLayout({

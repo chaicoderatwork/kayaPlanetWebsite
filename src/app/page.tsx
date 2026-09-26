@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 
 export const metadata = pageMetadata({
   path: "/",
-  title: "Makeup Artist & Salon in Kanpur",
+  title: "Best Makeup Artist & Bridal Studio in Kanpur",
   description:
     "Bridal makeup at Kaya Planet in Govind Nagar, Kanpur. Bridal packages from ₹14,000. Explore work by Bhawna and Rashika and check your date.",
 });
@@ -21,9 +21,6 @@ const GalleryShowcase = dynamic(() => import("@/components/GalleryShowcase"), {
 });
 const SalonInterior = dynamic(() => import("@/components/SalonInterior"), {
   loading: () => <div className="h-[400px] bg-[#FDFBF9] w-full animate-pulse" />,
-});
-const ServicesSlider = dynamic(() => import("@/components/ServicesSlider"), {
-  loading: () => <div className="h-[400px] bg-[#111111] w-full animate-pulse" />,
 });
 const Testimonials = dynamic(() => import("@/components/testimonials"), {
   loading: () => <div className="h-[300px] bg-[#FDFBF9] w-full animate-pulse" />,
@@ -60,9 +57,6 @@ export default function Home() {
       {/* Place, then the date check — once a bride can picture herself here */}
       <SalonInterior />
       <BridalEnquiry />
-
-      {/* Services */}
-      <ServicesSlider />
 
       {/* About Founders */}
       <AboutFounders />

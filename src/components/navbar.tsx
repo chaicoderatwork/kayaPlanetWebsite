@@ -175,6 +175,13 @@ export default function Navbar() {
                                     {item.name}
                                 </Link>
                             ))}
+                            <a
+                                href="/#artists"
+                                className="text-[#111111] border-b w-[100%] hover:text-[#F27708] font-medium transition-colors duration-300"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                KNOW ABOUT YOUR ARTISTS
+                            </a>
                         </div>
                     </div>
                 </div>

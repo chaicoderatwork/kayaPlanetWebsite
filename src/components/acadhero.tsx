@@ -16,12 +16,12 @@ const HeroSection = () => {
 
       <div className="relative h-full flex flex-col justify-center px-6 sm:px-12 lg:px-24">
         <div className="max-w-3xl md:mt-0 mt-[30vw]">
-          <h1 className="text-5xl font-[family-name:var(--font-gelasio)] sm:text-5xl md:text-[10vw] lg:text-[5.3vw] text-white mb-6 leading-tight">
-            Master
-            <br />Skills,
-            <br />Build
+          <h1 className="text-4xl font-[family-name:var(--font-gelasio)] sm:text-5xl md:text-[7vw] lg:text-[4.2vw] text-white mb-6 leading-[1.05]">
+            Professional Makeup
             <br />
-            Careers
+            Artist Courses
+            <br />
+            in Kanpur
           </h1>
           <div className="lg:w-[80%] md:w-[60%] w-[100%] border-t py-7 border-yellow-400">
             <p className="text-gray-200 font-light poppins text-md md:text-2xl max-w-2xl">

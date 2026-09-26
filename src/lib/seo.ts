@@ -17,14 +17,17 @@ export function pageMetadata({
   title,
   description,
   image = "/hero1.webp",
+  titleSuffix = "Kaya Planet Beauty Salon",
 }: {
   path: string;
   title: string;
   description: string;
   image?: string;
+  titleSuffix?: string;
 }): Metadata {
+  const fullTitle = `${title} | ${titleSuffix}`;
   return {
-    title: { absolute: `${title} | Kaya Planet` },
+    title: { absolute: fullTitle },
     description,
     alternates: { canonical: canonicalUrl(path) },
     openGraph: {
@@ -32,13 +35,13 @@ export function pageMetadata({
       locale: "en_IN",
       siteName: "Kaya Planet Salon & Academy",
       url: canonicalUrl(path),
-      title: `${title} | Kaya Planet`,
+      title: fullTitle,
       description,
       images: [{ url: image, alt: title }],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${title} | Kaya Planet`,
+      title: fullTitle,
       description,
       images: [image],
     },

@@ -18,7 +18,7 @@ export default function GalleryPage() {
             Portfolio
           </span>
           <h1 className="text-4xl md:text-5xl font-[family-name:var(--font-gelasio)] mt-2 text-[#111111]">
-            Our Gallery
+            Bridal &amp; Engagement Makeup Gallery in Kanpur
           </h1>
           <p className="text-gray-500 mt-4 max-w-2xl mx-auto">
             A curated collection of our finest work. From stunning bridal transformations to detailed nail art and academy sessions.

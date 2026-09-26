@@ -65,7 +65,7 @@ export default function Footer() {
             </Link>
             <h3 className="text-xs font-semibold text-white uppercase tracking-wider pt-4">Explore</h3>
             <Link href="/#bridal-enquiry" className="text-sm hover:text-[#F27708]">Bridal makeup in Kanpur</Link>
-            <Link href="/gallery" className="text-sm hover:text-[#F27708]">Makeup gallery</Link>
+            <Link href="/gallery" className="text-sm hover:text-[#F27708]">Bridal Makeup Gallery</Link>
             <Link href="/academy" className="text-sm hover:text-[#F27708]">Makeup academy</Link>
           </div>
         </div>

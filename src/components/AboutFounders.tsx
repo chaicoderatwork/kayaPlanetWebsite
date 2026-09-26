@@ -64,7 +64,7 @@ export default function AboutFounders() {
     const isInView = useInView(ref, { once: true });
 
     return (
-        <section className="py-10 md:py-14 bg-white">
+        <section id="artists" className="scroll-mt-24 py-10 md:py-14 bg-white">
             <div className="container mx-auto px-4">
                 {/* Section Heading */}
                 <div className="text-center mb-8">

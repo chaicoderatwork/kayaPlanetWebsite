@@ -96,7 +96,7 @@ export default function GalleryShowcase() {
                         href="/gallery"
                         className="group inline-flex items-center gap-3 bg-gradient-to-r from-[#F27708] to-[#F89134] text-white px-8 py-3.5 rounded-full font-medium text-base shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300"
                     >
-                        <span>View Full Gallery</span>
+                        <span>Bridal Makeup Gallery</span>
                         <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
                     </Link>
                     <p className="text-gray-400 text-xs mt-3">

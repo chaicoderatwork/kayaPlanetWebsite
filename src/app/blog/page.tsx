@@ -48,7 +48,7 @@ export default function BlogPage() {
                             Beauty Insights
                         </div>
                         <h1 className="text-4xl md:text-6xl font-[family-name:var(--font-gelasio)] text-[#111111] mb-4">
-                            Makeup Tips & Guides
+                            Bridal Makeup Guides from Kaya Planet
                         </h1>
                         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                             Expert advice, tutorials, and beauty secrets from the <strong>Best Makeup Artist in Kanpur</strong>. Learn professional techniques for your perfect look.

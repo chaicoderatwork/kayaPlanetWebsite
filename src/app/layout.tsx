@@ -42,8 +42,8 @@ export const metadata: Metadata = {
     google: "Pid-L7klulPZY8LgoDimtiRPmyWR-i-27WndJ63rk6Y",
   },
   title: {
-    default: "Luxury Salon & Makeup Academy in Kanpur | Kaya Planet",
-    template: "%s | Kaya Planet"
+    default: "Best Makeup Artist & Bridal Studio in Kanpur | Kaya Planet Beauty Salon",
+    template: "%s | Kaya Planet Beauty Salon"
   },
   description: "Kaya Planet is a luxury salon and makeup academy in Govind Nagar, Kanpur, offering bridal and engagement makeup, hair, skin, nails, and professional beauty courses.",
   keywords: [
